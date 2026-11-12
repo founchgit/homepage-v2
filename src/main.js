@@ -16,7 +16,7 @@ const dialog=document.querySelector('.lightbox');
 let photoIndex=0;
 let photoReturn;
 function renderHome(){
- main.innerHTML=`<section class="home" aria-label="필름 사진"><a class="home-photo" href="#photography" aria-label="필름 사진 더 보기"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></a><div class="home-caption"><span class="home-location">Film photographs</span></div></section>`;
+ main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div><div class="home-caption"><span class="home-location">Film photographs</span></div></section>`;
 }
 function renderMusic(){
  const albums=covers.map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
