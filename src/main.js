@@ -9,25 +9,14 @@ const safeUrl = (value) => {try{const url=new URL(value);return url.protocol==='
 const places=['All','Iceland','Australia','Bangkok','New York','India'];
 const menus=[['home','Home'],['music','Music'],['photography','Photography'],['works','Works'],['biography','Biography']];
 let currentPlace='All';
-let homeIndex=0;
-let homeTimer;
-let paused=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const page=document.querySelector('#app');
 page.innerHTML=`<button class="mobile-menu" aria-expanded="false" aria-controls="navigation">Menu</button><aside class="sidebar"><a class="identity" href="#home">DAWN<span>정다운 · 새벽소리</span></a><nav id="navigation" aria-label="주 메뉴">${menus.map(([id,label])=>`<a href="#${id}" data-page="${id}">${label}</a>`).join('')}<a href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></nav><p class="sidebar-footer">Sound & photographs<br>© ${new Date().getFullYear()} DAWN</p></aside><main id="main" tabindex="-1"></main><dialog class="lightbox" aria-labelledby="photo-caption"><button class="lightbox-close" aria-label="사진 닫기">Close ×</button><div class="lightbox-image"></div><div class="lightbox-controls"><button data-photo-step="-1" aria-label="이전 사진">←</button><p id="photo-caption"></p><button data-photo-step="1" aria-label="다음 사진">→</button></div></dialog>`;
 const main=document.querySelector('#main');
 const dialog=document.querySelector('.lightbox');
 let photoIndex=0;
 let photoReturn;
-const homePhotos=photographs.slice(0,4);
 function renderHome(){
- main.innerHTML=`<section class="home" aria-label="필름 사진"><a class="home-photo" href="#photography" aria-label="필름 사진 더 보기"><img src="${homePhotos[homeIndex].src}" width="${homePhotos[homeIndex].width}" height="${homePhotos[homeIndex].height}" alt="${homePhotos[homeIndex].place}에서 촬영한 필름 사진"></a><div class="home-caption"><span class="home-location">${homePhotos[homeIndex].place} / Film photographs</span><div><button data-home-step="-1" aria-label="이전 사진">←</button><button class="home-pause" aria-pressed="${paused}">${paused?'Play':'Pause'}</button><button data-home-step="1" aria-label="다음 사진">→</button></div></div></section>`;
- main.querySelectorAll('[data-home-step]').forEach(button=>button.addEventListener('click',()=>{homeIndex=(homeIndex+Number(button.dataset.homeStep)+homePhotos.length)%homePhotos.length;renderHome();scheduleHome();}));
- main.querySelector('.home-pause').addEventListener('click',()=>{paused=!paused;renderHome();scheduleHome();});
-}
-function scheduleHome(){
- clearTimeout(homeTimer);
- if(paused||document.hidden||location.hash!=='#home'&&location.hash!=='')return;
- homeTimer=setTimeout(()=>{homeIndex=(homeIndex+1)%homePhotos.length;renderHome();scheduleHome();},6500);
+ main.innerHTML=`<section class="home" aria-label="필름 사진"><a class="home-photo" href="#photography" aria-label="필름 사진 더 보기"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></a><div class="home-caption"><span class="home-location">Film photographs</span></div></section>`;
 }
 function renderMusic(){
  const albums=covers.map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
@@ -56,14 +45,13 @@ dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+photographs.length)%photographs.length;renderLightbox();}));
 dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+photographs.length)%photographs.length;renderLightbox();}});
 function route(){
- clearTimeout(homeTimer);
  const [section,category]=location.hash.slice(1).split('/');
  const active=menus.some(([id])=>id===section)?section:'home';
  document.body.dataset.page=active;
  document.querySelectorAll('[data-page]').forEach(link=>{if(link.dataset.page===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
  document.body.classList.remove('menu-open');
  document.querySelector('.mobile-menu').setAttribute('aria-expanded','false');
- if(active==='home'){renderHome();scheduleHome();}
+ if(active==='home'){renderHome();}
  if(active==='music')renderMusic();
  if(active==='photography')renderPhotography();
  if(active==='works')renderWorks();
@@ -72,7 +60,5 @@ function route(){
  if(active==='works'&&categories.some(item=>item.id===category))document.querySelector(`#group-${category}`).scrollIntoView({block:'start'});
 }
 document.querySelector('.mobile-menu').addEventListener('click',()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('.mobile-menu').setAttribute('aria-expanded',String(open));});
-document.addEventListener('visibilitychange',()=>{clearTimeout(homeTimer);if(!document.hidden)scheduleHome();});
-window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{paused=event.matches;if(document.body.dataset.page==='home'){renderHome();scheduleHome();}});
 window.addEventListener('hashchange',route);
 route();
