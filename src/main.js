@@ -16,6 +16,7 @@ page.insertAdjacentHTML('beforeend',`<dialog class="exhibition-dialog" aria-labe
 const exhibitionDialog=document.querySelector('.exhibition-dialog');
 const exhibitionIntroductions={
  'already-part-of-exhibition':document.querySelector('.exhibition-body').innerHTML,
+ 'lee-sujin-solo':`<h2 id="exhibition-title">이수진 개인전 〈텔릭 Telic〉</h2><p class="exhibition-meta">2023 서울문화재단 유망예술지원 선정전시<br>서울문화재단 청년예술청 SAPY 그레이룸<br>Oct 17 – Oct 29, 2023</p><p>소리와 빛으로 요동치는 울림의 공간 속 매개들만의 퍼포먼스는 언어가 없는 자들인 사물이나 동물, 식물, 박테리아, 혹은 땅속 미생물까지 정치적 주체가 되는 세계에 대한 상상을 펼쳐지게 한다. ‘환청과 소환’, ‘마찰과 중첩’, ‘파괴와 섞임’, 관객들의 소리를 자발적으로 발생시키며 어디론가에서 불려들여진 초월적 경험은 마치 대지 아래 지하세계에 도사리고 있는 거대한 심장박동과 같이 신비한 이야기들을 생성되는 비문의 우주론이 이루어질 것이다.</p><h3>전시 안내</h3><p>오프닝: 2023.10.20(금) 오후 5:00<br>관람시간: 14:00–19:00, 월요일 휴관<br>주최·주관: 서울문화재단</p><h3>도움을 주신 분들</h3><p>조명: 우기성<br>음향디자인: 김용현<br>인터랙션 사운드 디자인: 정다운<br>구조제작: 김동현<br>내레이터: 두이<br>퍼포먼스: 선은지<br>그래픽디자인: 마빈킴(스파인프레스)<br>코디네이터: 박수현<br>제작/진행도움: 박정선, 임현정, 장찬희, 문제욱</p>`,
  'hexnut-fragments':`<h2 id="exhibition-title">디지털아트 컬처랩 쇼케이스 : 빛의 궤도</h2><p class="exhibition-meta">광주미디어아트플랫폼 (G.MAP), Gwangju<br>Dec 9 – Dec 21, 2025</p><h3>참여 작가 (팀 헥스넛 / 사운드 담당)</h3><p>팀 헥스넛(Hex Nut)의 멤버로서 사운드 작업을 총괄하였다. 전시에 사용될 소리를 수집하기 위해 필드 레코딩 워크샵을 기획하고, 사운드 설치 작품을 제작하였다.</p><h3>hexnut '파편의 숨'</h3><p>기획: 손샛별, 신수찬, 임민지 / 프로듀서: 비고<br>3D 영상: 강기현(WERK MEDIA), 벡오<br>사운드 총괄: 정다운</p>`
 };
 let exhibitionReturn;
@@ -47,6 +48,7 @@ function workMedia(entry){
  if(entry.id==='hexnut-fragments')items.push(`<button class="work-thumbnail-button" aria-label="HEXNUT — 파편의 숨 사진 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy"></button>`);
  if(video)for(const [index,clip] of [video,...(video.additionalVideos||[])].entries())items.push(`<a class="work-video-thumbnail" href="${escape(clip.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} YouTube 영상 ${index+1} 보기"><img class="work-thumbnail" style="transform:scale(${Number(clip.thumbnailZoom)||1})" src="https://i.ytimg.com/vi/${clip.videoId}/hqdefault.jpg" width="480" height="360" alt="${escape(entry.title)} 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>`);
  else if(safeUrl(entry.url))items.push(`<a class="work-related-link" href="${escape(entry.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} 관련 작업">관련 작업 ↗</a>`);
+ if(entry.id==='lee-sujin-solo')items.push('<button class="exhibition-open" data-exhibition="lee-sujin-solo">전시 소개 보기 ↗</button>');
  if(entry.id==='hexnut-fragments')items.push('<button class="exhibition-open" data-exhibition="hexnut-fragments">전시 소개 보기 ↗</button>');
  return items.length?`<div class="work-media${items.length>1?' is-multiple':''}">${items.join('')}</div>`:'';
 }

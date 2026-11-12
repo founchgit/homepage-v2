@@ -56,8 +56,8 @@ const originalEntries = [
     [
       "lee-sujin-solo",
       "2023",
-      "이수진 작가 개인전",
-      "서울 · 사운드 디자인 참여",
+      "이수진 개인전 — 텔릭 Telic",
+      "서울문화재단 청년예술청 SAPY 그레이룸 · 인터랙션 사운드 디자인",
       "https://www.instagram.com/p/CyNhbW5puEX/?igsh=MWR4NWo2eDExZmJpdw==",
     ],
   ]),
