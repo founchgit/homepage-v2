@@ -1,114 +1,74 @@
 import "./style.css";
 import { profile, categories, entries, compareEntries } from "./cv.js";
+import { covers } from "./covers.js";
 
-const escape = (text) =>
-  String(text).replace(
-    /[&<>"']/g,
-    (c) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        c
-      ],
-  );
-const count = (n) => String(n).padStart(2, "0");
-const categoryName = (id) =>
-  categories.find((category) => category.id === id)?.label || "";
+const escape = (value) => String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const count = (value) => String(value).padStart(2, "0");
+const categoryName = (id) => categories.find((item) => item.id === id)?.label || "";
 const safeUrl = (value) => {
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" ? url.href : "";
-  } catch {
-    return "";
-  }
+  try { const url = new URL(value); return url.protocol === "https:" ? url.href : ""; }
+  catch { return ""; }
 };
+const records = covers.map((cover) => ({ ...entries.find((entry) => entry.id === cover.id), ...cover }));
+const albumCard = (record, index, hero = false) => `
+  <a class="${hero ? "hero-record" : "record-link"}" href="${safeUrl(record.source)}" target="_blank" rel="noopener noreferrer" style="--order:${index}" aria-label="${escape(record.title)} 벅스에서 보기 (새 창)">
+    <img src="${record.image}" alt="${escape(record.title)} 앨범 커버" ${hero ? 'fetchpriority="high"' : 'loading="lazy"'} width="1200" height="1200">
+    ${hero ? '' : `<div class="record-caption"><span>${escape(record.title)}</span><span>↗</span></div><p>${escape(record.year)} · ${escape(record.description)}</p>`}
+  </a>`;
 
 document.querySelector("#app").innerHTML = `
+  <header class="site-header"><a class="wordmark" href="#main">DAWN<span>새벽소리</span></a><nav aria-label="주 메뉴"><a href="#selected">Selected works</a><a href="#archive">Archive <sup>${entries.length}</sup></a><a href="#about">About ↗</a></nav></header>
   <main id="main">
-    <section class="archive-section section-wrap" id="archive" aria-labelledby="archive-title">
-      <div class="section-heading"><div class="artist-heading"><h1 id="archive-title">${escape(profile.name)} : DAWN</h1><p class="artist-role">사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어</p><div class="artist-education" aria-label="학력">${profile.education.map((item) => `<p>${escape(item.school)} ${escape(item.detail)}</p>`).join("")}</div><div class="artist-contact"><p>새벽소리 · 사업자등록번호 <span class="business-number">102-17-67120</span></p><a class="instagram-link" href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer" aria-label="인스타그램 @jeongdawn (새 창)" title="Instagram @jeongdawn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg><span class="sr-only">@jeongdawn</span></a></div></div>
-        <section class="featured" aria-label="대표작">
-          <div class="featured-media"></div>
-          <div class="featured-controls">
-            <span><span class="featured-count"></span></span>
-            <div class="featured-buttons">
-              <button type="button" data-step="-1" aria-label="이전 대표작">‹</button>
-              <button type="button" class="featured-toggle">일시정지</button>
-              <button type="button" data-step="1" aria-label="다음 대표작">›</button>
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="archive-layout">
-        <aside class="archive-sidebar" aria-label="작업 분야"><p class="sidebar-label">DISCIPLINES</p><div class="category-list" role="group" aria-label="분야별 이력 필터"><button type="button" class="category-button active" data-category="all" aria-pressed="true"><span>전체 작업</span><span>${count(entries.length)}</span></button>${categories.map((category) => `<button type="button" class="category-button" data-category="${category.id}" aria-pressed="false"><span>${escape(category.label)}</span><span>${count(entries.filter((entry) => entry.categories.includes(category.id)).length)}</span></button>`).join("")}</div></aside>
-        <div class="archive-main"><form class="search-form" role="search"><label for="archive-search" class="sr-only">작업명, 연도, 참여 역할 검색</label><span class="search-icon" aria-hidden="true"></span><input id="archive-search" type="search" placeholder="작업명, 연도, 참여 역할 검색" autocomplete="off"><button type="button" class="clear-search" hidden aria-label="검색어 지우기">×</button></form><div class="archive-results-top"><p id="result-status" role="status" aria-live="polite"></p><span>YEAR / PROJECT</span></div><div id="archive-results"></div><button id="load-more" class="load-more" type="button"></button></div>
-      </div>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-topline"><span>정다운 / JEONG DAUN</span><button class="motion-toggle" type="button" aria-pressed="false">움직임 멈추기 Ⅱ</button></div>
+      <h1 id="hero-title">Making<br><span class="sound-word">sound</span><span class="asterisk" aria-hidden="true">✳</span><br><em>take shape.</em></h1>
+      <div class="record-cloud" aria-label="참여 음반">${[records[1], records[2], records[0]].map((r, i) => albumCard(r, i, true)).join('')}</div>
+      <div class="hero-bottom"><p>소리를 만들고,<br>그 너머의 장면을 그립니다.</p><p class="hero-roles">사운드 아티스트 · 작곡가<br>프로듀서 · 사운드 엔지니어</p><a href="#selected" class="scroll-link" aria-label="선별 작업으로 이동">Scroll to explore <span>↓</span></a></div>
     </section>
-  </main>
-  <div id="notification" class="notification" role="status" aria-live="polite"></div>
-`;
+    <div class="ticker" aria-hidden="true"><div>${Array(4).fill('<span>SOUND ART</span> ✳ <span>COMPOSITION</span> ✳ <span>MIX & MASTERING</span> ✳ ').join('')}</div></div>
+    <section class="selected section-wrap" id="selected" aria-labelledby="selected-title">
+      <div class="section-kicker"><span>01 / SELECTED RECORDS</span><span>2015 — 2025</span></div>
+      <h2 id="selected-title" class="display-title">소리의 <em>표정들.</em></h2>
+      <div class="selected-intro"><p>작곡과 편곡, 믹싱과 마스터링.<br>함께 만든 음반을 펼쳐봅니다.</p><p>커버를 누르면 음원사이트로 연결됩니다. ↗</p></div>
+      <div class="record-grid">${records.map((r, i) => `<article class="record reveal">${albumCard(r, i)}</article>`).join('')}</div>
+    </section>
+    <section class="screen-work section-wrap" aria-labelledby="screen-title"><div class="section-kicker"><span>02 / SOUND & SCENE</span><span>공연에서 화면까지</span></div><div class="screen-layout"><div><h2 id="screen-title">장면에<br><em>소리를.</em></h2><p>무대와 영상, 전시로 이어지는 작업.</p><a href="#archive">전체 작업 살펴보기 ↓</a></div><div class="film-grid"><a href="https://www.youtube.com/watch?v=RvGOFLYTYX0" target="_blank" rel="noopener noreferrer"><img src="https://i.ytimg.com/vi/RvGOFLYTYX0/hqdefault.jpg" alt="세잎클로버 영상 썸네일" loading="lazy"><span>세잎클로버 <small>음악감독 ↗</small></span></a><a href="https://www.youtube.com/watch?v=ZdZdz524-B0" target="_blank" rel="noopener noreferrer"><img src="https://i.ytimg.com/vi/ZdZdz524-B0/hqdefault.jpg" alt="휴머노이드 로봇 빌리 영상 썸네일" loading="lazy"><span>휴머노이드 로봇 빌리 <small>광고음악 ↗</small></span></a></div></div></section>
+    <section class="archive-section section-wrap" id="archive" aria-labelledby="archive-title"><div class="section-kicker"><span>03 / FULL ARCHIVE</span><span>${entries.length} PROJECTS</span></div><h2 id="archive-title" class="display-title">작업 <em>아카이브.</em></h2>
+      <div class="archive-layout"><aside class="archive-sidebar" aria-label="작업 분야"><p class="sidebar-label">DISCIPLINES</p><div class="category-list" role="group" aria-label="분야별 이력 필터"><button type="button" class="category-button active" data-category="all" aria-pressed="true"><span>전체 작업</span><span>${count(entries.length)}</span></button>${categories.map((category) => `<button type="button" class="category-button" data-category="${category.id}" aria-pressed="false"><span>${escape(category.label)}</span><span>${count(entries.filter((entry) => entry.categories.includes(category.id)).length)}</span></button>`).join('')}</div></aside>
+      <div class="archive-main"><form class="search-form" role="search"><label for="archive-search" class="sr-only">작업명, 연도, 참여 역할 검색</label><input id="archive-search" type="search" placeholder="작업명, 연도, 참여 역할 검색" autocomplete="off"><button type="button" class="clear-search" hidden aria-label="검색어 지우기">×</button></form><div class="archive-results-top"><p id="result-status" role="status" aria-live="polite"></p><span>YEAR / PROJECT</span></div><div id="archive-results"></div><button id="load-more" class="load-more" type="button"></button></div></div>
+    </section>
+    <section class="about section-wrap" id="about" aria-labelledby="about-title"><div class="section-kicker"><span>04 / ABOUT</span><span>새벽소리</span></div><div class="about-layout"><h2 id="about-title">정다운<span>JEONG<br><em>DAUN.</em></span></h2><div class="about-copy"><p class="about-role">사운드 아티스트 · 작곡가<br>프로듀서 · 사운드 엔지니어</p><div class="education">${profile.education.map((item) => `<p>${escape(item.school)}<br><span>${escape(item.detail)}</span></p>`).join('')}</div><a class="instagram" href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer">Instagram @jeongdawn ↗</a></div></div><footer><span>새벽소리 · 사업자등록번호 102-17-67120</span><a href="#main">Back to top ↑</a></footer></section>
+  </main><div id="notification" class="notification" role="status" aria-live="polite"></div>`;
 
-
-const featuredWorks = [
-  ...["S72bNOe3V0c", "OOTew75xRYU", "mriKZW-qpb8", "ZdZdz524-B0"].map((id) => ({
-    url: `https://www.youtube.com/watch?v=${id}`,
-    image: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
-    video: true,
-    title: id === "ZdZdz524-B0" ? "휴머노이드 로봇 빌리 · 광고음악" : "",
-  })),
-  {
-    url: "https://www.youtube.com/watch?v=RvGOFLYTYX0",
-    image: "https://i.ytimg.com/vi/RvGOFLYTYX0/hqdefault.jpg",
-    video: true,
-    title: "세잎클로버 · 음악감독",
-  },
-];
-const featured = document.querySelector(".featured");
-const featuredMedia = featured.querySelector(".featured-media");
-const featuredCount = featured.querySelector(".featured-count");
-const featuredToggle = featured.querySelector(".featured-toggle");
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-let featuredIndex = 0;
-let featuredPaused = motionPreference.matches;
-let featuredTimer;
-
-function showFeatured(step = 0) {
-  featuredIndex = (featuredIndex + step + featuredWorks.length) % featuredWorks.length;
-  const work = featuredWorks[featuredIndex];
-  featuredMedia.innerHTML = `
-    <a class="featured-video" href="${escape(work.url)}"
-      target="_blank" rel="noopener noreferrer"
-      aria-label="${escape(work.title || `대표작 ${featuredIndex + 1}`)} ${work.video ? "유튜브에서 재생" : "공연 페이지 보기"} (새 창)">
-      <img src="${escape(work.image)}" alt="${work.video ? "" : "뮤지컬 세잎클로버 공식 포스터"}"${work.video ? "" : ' style="object-fit: contain"'}>
-      ${work.video ? '<span class="featured-play" aria-hidden="true">▶</span>' : ""}
-    </a>`;
-  featuredCount.textContent = `${featuredIndex + 1} / ${featuredWorks.length}`;
+let paused = motionPreference.matches;
+const motionButton = document.querySelector(".motion-toggle");
+function updateMotion() {
+  document.body.classList.toggle("motion-paused", paused);
+  motionButton.setAttribute("aria-pressed", String(paused));
+  motionButton.textContent = paused ? "움직임 재생 ▷" : "움직임 멈추기 Ⅱ";
+  if (paused) document.querySelector(".record-cloud").style.transform = "";
 }
-
-function scheduleFeatured() {
-  clearInterval(featuredTimer);
-  featuredToggle.textContent = featuredPaused ? "자동 넘김 켜기" : "일시정지";
-  if (!featuredPaused) {
-    featuredTimer = setInterval(() => {
-      if (!featuredMedia.matches(":hover, :focus-within") && !document.hidden) showFeatured(1);
-    }, 7000);
-  }
-}
-
-featured.querySelectorAll("[data-step]").forEach((button) => {
-  button.addEventListener("click", () => {
-    showFeatured(Number(button.dataset.step));
-    scheduleFeatured();
+motionButton.addEventListener("click", () => { paused = !paused; updateMotion(); });
+motionPreference.addEventListener("change", (event) => { paused = event.matches; updateMotion(); });
+updateMotion();
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+document.querySelector(".hero").addEventListener("pointermove", (event) => {
+  if (paused || !finePointer.matches) return;
+  const bounds = event.currentTarget.getBoundingClientRect();
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+  document.querySelector(".record-cloud").style.transform = `translate(${x * 18}px, ${y * 18}px)`;
+});
+document.querySelector(".hero").addEventListener("pointerleave", () => {
+  document.querySelector(".record-cloud").style.transform = "";
+});
+const observer = new IntersectionObserver((changes) => {
+  changes.forEach((change) => {
+    if (change.isIntersecting) { change.target.classList.add("in-view"); observer.unobserve(change.target); }
   });
-});
-featuredToggle.addEventListener("click", () => {
-  featuredPaused = !featuredPaused;
-  scheduleFeatured();
-});
-motionPreference.addEventListener("change", (event) => {
-  featuredPaused = event.matches;
-  scheduleFeatured();
-});
-showFeatured();
-scheduleFeatured();
+}, { threshold: 0.08 });
+document.querySelectorAll(".reveal").forEach((item) => observer.observe(item));
 
 let activeCategory = "all";
 let search = "";
