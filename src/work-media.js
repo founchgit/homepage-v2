@@ -124,10 +124,8 @@ export const workVideos = {
     "channel": "깜장캠코더"
   },
   "john-cameron-mitchell": {
-    "url": "https://www.youtube.com/watch?v=wWbHHtds0B0",
-    "videoId": "wWbHHtds0B0",
-    "title": "[4K] 241225 존 카메론 미첼 내한 콘서트 앵콜 The origin of love(헤드윅 OST) (w.제이민,유연석)",
-    "channel": "Shelter"
+    "url": "https://youtu.be/W74lM85ljv0?si=yn2snq5Mftn7Jo_q",
+    "videoId": "W74lM85ljv0"
   },
   "hedwig": {
     "url": "https://youtu.be/jkN1xwpV1nQ?si=sg4_vDE4UWi_zOqE",
