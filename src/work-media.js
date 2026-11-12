@@ -117,12 +117,6 @@ export const workVideos = {
     "url": "https://www.youtube.com/watch?v=RvGOFLYTYX0",
     "videoId": "RvGOFLYTYX0"
   },
-  "just-j-min": {
-    "url": "https://www.youtube.com/watch?v=6lIFNy4T5XM",
-    "videoId": "6lIFNy4T5XM",
-    "title": "[4k] 250202 제이민 첫번째 콘서트 Just J-Min with 앵그리인치밴드 | 제이민",
-    "channel": "깜장캠코더"
-  },
   "john-cameron-mitchell": {
     "url": "https://youtu.be/W74lM85ljv0?si=yn2snq5Mftn7Jo_q",
     "videoId": "W74lM85ljv0"
@@ -141,12 +135,6 @@ export const workVideos = {
   "summer-night-lawn": {
     "url": "https://youtu.be/nr3JZLI_AuI?si=DLMa16kOWQTrJwxi",
     "videoId": "nr3JZLI_AuI"
-  },
-  "go-baek": {
-    "url": "https://www.youtube.com/watch?v=MLg4sV0Ra3s",
-    "videoId": "MLg4sV0Ra3s",
-    "title": "백지영X김종국 - 총 맞은 것처럼 (GO BAEK 콘서트) *원키버전*",
-    "channel": "트라이어스엔터테인먼트"
   },
   "baek-space": {
     "url": "https://www.youtube.com/watch?v=GClo7OAj2Lo",
