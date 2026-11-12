@@ -14,7 +14,13 @@ export const workVideos = {
   },
   "hexnut-fragments": {
     "url": "https://youtu.be/NHQVm3LUUVc?si=hr-gxHZQdDrXJ3w2",
-    "videoId": "NHQVm3LUUVc"
+    "videoId": "NHQVm3LUUVc",
+    "additionalVideos": [
+      {
+        "url": "https://youtu.be/OOTew75xRYU?si=OJZViZPYifOPB9MH",
+        "videoId": "OOTew75xRYU"
+      }
+    ]
   },
   "yunaone-tidal-mind": {
     "url": "https://www.youtube.com/watch?v=BXhjhXSBG5Y",
