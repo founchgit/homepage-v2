@@ -10,3 +10,5 @@
 @media(max-width:600px){.work-row.has-thumbnail{grid-template-columns:62px minmax(0,1fr) 90px}.work-thumbnail{width:90px}}
 
 .work-thumbnail-button{border:0;padding:0;background:none;justify-self:end;cursor:zoom-in}.lightbox-controls button[hidden]{display:none}
+
+.work-video-thumbnail{display:block;justify-self:end}.work-video-thumbnail span{display:block;font-size:10px;margin-top:4px}
