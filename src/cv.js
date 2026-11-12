@@ -258,7 +258,7 @@ const originalEntries = [
     ],
 
     ["becovered", "2013", "BECOVERED", "CCM 밴드 · 싱어, 편곡, 믹스"],
-            ["joy-avenue-collaboration", "2022", "조이애비뉴", "Mix & Mastering"],
+
   ]),
   ...group("live", [
     [

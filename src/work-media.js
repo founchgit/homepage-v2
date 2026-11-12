@@ -154,67 +154,6 @@ export const workVideos = {
     "title": "[#PLAYLIST] 첫사랑 기억 조작하고 싶을 때 들으면 좋은 플레이리스트🍉✨ 청량미 터지는 성장형 밴드 '워터멜론 슈가' 무대 모음 #반짝이는워터멜론",
     "channel": "tvN DRAMA"
   },
-  "myeongdong-romance-2021": {
-    "url": "https://www.youtube.com/watch?v=PwKu1nJF4Ks",
-    "videoId": "PwKu1nJF4Ks",
-    "title": "2021 명동로망스 DVD 미리보기 하이라이트 영상",
-    "channel": "장인ENT"
-  },
-  "nanseol-2020": {
-    "url": "https://www.youtube.com/watch?v=5KXQ-f-N9cw",
-    "videoId": "5KXQ-f-N9cw",
-    "title": "[2020 뮤지컬 난설] DVD 실황영상 미리보기 3탄! (김려원, 정성일, 최호승)",
-    "channel": "KONTENTZ PLANNING",
-    "thumbnailZoom": 1.1374
-  },
-  "mio-fratello-2020": {
-    "url": "https://www.youtube.com/watch?v=yrGxskgUack",
-    "videoId": "yrGxskgUack",
-    "title": "[미오프라텔로] 2020 티저스팟 영상 공개!",
-    "channel": "KONTENTZ PLANNING"
-  },
-  "mio-fratello-2022": {
-    "url": "https://www.youtube.com/watch?v=itp5agdCZhM",
-    "videoId": "itp5agdCZhM",
-    "title": "[#미오프라텔로] 2022 뮤지컬 미오 프라텔로 공연 하이라이트 영상 공개",
-    "channel": "KONTENTZ PLANNING"
-  },
-  "pirates-2023": {
-    "url": "https://www.youtube.com/watch?v=1tYM2SsTNAM",
-    "videoId": "1tYM2SsTNAM",
-    "title": "[#해적] ⚓M1. 해적의 황금시대 - #정동화 #주민진",
-    "channel": "KONTENTZ PLANNING"
-  },
-  "pirates-2021": {
-    "url": "https://www.youtube.com/watch?v=94YfUHjCEQE",
-    "videoId": "94YfUHjCEQE",
-    "title": "[#해적] 2021 해적 하이라이트 [우리 모두의, 기억나지 않는 꿈]🦜",
-    "channel": "KONTENTZ PLANNING"
-  },
-  "flaming-sonata-2020": {
-    "url": "https://www.youtube.com/watch?v=SoH__kg-_jM",
-    "videoId": "SoH__kg-_jM",
-    "title": "2020 뮤지컬 [광염소나타] HIGHLIGHT_려욱&유회승&김주호",
-    "channel": "SHINS WAVE"
-  },
-  "v-ever-after-2022": {
-    "url": "https://www.youtube.com/watch?v=DC-lAIeB__g",
-    "videoId": "DC-lAIeB__g",
-    "title": "[#V에버애프터] 돌아온 공국 후계서열 1위와 숲속 뱀파이어의 시간 초월 로맨스🍷 | 뮤지컬 V 에버 애프터 𝟮𝟬𝟮𝟮 𝗦𝗣𝗢𝗧",
-    "channel": "MJStarfish"
-  },
-  "anna-tchaikovsky-2022": {
-    "url": "https://www.youtube.com/watch?v=T-4rqnBj-F0",
-    "videoId": "T-4rqnBj-F0",
-    "title": "[더뮤지컬] 뮤지컬 '안나, 차이코프스키' 2022 프레스콜 중 '들려주지 못한 노래' + '겨울날의 환상' + '인생산책' + '비애' + '어린 독수리' (4k) | 예스24",
-    "channel": "THE MUSICAL"
-  },
-  "pungwolju-2021": {
-    "url": "https://www.youtube.com/watch?v=mPUkPtodurs",
-    "videoId": "mPUkPtodurs",
-    "title": "[풍월주] 앞날 M/V - 임진섭, 윤석호, 전성민, 김태한",
-    "channel": "COMPANY RANG"
-  },
   "becovered": {
     "url": "https://www.youtube.com/watch?v=eAjad6N3q3I&list=RDeAjad6N3q3I&index=1",
     "videoId": "eAjad6N3q3I"
@@ -224,15 +163,5 @@ export const workVideos = {
     "videoId": "TVSMlJsu6UM",
     "title": "[독립영화관] [예고] 단편야화전 - 김의석 감독 ＜오명＞, 박우건 감독 ＜서스피션＞, 이준섭 감독 ＜칠흑＞ | KBS 방송",
     "channel": "에헤라 티비 : KBS LIFE"
-  },
-  "nanseol-2024": {
-    "url": "https://www.youtube.com/watch?v=Jxsped5KUi0",
-    "videoId": "Jxsped5KUi0",
-    "title": "[#난설] 난설 兌來祕傳(태래비전)",
-    "channel": "KONTENTZ PLANNING"
-  },
-  "joy-avenue-collaboration": {
-    "url": "https://www.youtube.com/playlist?list=OLAK5uy_kN6qc-1vyHA8UMZz271YSgN0kPlpD7wLI",
-    "videoId": "C52RnA4wL0I"
   }
 };

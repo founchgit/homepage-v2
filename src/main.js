@@ -42,6 +42,7 @@ function renderPhotography(){
  main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=photographs;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
 function workMedia(entry){
+ if(entry.description.includes('공간소리 소속'))return '';
  if(entry.id==='already-part-of-exhibition')return '<div class="work-media"><button class="exhibition-open" data-exhibition="already-part-of-exhibition">전시 소개 보기 ↗</button></div>';
  const video=workVideos[entry.id];
  const items=[];
