@@ -117,12 +117,6 @@ export const workVideos = {
     "url": "https://www.youtube.com/watch?v=RvGOFLYTYX0",
     "videoId": "RvGOFLYTYX0"
   },
-  "paik-not-a-stain": {
-    "url": "https://www.youtube.com/watch?v=TUoJEnZH2ow",
-    "videoId": "TUoJEnZH2ow",
-    "title": "[4k Full]260731 백승환 단독공연(not a stain. . .)@고라니특공대",
-    "channel": "MO (Moment of)"
-  },
   "just-j-min": {
     "url": "https://www.youtube.com/watch?v=6lIFNy4T5XM",
     "videoId": "6lIFNy4T5XM",
@@ -136,10 +130,8 @@ export const workVideos = {
     "channel": "Shelter"
   },
   "hedwig": {
-    "url": "https://www.youtube.com/watch?v=jkh5vWakHHU",
-    "videoId": "jkh5vWakHHU",
-    "title": "[24헤드윅] Live Clip – Wig in a box",
-    "channel": "SHOWNOTE"
+    "url": "https://youtu.be/jkN1xwpV1nQ?si=sg4_vDE4UWi_zOqE",
+    "videoId": "jkN1xwpV1nQ"
   },
   "bearrose-ep-2025": {
     "url": "https://www.youtube.com/watch?v=6dNp69WuFFg",
