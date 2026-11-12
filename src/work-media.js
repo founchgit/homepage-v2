@@ -227,10 +227,8 @@ export const workVideos = {
     "channel": "COMPANY RANG"
   },
   "becovered": {
-    "url": "https://www.youtube.com/watch?v=Yne_5cAVwME",
-    "videoId": "Yne_5cAVwME",
-    "title": "BECOVERED - 사랑합시다 (Lyric Video)",
-    "channel": "Becovered worship"
+    "url": "https://www.youtube.com/watch?v=eAjad6N3q3I&list=RDeAjad6N3q3I&index=1",
+    "videoId": "eAjad6N3q3I"
   },
   "omyung": {
     "url": "https://www.youtube.com/watch?v=TVSMlJsu6UM",

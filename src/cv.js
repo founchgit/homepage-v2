@@ -257,8 +257,8 @@ const originalEntries = [
       "https://www.youtube.com/watch?v=HwoVsixFQU4",
     ],
 
-    ["becovered", "—", "BECOVERED", "CCM 밴드 · 싱어, 편곡, 믹스"],
-            ["joy-avenue-collaboration", "—", "조이애비뉴", "유튜버 · 앨범 믹스"],
+    ["becovered", "2013", "BECOVERED", "CCM 밴드 · 싱어, 편곡, 믹스"],
+            ["joy-avenue-collaboration", "2022", "조이애비뉴", "Mix & Mastering"],
   ]),
   ...group("live", [
     [
