@@ -1,273 +1,78 @@
-import "./style.css";
-import { profile, categories, entries, compareEntries } from "./cv.js";
+import './style.css';
+import {profile,entries,categories} from './cv.js';
+import {covers} from './covers.js';
+import {photographs} from './photos.js';
 
-const escape = (text) =>
-  String(text).replace(
-    /[&<>"']/g,
-    (c) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
-        c
-      ],
-  );
-const count = (n) => String(n).padStart(2, "0");
-const categoryName = (id) =>
-  categories.find((category) => category.id === id)?.label || "";
-const safeUrl = (value) => {
-  try {
-    const url = new URL(value);
-    return url.protocol === "https:" ? url.href : "";
-  } catch {
-    return "";
-  }
-};
-
-document.querySelector("#app").innerHTML = `
-  <main id="main">
-    <section class="archive-section section-wrap" id="archive" aria-labelledby="archive-title">
-      <div class="section-heading"><div class="artist-heading"><h1 id="archive-title">${escape(profile.name)} : DAWN</h1><p class="artist-role">사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어</p><div class="artist-education" aria-label="학력">${profile.education.map((item) => `<p>${escape(item.school)} ${escape(item.detail)}</p>`).join("")}</div><div class="artist-contact"><p>새벽소리 · 사업자등록번호 <span class="business-number">102-17-67120</span></p><a class="instagram-link" href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer" aria-label="인스타그램 @jeongdawn (새 창)" title="Instagram @jeongdawn"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle></svg><span class="sr-only">@jeongdawn</span></a></div></div>
-        <section class="featured" aria-label="대표작">
-          <div class="featured-media"></div>
-          <div class="featured-controls">
-            <span><span class="featured-count"></span></span>
-            <div class="featured-buttons">
-              <button type="button" data-step="-1" aria-label="이전 대표작">‹</button>
-              <button type="button" class="featured-toggle">일시정지</button>
-              <button type="button" data-step="1" aria-label="다음 대표작">›</button>
-            </div>
-          </div>
-        </section>
-      </div>
-      <div class="archive-layout">
-        <aside class="archive-sidebar" aria-label="작업 분야"><p class="sidebar-label">DISCIPLINES</p><div class="category-list" role="group" aria-label="분야별 이력 필터"><button type="button" class="category-button active" data-category="all" aria-pressed="true"><span>전체 작업</span><span>${count(entries.length)}</span></button>${categories.map((category) => `<button type="button" class="category-button" data-category="${category.id}" aria-pressed="false"><span>${escape(category.label)}</span><span>${count(entries.filter((entry) => entry.categories.includes(category.id)).length)}</span></button>`).join("")}</div></aside>
-        <div class="archive-main"><form class="search-form" role="search"><label for="archive-search" class="sr-only">작업명, 연도, 참여 역할 검색</label><span class="search-icon" aria-hidden="true"></span><input id="archive-search" type="search" placeholder="작업명, 연도, 참여 역할 검색" autocomplete="off"><button type="button" class="clear-search" hidden aria-label="검색어 지우기">×</button></form><div class="archive-results-top"><p id="result-status" role="status" aria-live="polite"></p><span>YEAR / PROJECT</span></div><div id="archive-results"></div><button id="load-more" class="load-more" type="button"></button></div>
-      </div>
-    </section>
-  </main>
-  <div id="notification" class="notification" role="status" aria-live="polite"></div>
-`;
-
-
-const featuredWorks = [
-  ...["S72bNOe3V0c", "OOTew75xRYU", "mriKZW-qpb8", "ZdZdz524-B0"].map((id) => ({
-    url: `https://www.youtube.com/watch?v=${id}`,
-    image: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
-    video: true,
-    title: id === "ZdZdz524-B0" ? "휴머노이드 로봇 빌리 · 광고음악" : "",
-  })),
-  {
-    url: "https://www.youtube.com/watch?v=RvGOFLYTYX0",
-    image: "https://i.ytimg.com/vi/RvGOFLYTYX0/hqdefault.jpg",
-    video: true,
-    title: "세잎클로버 · 음악감독",
-  },
-];
-const featured = document.querySelector(".featured");
-const featuredMedia = featured.querySelector(".featured-media");
-const featuredCount = featured.querySelector(".featured-count");
-const featuredToggle = featured.querySelector(".featured-toggle");
-const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-let featuredIndex = 0;
-let featuredPaused = motionPreference.matches;
-let featuredTimer;
-
-function showFeatured(step = 0) {
-  featuredIndex = (featuredIndex + step + featuredWorks.length) % featuredWorks.length;
-  const work = featuredWorks[featuredIndex];
-  featuredMedia.innerHTML = `
-    <a class="featured-video" href="${escape(work.url)}"
-      target="_blank" rel="noopener noreferrer"
-      aria-label="${escape(work.title || `대표작 ${featuredIndex + 1}`)} ${work.video ? "유튜브에서 재생" : "공연 페이지 보기"} (새 창)">
-      <img src="${escape(work.image)}" alt="${work.video ? "" : "뮤지컬 세잎클로버 공식 포스터"}"${work.video ? "" : ' style="object-fit: contain"'}>
-      ${work.video ? '<span class="featured-play" aria-hidden="true">▶</span>' : ""}
-    </a>`;
-  featuredCount.textContent = `${featuredIndex + 1} / ${featuredWorks.length}`;
+const escape = (value) => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const external = (url,label) => `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
+const safeUrl = (value) => {try{const url=new URL(value);return url.protocol==='https:'?url.href:'';}catch{return '';}};
+const places=['All','Iceland','Australia','Bangkok','New York','India','Fragments'];
+const menus=[['home','Home'],['music','Music'],['photography','Photography'],['works','Works'],['biography','Biography']];
+let currentPlace='All';
+let homeIndex=0;
+let homeTimer;
+let paused=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const page=document.querySelector('#app');
+page.innerHTML=`<button class="mobile-menu" aria-expanded="false" aria-controls="navigation">Menu</button><aside class="sidebar"><a class="identity" href="#home">DAWN<span>정다운 · 새벽소리</span></a><nav id="navigation" aria-label="주 메뉴">${menus.map(([id,label])=>`<a href="#${id}" data-page="${id}">${label}</a>`).join('')}<a href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></nav><p class="sidebar-footer">Sound & photographs<br>© ${new Date().getFullYear()} DAWN</p></aside><main id="main" tabindex="-1"></main><dialog class="lightbox" aria-labelledby="photo-caption"><button class="lightbox-close" aria-label="사진 닫기">Close ×</button><div class="lightbox-image"></div><div class="lightbox-controls"><button data-photo-step="-1" aria-label="이전 사진">←</button><p id="photo-caption"></p><button data-photo-step="1" aria-label="다음 사진">→</button></div></dialog>`;
+const main=document.querySelector('#main');
+const dialog=document.querySelector('.lightbox');
+let photoIndex=0;
+let photoReturn;
+const homePhotos=photographs.slice(0,4);
+function renderHome(){
+ main.innerHTML=`<section class="home" aria-label="필름 사진"><a class="home-photo" href="#photography" aria-label="필름 사진 더 보기"><img src="${homePhotos[homeIndex].src}" width="${homePhotos[homeIndex].width}" height="${homePhotos[homeIndex].height}" alt="${homePhotos[homeIndex].place}에서 촬영한 필름 사진"></a><div class="home-caption"><span class="home-location">${homePhotos[homeIndex].place} / Film photographs</span><div><button data-home-step="-1" aria-label="이전 사진">←</button><button class="home-pause" aria-pressed="${paused}">${paused?'Play':'Pause'}</button><button data-home-step="1" aria-label="다음 사진">→</button></div></div></section>`;
+ main.querySelectorAll('[data-home-step]').forEach(button=>button.addEventListener('click',()=>{homeIndex=(homeIndex+Number(button.dataset.homeStep)+homePhotos.length)%homePhotos.length;renderHome();scheduleHome();}));
+ main.querySelector('.home-pause').addEventListener('click',()=>{paused=!paused;renderHome();scheduleHome();});
 }
-
-function scheduleFeatured() {
-  clearInterval(featuredTimer);
-  featuredToggle.textContent = featuredPaused ? "자동 넘김 켜기" : "일시정지";
-  if (!featuredPaused) {
-    featuredTimer = setInterval(() => {
-      if (!featuredMedia.matches(":hover, :focus-within") && !document.hidden) showFeatured(1);
-    }, 7000);
-  }
+function scheduleHome(){
+ clearTimeout(homeTimer);
+ if(paused||document.hidden||location.hash!=='#home'&&location.hash!=='')return;
+ homeTimer=setTimeout(()=>{homeIndex=(homeIndex+1)%homePhotos.length;renderHome();scheduleHome();},6500);
 }
-
-featured.querySelectorAll("[data-step]").forEach((button) => {
-  button.addEventListener("click", () => {
-    showFeatured(Number(button.dataset.step));
-    scheduleFeatured();
-  });
-});
-featuredToggle.addEventListener("click", () => {
-  featuredPaused = !featuredPaused;
-  scheduleFeatured();
-});
-motionPreference.addEventListener("change", (event) => {
-  featuredPaused = event.matches;
-  scheduleFeatured();
-});
-showFeatured();
-scheduleFeatured();
-
-let activeCategory = "all";
-let search = "";
-let limit = 12;
-const results = document.querySelector("#archive-results");
-const more = document.querySelector("#load-more");
-const searchInput = document.querySelector("#archive-search");
-
-function getMatches() {
-  const terms = search
-    .trim()
-    .toLocaleLowerCase("ko")
-    .split(/\s+/)
-    .filter(Boolean);
-  const matches = entries.filter((entry) => {
-    const text =
-      `${entry.year} ${entry.title} ${entry.description} ${entry.categories.map(categoryName).join(" ")}`.toLocaleLowerCase(
-        "ko",
-      );
-    return (
-      (activeCategory === "all" || entry.categories.includes(activeCategory)) &&
-      terms.every((term) => text.includes(term))
-    );
-  });
-  return matches.sort(compareEntries);
+function renderMusic(){
+ const albums=covers.map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
+ main.innerHTML=`<section class="content"><h1>Music</h1><p class="page-intro">Records & collaborations<span>음반 작업</span></p><div class="albums">${albums.map(album=>`<article><a class="album-art" href="${escape(album.url)}" target="_blank" rel="noopener noreferrer"><img src="${album.image}" width="1200" height="1200" alt="${escape(album.title)} 앨범 커버" loading="lazy"></a><div class="album-copy"><h2>${escape(album.title)}</h2><p>${escape(album.year)}</p><p>${escape(album.description)}</p><div class="album-links">${external(album.url,'YouTube')}${external(album.source,'Bugs')}</div></div></article>`).join('')}</div><p class="music-note">전체 참여 이력은 <a href="#works">Works</a>에서 볼 수 있습니다.</p></section>`;
 }
-
-function renderArchive() {
-  const matches = getMatches();
-  const visible = matches.slice(0, limit);
-  document.querySelector("#result-status").textContent =
-    `${activeCategory === "all" ? "전체 작업" : categoryName(activeCategory)} · ${matches.length}개${matches.length > visible.length ? ` 중 ${visible.length}개 표시` : ""}`;
-  if (!matches.length) {
-    results.innerHTML =
-      '<div class="empty-state"><span aria-hidden="true">—</span><h2>일치하는 작업이 없습니다.</h2><p>다른 검색어를 입력하거나 전체 작업을 확인해 보세요.</p><button type="button" class="text-button" id="reset-search">전체 작업 보기 ↗</button></div>';
-    document
-      .querySelector("#reset-search")
-      .addEventListener("click", resetArchive);
-  } else {
-    results.innerHTML = visible
-      .map((entry) => {
-        const url = safeUrl(entry.url);
-        return `<article class="archive-entry"><span class="entry-year">${escape(entry.year)}</span><div class="entry-details"><h2>${escape(entry.title)}</h2><p>${escape(entry.description)}</p></div>${url ? `<a class="entry-link" href="${url}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} 관련 자료 (새 창)">↗</a>` : ""}</article>`;
-      })
-      .join("");
-  }
-  more.hidden = visible.length >= matches.length;
-  more.textContent = `작업 더 보기 (${visible.length} / ${matches.length}) +`;
+function renderPhotography(){
+ const photos=currentPlace==='All'?photographs:photographs.filter(photo=>photo.place===currentPlace);
+ main.innerHTML=`<section class="content"><h1>Photography</h1><p class="page-intro">여행에서 만난 장면들.<span>Film photographs</span></p><div class="place-filters" role="group" aria-label="촬영 지역">${places.map(place=>`<button data-place="${place}" aria-pressed="${place===currentPlace}">${place}</button>`).join('')}</div><div class="photographs">${photos.map(photo=>`<figure><button class="photo-button" data-photo="${photo.id}" aria-label="${photo.place} 필름 사진 크게 보기"><img src="${photo.src}" alt="${photo.place}에서 촬영한 필름 사진" width="${photo.width}" height="${photo.height}" loading="lazy"></button><figcaption>${photo.place}</figcaption></figure>`).join('')}</div></section>`;
+ main.querySelectorAll('[data-place]').forEach(button=>button.addEventListener('click',()=>{currentPlace=button.dataset.place;renderPhotography();main.querySelector(`[data-place="${currentPlace}"]`).focus({preventScroll:true});}));
+ main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
-
-function setCategory(id) {
-  activeCategory = id;
-  limit = 12;
-  document.querySelectorAll("[data-category]").forEach((button) => {
-    const selected = button.dataset.category === id;
-    button.classList.toggle("active", selected);
-    button.setAttribute("aria-pressed", String(selected));
-  });
-  renderArchive();
+function renderWorks(){
+ main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>`<article class="work-row"><span>${escape(entry.year)}</span><div><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p>${safeUrl(entry.url)?external(entry.url,'관련 작업'):''}</div></article>`).join('')}</div></section>`).join('')}</section>`;
 }
-
-function resetArchive() {
-  search = "";
-  searchInput.value = "";
-  document.querySelector(".clear-search").hidden = true;
-  setCategory("all");
-  searchInput.focus();
+function renderBiography(){
+ main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>DAWN / 정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어</p><p>음반과 무대, 영상과 전시를 위한 소리를 만듭니다.<br>여행하며 필름 사진을 찍고, 일상의 장면을 기록합니다.</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
 }
-
-document
-  .querySelectorAll("[data-category]")
-  .forEach((button) =>
-    button.addEventListener("click", () =>
-      setCategory(button.dataset.category),
-    ),
-  );
-document
-  .querySelector(".search-form")
-  .addEventListener("submit", (event) => event.preventDefault());
-searchInput.addEventListener("input", () => {
-  search = searchInput.value;
-  limit = search.trim() ? Infinity : 12;
-  document.querySelector(".clear-search").hidden = !search;
-  renderArchive();
-});
-document.querySelector(".clear-search").addEventListener("click", () => {
-  searchInput.value = "";
-  search = "";
-  limit = 12;
-  document.querySelector(".clear-search").hidden = true;
-  renderArchive();
-  searchInput.focus();
-});
-more.addEventListener("click", () => {
-  const previousCount = results.querySelectorAll(".archive-entry").length;
-  limit += 12;
-  renderArchive();
-  const firstNew = results.querySelectorAll(".archive-entry")[previousCount];
-  if (firstNew) {
-    firstNew.setAttribute("tabindex", "-1");
-    firstNew.focus({ preventScroll: true });
-  }
-});
-
-function downloadCV() {
-  const lines = [
-    profile.name,
-    `${profile.studio} · 음반 제작업 대표`,
-    "",
-    "학력",
-    ...profile.education.map((item) => `${item.school} / ${item.detail}`),
-  ];
-  categories.forEach((category) => {
-    lines.push("", `■ ${category.label}`, "");
-    entries
-      .filter((entry) => entry.categories.includes(category.id))
-      .forEach((entry) => {
-        lines.push(`${entry.year} | ${entry.title}`, `  ${entry.description}`);
-        if (safeUrl(entry.url)) lines.push(`  ${entry.url}`);
-      });
-  });
-  const file = new Blob(["\uFEFF", lines.join("\n")], {
-    type: "text/plain;charset=utf-8",
-  });
-  const url = URL.createObjectURL(file);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "정다운_새벽소리_CV.txt";
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  const notification = document.querySelector("#notification");
-  notification.textContent = "전체 이력을 담은 CV 파일을 저장합니다.";
-  notification.classList.add("visible");
-  clearTimeout(downloadCV.timer);
-  downloadCV.timer = setTimeout(
-    () => notification.classList.remove("visible"),
-    3500,
-  );
+function renderLightbox(){
+ const photo=photographs[photoIndex];
+ dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${photo.place}에서 촬영한 필름 사진">`;
+ dialog.querySelector('#photo-caption').textContent=`${photo.place} / ${photoIndex+1} — ${photographs.length}`;
 }
-document
-  .querySelectorAll("[data-download]")
-  .forEach((button) => button.addEventListener("click", downloadCV));
-
-// 인쇄 시 검색/페이지 제한 없이 전체 CV를 보여주고, 종료 후 보던 상태를 복원합니다.
-let printState;
-window.addEventListener("beforeprint", () => {
-  printState = { activeCategory, search, limit };
-  activeCategory = "all";
-  search = "";
-  limit = Infinity;
-  renderArchive();
-});
-window.addEventListener("afterprint", () => {
-  if (printState) {
-    ({ activeCategory, search, limit } = printState);
-    renderArchive();
-  }
-});
-renderArchive();
-
+function closePhoto(){dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
+dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
+dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
+dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+photographs.length)%photographs.length;renderLightbox();}));
+dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+photographs.length)%photographs.length;renderLightbox();}});
+function route(){
+ clearTimeout(homeTimer);
+ const [section,category]=location.hash.slice(1).split('/');
+ const active=menus.some(([id])=>id===section)?section:'home';
+ document.body.dataset.page=active;
+ document.querySelectorAll('[data-page]').forEach(link=>{if(link.dataset.page===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
+ document.body.classList.remove('menu-open');
+ document.querySelector('.mobile-menu').setAttribute('aria-expanded','false');
+ if(active==='home'){renderHome();scheduleHome();}
+ if(active==='music')renderMusic();
+ if(active==='photography')renderPhotography();
+ if(active==='works')renderWorks();
+ if(active==='biography')renderBiography();
+ window.scrollTo({top:0,behavior:'auto'});
+ if(active==='works'&&categories.some(item=>item.id===category))document.querySelector(`#group-${category}`).scrollIntoView({block:'start'});
+}
+document.querySelector('.mobile-menu').addEventListener('click',()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('.mobile-menu').setAttribute('aria-expanded',String(open));});
+document.addEventListener('visibilitychange',()=>{clearTimeout(homeTimer);if(!document.hidden)scheduleHome();});
+window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{paused=event.matches;if(document.body.dataset.page==='home'){renderHome();scheduleHome();}});
+window.addEventListener('hashchange',route);
+route();
