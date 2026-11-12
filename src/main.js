@@ -14,6 +14,7 @@ page.innerHTML=`<button class="mobile-menu" aria-expanded="false" aria-controls=
 const main=document.querySelector('#main');
 const dialog=document.querySelector('.lightbox');
 let photoIndex=0;
+let lightboxPhotos=photographs;
 let photoReturn;
 function renderHome(){
  main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div><div class="home-caption"><span class="home-location">Film photographs</span></div></section>`;
@@ -26,24 +27,26 @@ function renderPhotography(){
  const photos=currentPlace==='All'?photographs:photographs.filter(photo=>photo.place===currentPlace);
  main.innerHTML=`<section class="content"><h1>Photography</h1><p class="page-intro">여행에서 만난 장면들.<span>Film photographs</span></p><div class="place-filters" role="group" aria-label="촬영 지역">${places.map(place=>`<button data-place="${place}" aria-pressed="${place===currentPlace}">${place}</button>`).join('')}</div><div class="photographs">${photos.map(photo=>`<figure><button class="photo-button" data-photo="${photo.id}" aria-label="${photo.place} 필름 사진 크게 보기"><img src="${photo.src}" alt="${photo.place}에서 촬영한 필름 사진" width="${photo.width}" height="${photo.height}" loading="lazy"></button><figcaption>${photo.place}</figcaption></figure>`).join('')}</div></section>`;
  main.querySelectorAll('[data-place]').forEach(button=>button.addEventListener('click',()=>{currentPlace=button.dataset.place;renderPhotography();main.querySelector(`[data-place="${currentPlace}"]`).focus({preventScroll:true});}));
- main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
+ main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=photographs;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
 function renderWorks(){
- main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>`<article class="work-row${entry.id==='hexnut-fragments'?' has-thumbnail':''}"><span>${escape(entry.year)}</span><div><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p>${safeUrl(entry.url)?external(entry.url,'관련 작업'):''}</div>${entry.id==='hexnut-fragments'?'<img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy">':''}</article>`).join('')}</div></section>`).join('')}</section>`;
+ main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>`<article class="work-row${entry.id==='hexnut-fragments'?' has-thumbnail':''}"><span>${escape(entry.year)}</span><div><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p>${safeUrl(entry.url)?external(entry.url,'관련 작업'):''}</div>${entry.id==='hexnut-fragments'?'<button class="work-thumbnail-button" aria-label="HEXNUT — 파편의 숨 사진 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy"></button>':''}</article>`).join('')}</div></section>`).join('')}</section>`;
+ main.querySelector('.work-thumbnail-button')?.addEventListener('click',event=>{photoReturn=event.currentTarget;lightboxPhotos=[{src:'./works/hexnut-fragments-full.jpg',place:'HEXNUT — 파편의 숨',alt:'HEXNUT — 파편의 숨 전시 현장'}];photoIndex=0;renderLightbox();dialog.showModal();});
 }
 function renderBiography(){
  main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>DAWN / 정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어</p><p>음반과 무대, 영상과 전시를 위한 소리를 만듭니다.<br>여행하며 필름 사진을 찍고, 일상의 장면을 기록합니다.</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
 }
 function renderLightbox(){
- const photo=photographs[photoIndex];
- dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${photo.place}에서 촬영한 필름 사진">`;
- dialog.querySelector('#photo-caption').textContent=`${photo.place} / ${photoIndex+1} — ${photographs.length}`;
+ const photo=lightboxPhotos[photoIndex];
+ dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
+ dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} — ${lightboxPhotos.length}`:''}`;
+ dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.hidden=lightboxPhotos.length<2);
 }
 function closePhoto(){dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
 dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
-dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+photographs.length)%photographs.length;renderLightbox();}));
-dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+photographs.length)%photographs.length;renderLightbox();}});
+dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
+dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
 function route(){
  const [section,category]=location.hash.slice(1).split('/');
  const active=menus.some(([id])=>id===section)?section:'home';

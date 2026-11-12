@@ -8,3 +8,5 @@
 .work-row.has-thumbnail{grid-template-columns:100px minmax(0,1fr) 140px;align-items:start}.work-thumbnail{width:140px;height:auto}
 @media(max-width:1000px){.work-row.has-thumbnail{grid-template-columns:78px minmax(0,1fr) 120px}.work-thumbnail{width:120px}}
 @media(max-width:600px){.work-row.has-thumbnail{grid-template-columns:62px minmax(0,1fr) 90px}.work-thumbnail{width:90px}}
+
+.work-thumbnail-button{border:0;padding:0;background:none;justify-self:end;cursor:zoom-in}.lightbox-controls button[hidden]{display:none}
