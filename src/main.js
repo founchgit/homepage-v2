@@ -1,6 +1,5 @@
 import './style.css';
 import {profile,entries,categories} from './cv.js';
-import {covers} from './covers.js';
 import {photographs} from './photos.js';
 import {workVideos} from './work-media.js';
 
@@ -8,7 +7,7 @@ const escape = (value) => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':
 const external = (url,label) => `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
 const safeUrl = (value) => {try{const url=new URL(value);return url.protocol==='https:'?url.href:'';}catch{return '';}};
 const places=['All','Iceland','Australia','Bangkok','New York','India'];
-const menus=[['home','Home'],['music','Music'],['works','Works'],['photography','Photography'],['biography','Biography']];
+const menus=[['home','Home'],['selected','Selected Works'],['works','Works'],['photography','Photography'],['biography','Biography']];
 let currentPlace='All';
 const page=document.querySelector('#app');
 page.innerHTML=`<button class="mobile-menu" aria-expanded="false" aria-controls="navigation">Menu</button><aside class="sidebar"><a class="identity" href="#home">DAWN<span>정다운 · 새벽소리</span></a><nav id="navigation" aria-label="주 메뉴">${menus.map(([id,label])=>`<a href="#${id}" data-page="${id}">${label}</a>`).join('')}<a href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></nav><p class="sidebar-footer">© ${new Date().getFullYear()} DAWN</p></aside><main id="main" tabindex="-1"></main><dialog class="lightbox" aria-labelledby="photo-caption"><button class="lightbox-close" aria-label="사진 닫기">Close ×</button><div class="lightbox-image"></div><div class="lightbox-controls"><button data-photo-step="-1" aria-label="이전 사진">←</button><p id="photo-caption"></p><button data-photo-step="1" aria-label="다음 사진">→</button></div></dialog>`;
@@ -32,9 +31,25 @@ let photoReturn;
 function renderHome(){
  main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div></section>`;
 }
-function renderMusic(){
- const albums=covers.filter(cover=>!['yunaone-tidal-mind','yunaone-green-heart'].includes(cover.id)).map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
- main.innerHTML=`<section class="content"><h1>Music</h1><p class="page-intro">Records & collaborations<span>음반 작업</span></p><div class="albums">${albums.map(album=>`<article><a class="album-art" href="${escape(album.url)}" target="_blank" rel="noopener noreferrer"><img src="${album.image}" width="1200" height="1200" alt="${escape(album.title)} 앨범 커버" loading="lazy"></a><div class="album-copy"><h2>${escape(album.title)}</h2><p>${escape(album.year)}</p><p>${escape(album.description)}</p><div class="album-links">${external(album.url,'YouTube')}${external(album.source,'Bugs')}</div></div></article>`).join('')}</div><p class="music-note">전체 참여 이력은 <a href="#works">Works</a>에서 볼 수 있습니다.</p></section>`;
+const selectedWorks=[
+ {id:'hexnut-fragments',category:'sound-art',image:'./works/hexnut-fragments-full.jpg',alt:'파편의 숨 전시 현장'},
+ {id:'three-leaf-clover',category:'performance'},
+ {id:'humanoid-billy',category:'screen'},
+ {id:'myvatn-bury',category:'composition',image:'./covers/myvatn-bury.jpg',alt:'Myvatn BURY 앨범 커버'},
+ {id:'hedwig',category:'live'},
+ {id:'bearrose-ep-2026',category:'engineering'},
+ {id:'myeongdong-romance-2021',category:'post'},
+ {id:'yonsei-sound-art-research',category:'education',image:'./works/pechakucha-2025-1.jpg',alt:'2025 가을 성암 페차쿠차 포스터'}
+];
+function renderSelected(){
+ main.innerHTML=`<section class="content selected-content"><h1>Selected Works</h1><p class="page-intro">소리로 이어지는 다양한 작업들.<span>각 분야에서 고른 여덟 개의 작업</span></p><div class="selected-grid">${selectedWorks.map(selection=>{
+ const entry=entries.find(item=>item.id===selection.id);
+ const category=categories.find(item=>item.id===selection.category);
+ const video=workVideos[entry.id];
+ const image=selection.image||(video?`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`:'');
+ const href=`#works/${selection.category}/${entry.id}`;
+ return `<article class="selected-card"><p class="selected-category">${escape(category.label)}</p><a class="selected-art${!image?' selected-type-art':''}${video&&!selection.image?' selected-video-art':''}" href="${href}" aria-label="${escape(entry.title)} 작업 보기">${image?`<img src="${image}" alt="${escape(selection.alt||entry.title+' 영상 썸네일')}" loading="lazy" ${video&&!selection.image?`style="transform:scale(${(Number(video.thumbnailZoom)||1)*4/3})"`:''}>`:`<span class="selected-type-year">${escape(entry.year)} / DVD</span><span class="selected-type-title">명동<br>로망스</span><span class="selected-type-credit">Live recording · Sound mixing</span>`}</a><div class="album-copy"><h2>${escape(entry.title)}</h2><p>${escape(entry.year)}</p><p>${escape(entry.description)}</p><div class="album-links"><a href="${href}">작업 보기 ↗</a>${video?external(video.url,'YouTube'):''}</div></div></article>`;
+ }).join('')}</div><p class="music-note"><a href="#works">전체 작업 이력 보기 ↗</a></p></section>`;
 }
 function renderPhotography(){
  const photos=currentPlace==='All'?photographs:photographs.filter(photo=>photo.place===currentPlace);
@@ -56,7 +71,7 @@ function workMedia(entry){
  return items.length?`<div class="work-media${items.length>1?' is-multiple':''}">${items.join('')}</div>`:'';
 }
 function renderWorks(){
- main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>{const media=workMedia(entry);return `<article class="work-row${media?' has-thumbnail':''}${entry.id==='hexnut-fragments'?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p></div>${media}</article>`;}).join('')}</div></section>`).join('')}</section>`;
+ main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>{const media=workMedia(entry);return `<article id="work-${category.id}-${entry.id}" class="work-row${media?' has-thumbnail':''}${entry.id==='hexnut-fragments'?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p></div>${media}</article>`;}).join('')}</div></section>`).join('')}</section>`;
  main.querySelectorAll('.exhibition-open').forEach(button=>button.addEventListener('click',event=>{exhibitionReturn=event.currentTarget;exhibitionDialog.querySelector('.exhibition-body').innerHTML=exhibitionIntroductions[button.dataset.exhibition];exhibitionDialog.querySelector('.exhibition-close').setAttribute('aria-label',button.dataset.exhibition==='yonsei-sound-art-research'?'행사 소개 닫기':'전시 소개 닫기');exhibitionDialog.showModal();exhibitionDialog.scrollTop=0;}));
  main.querySelector('.work-thumbnail-button')?.addEventListener('click',event=>{photoReturn=event.currentTarget;lightboxPhotos=[{src:'./works/hexnut-fragments-full.jpg',place:'HEXNUT — 파편의 숨',alt:'HEXNUT — 파편의 숨 전시 현장'}];photoIndex=0;renderLightbox();dialog.showModal();});
  main.querySelectorAll('.work-video-thumbnail img').forEach(image=>image.addEventListener('error',()=>{image.hidden=true;image.closest('a').classList.add('image-unavailable');}));
@@ -76,19 +91,20 @@ dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
 dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
 function route(){
- const [section,category]=location.hash.slice(1).split('/');
+ const [requestedSection,category,workId]=location.hash.slice(1).split('/');
+ const section=requestedSection==='music'?'selected':requestedSection;
  const active=menus.some(([id])=>id===section)?section:'home';
  document.body.dataset.page=active;
  document.querySelectorAll('[data-page]').forEach(link=>{if(link.dataset.page===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
  document.body.classList.remove('menu-open');
  document.querySelector('.mobile-menu').setAttribute('aria-expanded','false');
  if(active==='home'){renderHome();}
- if(active==='music')renderMusic();
+ if(active==='selected')renderSelected();
  if(active==='photography')renderPhotography();
  if(active==='works')renderWorks();
  if(active==='biography')renderBiography();
  window.scrollTo({top:0,behavior:'auto'});
- if(active==='works'&&categories.some(item=>item.id===category))document.querySelector(`#group-${category}`).scrollIntoView({block:'start'});
+ if(active==='works'&&categories.some(item=>item.id===category)){const target=workId?document.getElementById(`work-${category}-${workId}`):null;(target||document.getElementById(`group-${category}`)).scrollIntoView({block:'start'});}
 }
 document.querySelector('.mobile-menu').addEventListener('click',()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('.mobile-menu').setAttribute('aria-expanded',String(open));});
 window.addEventListener('hashchange',route);
