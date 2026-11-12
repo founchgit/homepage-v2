@@ -71,3 +71,6 @@
 .work-row{scroll-margin-top:110px}
 @media(max-width:1000px){.selected-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:50px 30px}}
 @media(max-width:600px){.selected-grid{gap:40px 22px}.selected-category{font-size:10px;line-height:1.6;min-height:32px;margin-bottom:10px}.selected-type-art{padding:14px}.selected-type-title{font-size:32px}.selected-type-year{font-size:9px}.selected-type-credit{font-size:8px}.work-row{scroll-margin-top:145px}}
+
+.place-filters{position:sticky;top:0;z-index:5;background:#e9edeb;padding:18px 0;border-bottom:1px solid #cbd4ce}
+@media(max-width:600px){.place-filters{padding:14px 0}}
