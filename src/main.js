@@ -2,6 +2,7 @@ import './style.css';
 import {profile,entries,categories} from './cv.js';
 import {covers} from './covers.js';
 import {photographs} from './photos.js';
+import {workVideos} from './work-media.js';
 
 const escape = (value) => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 const external = (url,label) => `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
@@ -29,9 +30,18 @@ function renderPhotography(){
  main.querySelectorAll('[data-place]').forEach(button=>button.addEventListener('click',()=>{currentPlace=button.dataset.place;renderPhotography();main.querySelector(`[data-place="${currentPlace}"]`).focus({preventScroll:true});}));
  main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=photographs;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
+function workMedia(entry){
+ const video=workVideos[entry.id];
+ const items=[];
+ if(entry.id==='hexnut-fragments')items.push(`<button class="work-thumbnail-button" aria-label="HEXNUT — 파편의 숨 사진 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy"></button>`);
+ if(video)items.push(`<a class="work-video-thumbnail" href="${escape(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} YouTube 영상 보기"><img class="work-thumbnail" src="https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg" width="480" height="360" alt="${escape(entry.title)} 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>`);
+ else if(safeUrl(entry.url))items.push(`<a class="work-related-link" href="${escape(entry.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} 관련 작업">관련 작업 ↗</a>`);
+ return items.length?`<div class="work-media${items.length>1?' is-multiple':''}">${items.join('')}</div>`:'';
+}
 function renderWorks(){
- main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>`<article class="work-row${['hexnut-fragments','three-leaf-clover'].includes(entry.id)?' has-thumbnail':''}"><span>${escape(entry.year)}</span><div><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p>${safeUrl(entry.url)?external(entry.url,'관련 작업'):''}</div>${entry.id==='hexnut-fragments'?'<button class="work-thumbnail-button" aria-label="HEXNUT — 파편의 숨 사진 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy"></button>':entry.id==='three-leaf-clover'?'<a class="work-video-thumbnail" href="https://www.youtube.com/watch?v=RvGOFLYTYX0" target="_blank" rel="noopener noreferrer" aria-label="세잎클로버 YouTube 영상 보기"><img class="work-thumbnail" src="https://i.ytimg.com/vi/RvGOFLYTYX0/hqdefault.jpg" width="480" height="360" alt="세잎클로버 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>':''}</article>`).join('')}</div></section>`).join('')}</section>`;
+ main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${categories.map(category=>`<a href="#works/${category.id}">${escape(category.label)}</a>`).join('')}</nav>${categories.map(category=>`<section class="work-group" id="group-${category.id}"><h2>${escape(category.label)}</h2><div>${entries.filter(entry=>entry.categories.includes(category.id)).map(entry=>{const media=workMedia(entry);return `<article class="work-row${media?' has-thumbnail':''}${entry.id==='hexnut-fragments'?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p></div>${media}</article>`;}).join('')}</div></section>`).join('')}</section>`;
  main.querySelector('.work-thumbnail-button')?.addEventListener('click',event=>{photoReturn=event.currentTarget;lightboxPhotos=[{src:'./works/hexnut-fragments-full.jpg',place:'HEXNUT — 파편의 숨',alt:'HEXNUT — 파편의 숨 전시 현장'}];photoIndex=0;renderLightbox();dialog.showModal();});
+ main.querySelectorAll('.work-video-thumbnail img').forEach(image=>image.addEventListener('error',()=>{image.hidden=true;image.closest('a').classList.add('image-unavailable');}));
 }
 function renderBiography(){
  main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>DAWN / 정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어</p><p>음반과 무대, 영상과 전시를 위한 소리를 만듭니다.<br>여행하며 필름 사진을 찍고, 일상의 장면을 기록합니다.</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
