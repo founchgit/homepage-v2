@@ -1,28 +1,28 @@
 export const photographs = [
   {
-    "id": "63",
-    "src": "./photographs/film-063.jpg",
+    "id": "64",
+    "src": "./photographs/film-064.jpg",
     "place": "Iceland",
     "width": 1080,
     "height": 1080
   },
   {
-    "id": "44",
-    "src": "./photographs/film-044.jpg",
+    "id": "60",
+    "src": "./photographs/film-060.jpg",
     "place": "Iceland",
     "width": 1080,
     "height": 1080
   },
   {
-    "id": "48",
-    "src": "./photographs/film-048.jpg",
+    "id": "56",
+    "src": "./photographs/film-056.jpg",
     "place": "Iceland",
     "width": 1080,
     "height": 1080
   },
   {
-    "id": "55",
-    "src": "./photographs/film-055.jpg",
+    "id": "46",
+    "src": "./photographs/film-046.jpg",
     "place": "Iceland",
     "width": 1080,
     "height": 1080
@@ -238,6 +238,34 @@ export const photographs = [
     "height": 1080
   },
   {
+    "id": "44",
+    "src": "./photographs/film-044.jpg",
+    "place": "Iceland",
+    "width": 1080,
+    "height": 1080
+  },
+  {
+    "id": "63",
+    "src": "./photographs/film-063.jpg",
+    "place": "Iceland",
+    "width": 1080,
+    "height": 1080
+  },
+  {
+    "id": "48",
+    "src": "./photographs/film-048.jpg",
+    "place": "Iceland",
+    "width": 1080,
+    "height": 1080
+  },
+  {
+    "id": "55",
+    "src": "./photographs/film-055.jpg",
+    "place": "Iceland",
+    "width": 1080,
+    "height": 1080
+  },
+  {
     "id": "36",
     "src": "./photographs/film-036.jpg",
     "place": "Iceland",
@@ -301,13 +329,6 @@ export const photographs = [
     "height": 1080
   },
   {
-    "id": "46",
-    "src": "./photographs/film-046.jpg",
-    "place": "Iceland",
-    "width": 1080,
-    "height": 1080
-  },
-  {
     "id": "47",
     "src": "./photographs/film-047.jpg",
     "place": "Iceland",
@@ -357,13 +378,6 @@ export const photographs = [
     "height": 1080
   },
   {
-    "id": "56",
-    "src": "./photographs/film-056.jpg",
-    "place": "Iceland",
-    "width": 1080,
-    "height": 1080
-  },
-  {
     "id": "57",
     "src": "./photographs/film-057.jpg",
     "place": "Iceland",
@@ -385,13 +399,6 @@ export const photographs = [
     "height": 1080
   },
   {
-    "id": "60",
-    "src": "./photographs/film-060.jpg",
-    "place": "Iceland",
-    "width": 1080,
-    "height": 1080
-  },
-  {
     "id": "61",
     "src": "./photographs/film-061.jpg",
     "place": "Iceland",
@@ -401,13 +408,6 @@ export const photographs = [
   {
     "id": "62",
     "src": "./photographs/film-062.jpg",
-    "place": "Iceland",
-    "width": 1080,
-    "height": 1080
-  },
-  {
-    "id": "64",
-    "src": "./photographs/film-064.jpg",
     "place": "Iceland",
     "width": 1080,
     "height": 1080
