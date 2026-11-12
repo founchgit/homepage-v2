@@ -5,10 +5,20 @@
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 @media print{.sidebar,.mobile-menu,.home-caption,.place-filters{display:none}main{margin:0;padding:0}.content{padding:0}.work-row,.albums article,.photographs figure{break-inside:avoid}}
 
-.work-row.has-thumbnail{grid-template-columns:100px minmax(0,1fr) 140px;align-items:start}.work-thumbnail{width:140px;height:auto}
-@media(max-width:1000px){.work-row.has-thumbnail{grid-template-columns:78px minmax(0,1fr) 120px}.work-thumbnail{width:120px}}
-@media(max-width:600px){.work-row.has-thumbnail{grid-template-columns:62px minmax(0,1fr) 90px}.work-thumbnail{width:90px}}
-
-.work-thumbnail-button{border:0;padding:0;background:none;justify-self:end;cursor:zoom-in}.lightbox-controls button[hidden]{display:none}
-
-.work-video-thumbnail{display:block;justify-self:end}.work-video-thumbnail span{display:block;font-size:10px;margin-top:4px}
+/* Small, quiet previews alongside the text archive. */
+.work-row.has-thumbnail{--preview-width:104px;grid-template-columns:100px minmax(0,1fr) var(--preview-width);align-items:start}
+.work-thumbnail-button,.work-video-thumbnail{position:relative;display:block;justify-self:end;width:var(--preview-width);border:0;padding:0;background:none;text-decoration:none!important}
+.work-thumbnail-button{cursor:zoom-in}
+.work-thumbnail{width:100%;height:auto;opacity:.76;filter:saturate(.55);transition:opacity .3s ease,filter .3s ease}
+.work-thumbnail-button::after,.work-video-thumbnail::after{content:'';position:absolute;inset:-5px;border:1px solid #9aa99f;opacity:0;pointer-events:none;transition:opacity .3s ease}
+.work-video-thumbnail span{position:absolute;left:5px;bottom:5px;padding:2px 4px;background:#e9edebed;color:#35463b;font:9px/1.4 Georgia,serif;opacity:0;transition:opacity .3s ease}
+.work-thumbnail-button:focus-visible .work-thumbnail,.work-video-thumbnail:focus-visible .work-thumbnail{opacity:1;filter:saturate(1)}
+.work-thumbnail-button:focus-visible::after,.work-video-thumbnail:focus-visible::after,.work-video-thumbnail:focus-visible span{opacity:1}
+@media(hover:hover){
+ .work-row.has-thumbnail:hover .work-thumbnail{opacity:1;filter:saturate(1)}
+ .work-thumbnail-button:hover::after,.work-video-thumbnail:hover::after,.work-video-thumbnail:hover span{opacity:1}
+}
+@media(hover:none){.work-thumbnail{opacity:1;filter:none}.work-video-thumbnail span{opacity:1}}
+@media(max-width:1000px){.work-row.has-thumbnail{--preview-width:92px;grid-template-columns:78px minmax(0,1fr) var(--preview-width)}}
+@media(max-width:600px){.work-row.has-thumbnail{--preview-width:76px;grid-template-columns:62px minmax(0,1fr) var(--preview-width)}}
+.lightbox-controls button[hidden]{display:none}
