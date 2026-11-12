@@ -355,7 +355,7 @@ const originalEntries = [
       "yonsei-sound-art-research",
       "2025",
       "딥러닝 기반 사운드 아트 사례 연구",
-      "연세대 커뮤니케이션 대학원 학술제",
+      "2025.10.30 · 연세대학교 커뮤니케이션대학원 · 성암 페차쿠차 발표",
     ],
     ["jam-music-academy", "2016–현재", "JAM Music Academy", "강사"],
   ]),
