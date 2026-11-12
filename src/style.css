@@ -32,3 +32,11 @@
 .work-video-thumbnail.image-unavailable span{position:static;opacity:1;background:none;padding:5px 0}
 @media(max-width:1000px){.work-row.has-multiple-media{--preview-width:196px}}
 @media(max-width:600px){.work-row.has-multiple-media{--preview-width:164px;grid-template-columns:62px minmax(0,1fr)}.has-multiple-media .work-media{grid-column:2;justify-self:end;width:164px}}
+
+/* Crop the standard YouTube thumbnail padding into a consistent preview frame. */
+.work-thumbnail-button,.work-video-thumbnail{aspect-ratio:16/9;overflow:hidden}
+.work-thumbnail-button .work-thumbnail{height:100%;object-fit:cover}
+.work-video-thumbnail .work-thumbnail{height:100%;object-fit:cover}
+.work-video-thumbnail::after,.work-thumbnail-button::after{inset:0}
+.work-media.is-multiple{align-items:start}
+.work-video-thumbnail.image-unavailable{aspect-ratio:auto}

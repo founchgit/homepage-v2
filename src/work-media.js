@@ -82,7 +82,8 @@ export const workVideos = {
   },
   "chae-suhyun-great-night": {
     "url": "https://www.youtube.com/watch?v=r_WtQ5g89uI",
-    "videoId": "r_WtQ5g89uI"
+    "videoId": "r_WtQ5g89uI",
+    "thumbnailZoom": 1.326
   },
   "eungyo-understand": {
     "url": "https://www.youtube.com/playlist?list=OLAK5uy_keFwV-ltbjai9DKa_whMaz9GrR7xs_JtM",
@@ -90,19 +91,23 @@ export const workVideos = {
   },
   "myvatn-bury": {
     "url": "https://www.youtube.com/watch?v=eFWTkYrUmdQ",
-    "videoId": "eFWTkYrUmdQ"
+    "videoId": "eFWTkYrUmdQ",
+    "thumbnailZoom": 1.3333
   },
   "myvatn-like-you-lady": {
     "url": "https://www.youtube.com/watch?v=Qm4Ksg0Spy8",
-    "videoId": "Qm4Ksg0Spy8"
+    "videoId": "Qm4Ksg0Spy8",
+    "thumbnailZoom": 1.3333
   },
   "myvatn-rain": {
     "url": "https://www.youtube.com/watch?v=HwoVsixFQU4",
-    "videoId": "HwoVsixFQU4"
+    "videoId": "HwoVsixFQU4",
+    "thumbnailZoom": 1.3333
   },
   "myvatn-shake": {
     "url": "https://www.youtube.com/watch?v=mriKZW-qpb8",
-    "videoId": "mriKZW-qpb8"
+    "videoId": "mriKZW-qpb8",
+    "thumbnailZoom": 1.3333
   },
   "no-tomorrow-no-regret": {
     "url": "https://www.youtube.com/playlist?list=OLAK5uy_keaWDDdnkzuqUoYfh55yUimiO1x2KhWvQ",
@@ -140,13 +145,12 @@ export const workVideos = {
     "url": "https://www.youtube.com/watch?v=6dNp69WuFFg",
     "videoId": "6dNp69WuFFg",
     "title": "오늘 너의 하루는 (Title) - 베어로즈(BearRose)",
-    "channel": "베어로즈(BearRose)"
+    "channel": "베어로즈(BearRose)",
+    "thumbnailZoom": 1.326
   },
   "summer-night-lawn": {
-    "url": "https://www.youtube.com/watch?v=7jPyHGtpsSg",
-    "videoId": "7jPyHGtpsSg",
-    "title": "2025 미소스테이지  여름밤잔디",
-    "channel": "콘텐츠진흥왕"
+    "url": "https://youtu.be/nr3JZLI_AuI?si=DLMa16kOWQTrJwxi",
+    "videoId": "nr3JZLI_AuI"
   },
   "go-baek": {
     "url": "https://www.youtube.com/watch?v=MLg4sV0Ra3s",
@@ -176,7 +180,8 @@ export const workVideos = {
     "url": "https://www.youtube.com/watch?v=5KXQ-f-N9cw",
     "videoId": "5KXQ-f-N9cw",
     "title": "[2020 뮤지컬 난설] DVD 실황영상 미리보기 3탄! (김려원, 정성일, 최호승)",
-    "channel": "KONTENTZ PLANNING"
+    "channel": "KONTENTZ PLANNING",
+    "thumbnailZoom": 1.1374
   },
   "mio-fratello-2020": {
     "url": "https://www.youtube.com/watch?v=yrGxskgUack",

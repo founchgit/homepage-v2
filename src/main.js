@@ -34,7 +34,7 @@ function workMedia(entry){
  const video=workVideos[entry.id];
  const items=[];
  if(entry.id==='hexnut-fragments')items.push(`<button class="work-thumbnail-button" aria-label="HEXNUT — 파편의 숨 사진 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy"></button>`);
- if(video)items.push(`<a class="work-video-thumbnail" href="${escape(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} YouTube 영상 보기"><img class="work-thumbnail" src="https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg" width="480" height="360" alt="${escape(entry.title)} 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>`);
+ if(video)items.push(`<a class="work-video-thumbnail" href="${escape(video.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} YouTube 영상 보기"><img class="work-thumbnail" style="transform:scale(${Number(video.thumbnailZoom)||1})" src="https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg" width="480" height="360" alt="${escape(entry.title)} 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>`);
  else if(safeUrl(entry.url))items.push(`<a class="work-related-link" href="${escape(entry.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} 관련 작업">관련 작업 ↗</a>`);
  return items.length?`<div class="work-media${items.length>1?' is-multiple':''}">${items.join('')}</div>`:'';
 }
