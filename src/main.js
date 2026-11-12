@@ -29,7 +29,7 @@ let photoIndex=0;
 let lightboxPhotos=photographs;
 let photoReturn;
 function renderHome(){
- main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div><div class="home-caption"><span class="home-location">Film photographs</span></div></section>`;
+ main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div></section>`;
 }
 function renderMusic(){
  const albums=covers.filter(cover=>!['yunaone-tidal-mind','yunaone-green-heart'].includes(cover.id)).map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
