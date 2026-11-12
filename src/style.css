@@ -40,3 +40,13 @@
 .work-video-thumbnail::after,.work-thumbnail-button::after{inset:0}
 .work-media.is-multiple{align-items:start}
 .work-video-thumbnail.image-unavailable{aspect-ratio:auto}
+
+.exhibition-open{border:0;padding:1px 0;background:none;font:10px/1.9 Georgia,serif;color:#7c8c81;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
+.exhibition-dialog{width:min(680px,calc(100vw - 40px));max-height:calc(100dvh - 60px);border:1px solid #cbd4ce;padding:65px 45px 45px;background:#e9edeb;color:#252c2d}
+.exhibition-dialog::backdrop{background:#252c2d66;backdrop-filter:blur(3px)}
+.exhibition-close{position:absolute;top:18px;right:20px;border:0;background:none;font-size:12px}
+.exhibition-body h2{font-size:24px;font-weight:400;line-height:1.6;margin:0 0 22px}
+.exhibition-body p{font:13px/2.1 Arial,sans-serif;word-break:keep-all;margin:0 0 28px}
+.exhibition-body .exhibition-meta{font:12px/1.9 Georgia,serif;color:#65776b;margin-bottom:38px}
+.exhibition-body h3{font-size:13px;font-weight:400;margin:30px 0 10px}
+@media(max-width:600px){.exhibition-dialog{padding:55px 24px 25px}.exhibition-body h2{font-size:21px}.exhibition-body p{font-size:12px}}
