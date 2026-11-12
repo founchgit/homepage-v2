@@ -21,7 +21,7 @@ function renderHome(){
  main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div><div class="home-caption"><span class="home-location">Film photographs</span></div></section>`;
 }
 function renderMusic(){
- const albums=covers.map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
+ const albums=covers.filter(cover=>!['yunaone-tidal-mind','yunaone-green-heart'].includes(cover.id)).map(cover=>({...entries.find(entry=>entry.id===cover.id),...cover}));
  main.innerHTML=`<section class="content"><h1>Music</h1><p class="page-intro">Records & collaborations<span>음반 작업</span></p><div class="albums">${albums.map(album=>`<article><a class="album-art" href="${escape(album.url)}" target="_blank" rel="noopener noreferrer"><img src="${album.image}" width="1200" height="1200" alt="${escape(album.title)} 앨범 커버" loading="lazy"></a><div class="album-copy"><h2>${escape(album.title)}</h2><p>${escape(album.year)}</p><p>${escape(album.description)}</p><div class="album-links">${external(album.url,'YouTube')}${external(album.source,'Bugs')}</div></div></article>`).join('')}</div><p class="music-note">전체 참여 이력은 <a href="#works">Works</a>에서 볼 수 있습니다.</p></section>`;
 }
 function renderPhotography(){
