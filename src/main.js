@@ -6,7 +6,7 @@ import {photographs} from './photos.js';
 const escape = (value) => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 const external = (url,label) => `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
 const safeUrl = (value) => {try{const url=new URL(value);return url.protocol==='https:'?url.href:'';}catch{return '';}};
-const places=['All','Iceland','Australia','Bangkok','New York','India','Fragments'];
+const places=['All','Iceland','Australia','Bangkok','New York','India'];
 const menus=[['home','Home'],['music','Music'],['photography','Photography'],['works','Works'],['biography','Biography']];
 let currentPlace='All';
 let homeIndex=0;

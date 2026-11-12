@@ -112,34 +112,6 @@ export const photographs = [
     "height": 1080
   },
   {
-    "id": "30",
-    "src": "./photographs/film-030.jpg",
-    "place": "Fragments",
-    "width": 903,
-    "height": 903
-  },
-  {
-    "id": "31",
-    "src": "./photographs/film-031.jpg",
-    "place": "Fragments",
-    "width": 1080,
-    "height": 1080
-  },
-  {
-    "id": "33",
-    "src": "./photographs/film-033.jpg",
-    "place": "Fragments",
-    "width": 1080,
-    "height": 1074
-  },
-  {
-    "id": "35",
-    "src": "./photographs/film-035.jpg",
-    "place": "Fragments",
-    "width": 638,
-    "height": 636
-  },
-  {
     "id": "67",
     "src": "./photographs/film-067.jpg",
     "place": "India",
