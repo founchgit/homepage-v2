@@ -7,7 +7,7 @@ const escape = (value) => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':
 const external = (url,label) => `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
 const safeUrl = (value) => {try{const url=new URL(value);return url.protocol==='https:'?url.href:'';}catch{return '';}};
 const places=['All','Iceland','Australia','Bangkok','New York','India'];
-const menus=[['home','Home'],['selected','Selected Works'],['works','Works'],['photography','Photography'],['biography','Biography']];
+const menus=[['home','Home'],['scenes','Scenes'],['works','Works'],['photography','Photography'],['biography','Biography']];
 let currentPlace='All';
 const page=document.querySelector('#app');
 page.innerHTML=`<button class="mobile-menu" aria-expanded="false" aria-controls="navigation">Menu</button><aside class="sidebar"><a class="identity" href="#home">DAWN<span>정다운 · 새벽소리</span></a><nav id="navigation" aria-label="주 메뉴">${menus.map(([id,label])=>`<a href="#${id}" data-page="${id}">${label}</a>`).join('')}<a href="https://www.instagram.com/jeongdawn/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></nav><p class="sidebar-footer">© ${new Date().getFullYear()} DAWN</p></aside><main id="main" tabindex="-1"></main><dialog class="lightbox" aria-labelledby="photo-caption"><button class="lightbox-close" aria-label="사진 닫기">Close ×</button><div class="lightbox-image"></div><div class="lightbox-controls"><button data-photo-step="-1" aria-label="이전 사진">←</button><p id="photo-caption"></p><button data-photo-step="1" aria-label="다음 사진">→</button></div></dialog>`;
@@ -32,25 +32,30 @@ let photoReturn;
 function renderHome(){
  main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div></section>`;
 }
-const selectedWorks=[
- {id:'hexnut-fragments',category:'sound-art',image:'./works/hexnut-fragments-full.jpg',alt:'파편의 숨 전시 현장'},
- {id:'three-leaf-clover',category:'performance'},
- {id:'humanoid-billy',category:'screen'},
- {id:'myvatn-bury',category:'composition',image:'./covers/myvatn-bury.jpg',alt:'Myvatn BURY 앨범 커버'},
- {id:'hedwig',category:'live'},
- {id:'bearrose-ep-2026',category:'engineering'},
- {id:'myeongdong-romance-2021',category:'post'},
- {id:'yonsei-sound-art-research',category:'education',image:'./works/pechakucha-2025-1.jpg',alt:'2025 가을 성암 페차쿠차 포스터'}
+const scenePhotos=[
+ {image:'film-camera',title:'필름카메라',href:'#photography'},
+ {image:'myvatn-shake',title:'Myvatn — 흔들기',href:'#works/composition/myvatn-shake'},
+ {image:'john-cameron',title:'존 카메론 미첼 내한 공연',href:'#works/live/john-cameron-mitchell'},
+ {image:'hedwig',title:'헤드윅',href:'#works/live/hedwig'},
+ {image:'sound-artist-2',title:'사운드 아티스트 2',href:'#works/sound-art'},
+ {image:'hexnut',title:'전시 — 파편의 숨',href:'#works/sound-art/hexnut-fragments'},
+ {image:'myvatn',title:'Myvatn — Like you lady',href:'#works/composition/myvatn-like-you-lady'},
+ {image:'sound-artist',title:'사운드 아티스트',href:'#works/sound-art'}
 ];
-function renderSelected(){
- main.innerHTML=`<section class="content selected-content"><h1>Selected Works</h1><p class="page-intro">소리로 이어지는 다양한 작업들.<span>각 분야에서 고른 여덟 개의 작업</span></p><div class="selected-grid">${selectedWorks.map(selection=>{
- const entry=entries.find(item=>item.id===selection.id);
- const category=categories.find(item=>item.id===selection.category);
- const video=workVideos[entry.id];
- const image=selection.image||(video?`https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`:'');
- const href=`#works/${selection.category}/${entry.id}`;
- return `<article class="selected-card"><p class="selected-category">${escape(category.label)}</p><a class="selected-art${!image?' selected-type-art':''}${video&&!selection.image?' selected-video-art':''}" href="${href}" aria-label="${escape(entry.title)} 작업 보기">${image?`<img src="${image}" alt="${escape(selection.alt||entry.title+' 영상 썸네일')}" loading="lazy" ${video&&!selection.image?`style="transform:scale(${(Number(video.thumbnailZoom)||1)*4/3})"`:''}>`:`<span class="selected-type-year">${escape(entry.year)} / DVD</span><span class="selected-type-title">명동<br>로망스</span><span class="selected-type-credit">Live recording · Sound mixing</span>`}</a><div class="album-copy"><h2>${escape(entry.title)}</h2><p>${escape(entry.year)}</p><p>${escape(entry.description)}</p><div class="album-links"><a href="${href}">작업 보기 ↗</a>${video?external(video.url,'YouTube'):''}</div></div></article>`;
- }).join('')}</div><p class="music-note"><a href="#works">전체 작업 이력 보기 ↗</a></p></section>`;
+function shuffledScenes(){const result=[...scenePhotos];for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
+let sceneOrder=shuffledScenes();
+let sceneActive=0;
+function renderScenes(){
+ main.innerHTML=`<section class="scenes-page" aria-label="Scenes 사진 슬라이드"><header class="scenes-header"><h1>Scenes</h1><button class="scenes-shuffle" aria-label="사진 순서 무작위로 섞기">Shuffle ↗</button></header><div class="scenes-board" aria-label="전체 사진">${sceneOrder.map((photo,index)=>`<a class="scene-slide${index===sceneActive?' is-active':''}" href="${photo.href}" aria-label="${escape(photo.title)} 보기" style="--scene-angle:${(Math.random()*6-3).toFixed(2)}deg"><img src="./scenes/${photo.image}.jpg" alt="${escape(photo.title)}"><span>${escape(photo.title)} ↗</span></a>`).join('')}</div><footer class="scenes-controls"><button data-scene-step="-1" aria-label="이전 사진 강조">←</button><p class="scene-caption" aria-live="polite"></p><button data-scene-step="1" aria-label="다음 사진 강조">→</button></footer></section>`;
+ const update=()=>{main.querySelectorAll('.scene-slide').forEach((tile,index)=>tile.classList.toggle('is-active',index===sceneActive));main.querySelector('.scene-caption').textContent=`${String(sceneActive+1).padStart(2,'0')} / ${String(sceneOrder.length).padStart(2,'0')} — ${sceneOrder[sceneActive].title}`;};
+ const step=direction=>{sceneActive=(sceneActive+direction+sceneOrder.length)%sceneOrder.length;update();};
+ main.querySelectorAll('[data-scene-step]').forEach(button=>button.addEventListener('click',()=>step(Number(button.dataset.sceneStep))));
+ main.querySelector('.scenes-shuffle').addEventListener('click',()=>{sceneOrder=shuffledScenes();sceneActive=0;renderScenes();main.querySelector('.scenes-shuffle').focus({preventScroll:true});});
+ main.querySelectorAll('.scene-slide').forEach((tile,index)=>tile.addEventListener('focus',()=>{sceneActive=index;update();}));
+ const board=main.querySelector('.scenes-board');let touchStart;
+ board.addEventListener('touchstart',event=>{touchStart=event.touches[0].clientX;},{passive:true});
+ board.addEventListener('touchend',event=>{if(touchStart===undefined)return;const dx=event.changedTouches[0].clientX-touchStart;if(Math.abs(dx)>45)step(dx<0?1:-1);touchStart=undefined;},{passive:true});
+ main.querySelector('.scenes-page').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();step(event.key==='ArrowRight'?1:-1);}});update();
 }
 function renderPhotography(){
  const photos=currentPlace==='All'?photographs:photographs.filter(photo=>photo.place===currentPlace);
@@ -121,14 +126,14 @@ dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventList
 dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
 function route(){
  const [requestedSection,category,workId]=location.hash.slice(1).split('/');
- const section=requestedSection==='music'?'selected':requestedSection;
+ const section=['music','selected'].includes(requestedSection)?'scenes':requestedSection;
  const active=menus.some(([id])=>id===section)?section:'home';
  document.body.dataset.page=active;
  document.querySelectorAll('[data-page]').forEach(link=>{if(link.dataset.page===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');});
  document.body.classList.remove('menu-open');
  document.querySelector('.mobile-menu').setAttribute('aria-expanded','false');
  if(active==='home'){renderHome();}
- if(active==='selected')renderSelected();
+ if(active==='scenes')renderScenes();
  if(active==='photography')renderPhotography();
  if(active==='works')renderWorks(category);
  if(active==='biography')renderBiography();
