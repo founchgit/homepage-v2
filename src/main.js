@@ -39,7 +39,7 @@ const scenePhotos=[
  {image:'hedwig',title:'헤드윅',href:'#works/live/hedwig'},
  {image:'sound-artist-2',title:'사운드 아티스트 2',href:'#works/sound-art'},
  {image:'hexnut',title:'전시 — 파편의 숨',href:'#works/sound-art/hexnut-fragments'},
- {image:'myvatn',title:'Myvatn — Like you lady',href:'#works/composition/myvatn-like-you-lady'},
+ {image:'myvatn-like-you-lady-v2',title:'Myvatn — Like you lady',href:'#works/composition/myvatn-like-you-lady'},
  {image:'sound-artist',title:'사운드 아티스트',href:'#works/sound-art'}
 ];
 function shuffledScenes(){const result=[...scenePhotos];for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
