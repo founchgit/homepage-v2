@@ -339,7 +339,7 @@ const originalEntries = [
       "hakchon-kim-kwang-seok-2015",
       "2015",
       "김광석 노래부르기 2015",
-      "학전 · 기타상 수상",
+      "2015.01.06 · 학전블루 소극장 · 김광석 추모사업회 · 기타상 수상",
     ],
     [
       "daelim-mentoring",
