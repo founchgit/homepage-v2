@@ -65,7 +65,7 @@ function renderPhotography(){
 }
 const workPhotoSets={
  'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'}],
- 'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}${name==='poster'?'':'-v2'}.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
+ 'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}-v2.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
  'hedwig':[2019,2021,2024].map(year=>({src:`./works/hedwig-${year}.jpg`,place:`헤드윅 · ${year}`,alt:`${year}년 헤드윅 공연 포스터`})),
  'lee-sujin-solo':[{src:'./works/telic-poster.jpg',place:'이수진 — 텔릭 Telic',alt:'텔릭 Telic 전시 포스터'},{src:'./works/telic-installation.jpg',place:'이수진 — 텔릭 Telic',alt:'텔릭 Telic 전시 현장'}],
  'burning-up':[{src:'./works/burning-up-poster.jpg',place:'버닝업',alt:'버닝업 공연 포스터'}],
