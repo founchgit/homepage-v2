@@ -96,7 +96,6 @@ function workMedia(entry){
  if(video)for(const [index,clip] of [video,...(video.additionalVideos||[])].entries())items.push(`<a class="work-video-thumbnail" href="${escape(clip.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} YouTube 영상 ${index+1} 보기"><img class="work-thumbnail" style="transform:scale(${Number(clip.thumbnailZoom)||1})" src="https://i.ytimg.com/vi/${clip.videoId}/hqdefault.jpg" width="480" height="360" alt="${escape(entry.title)} 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>`);
  else if(safeUrl(entry.url))items.push(`<a class="work-related-link" href="${escape(entry.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} 관련 작업">관련 작업 ↗</a>`);
  if(entry.id==='lee-sujin-solo')items.push('<button class="exhibition-open" data-exhibition="lee-sujin-solo">전시 소개 보기 ↗</button>');
- if(entry.id==='hexnut-fragments')items.push('<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="hexnut-fragments" data-work-photo-index="1" aria-label="G.MAP 빛의 궤도 포스터 크게 보기"><img class="work-thumbnail" src="./works/gmap-orbit-of-light-poster.jpg" alt="G.MAP 빛의 궤도 전시 포스터" loading="lazy"></button>');
  if(entry.id==='hexnut-fragments')items.push('<button class="exhibition-open" data-exhibition="hexnut-fragments">전시 소개 보기 ↗</button>');
  return items.length?`<div class="work-media${items.length>1?' is-multiple':''}">${items.join('')}</div>`:'';
 }
