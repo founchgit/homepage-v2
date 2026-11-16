@@ -40,6 +40,7 @@ const musicalMix = (id, year, title, format) => ({
 
 const originalEntries = [
   ...group("sound-art", [
+    ["hanwha-pompidou-ceiling", "2026", "한화 퐁피두 센터 — 천장형 미디어아트", "로비 대형 미디어 천장 영상의 사운드 디자인 · 2026.11–2027.03 상영"],
     [
       "hexnut-fragments",
       "2025",
