@@ -104,7 +104,7 @@ const originalEntries = [
       "kt-cloud-brand-film",
       "2026",
       "KT cloud 브랜드 필름",
-      "광고음악 · 제공 이력 기준 2026 상반기 릴리즈 예정",
+      "광고음악 · 제공 이력 기준 2026 하반기 릴리즈 예정",
     ],
     [
       "twinkling-watermelon",
