@@ -59,12 +59,17 @@ function renderPhotography(){
  main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=photographs;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
 const workPhotoSets={
+ 'burning-up':[{src:'./works/burning-up-poster.jpg',place:'버닝업',alt:'버닝업 공연 포스터'}],
+ 'yeonjeok':[{src:'./works/yeonjeok-poster.jpg',place:'연적',alt:'연적 공연 포스터'}],
+ 'fantastic-laundry':[{src:'./works/fantastic-laundry-poster.jpg',place:'판타스틱 런드리',alt:'판타스틱 런드리 공연 포스터'}],
+
  'already-part-of-exhibition':[{src:'./works/audible-body.jpg',place:'Audible Body · 2025',alt:'Audible Body 전시 현장'}],
  'hanwha-pompidou-ceiling':[{src:'./works/hanwha-pompidou-ceiling.png',place:'오묘초 — 한화 퐁피두 센터 천장형 미디어아트',alt:'로비 대형 미디어 천장 영상'}],
  'hexnut-fragments':[{src:'./works/hexnut-fragments-full.jpg',place:'HEXNUT — 파편의 숨',alt:'HEXNUT — 파편의 숨 전시 현장'}],
  'tomorrows-apple':[1,2].map(n=>({src:`./works/tomorrows-apple-${n}.jpg`,place:'내일 건네줄, 사과',alt:n===1?'광주비엔날레 다성의 기록 상영 프로그램 포스터':'내일 건네줄 사과가 포함된 스크리닝 상영 일정'}))
 };
 function workMedia(entry){
+ if(['burning-up','yeonjeok','fantastic-laundry'].includes(entry.id))return `<div class="work-media"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="${entry.id}" data-work-photo-index="0" aria-label="${escape(entry.title)} 포스터 크게 보기"><img class="work-thumbnail" src="${workPhotoSets[entry.id][0].src}" alt="${escape(entry.title)} 공연 포스터" loading="lazy"></button></div>`;
  if(entry.id==='hanwha-pompidou-ceiling')return '<div class="work-media"><button class="work-thumbnail-button" data-work-photo-set="hanwha-pompidou-ceiling" data-work-photo-index="0" aria-label="한화 퐁피두 센터 천장형 미디어아트 사진 크게 보기"><img class="work-thumbnail" src="./works/hanwha-pompidou-ceiling.png" width="1672" height="941" alt="오묘초 작가의 한화 퐁피두 센터 로비 천장형 미디어아트" loading="lazy"></button><button class="exhibition-open" data-exhibition="hanwha-pompidou-ceiling">작업 소개 보기 ↗</button></div>';
  if(entry.id==='tomorrows-apple')return `<div class="work-media is-multiple">${workPhotoSets[entry.id].map((photo,index)=>`<button class="work-thumbnail-button work-poster-thumbnail" data-work-photo-set="${entry.id}" data-work-photo-index="${index}" aria-label="내일 건네줄, 사과 자료 ${index+1} 크게 보기"><img class="work-thumbnail" src="${photo.src}" width="1080" height="1440" alt="${photo.alt}" loading="lazy"></button>`).join('')}</div>`;
  if(entry.description.includes('공간소리 소속'))return '';
