@@ -33,14 +33,14 @@ function renderHome(){
  main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div></section>`;
 }
 const scenePhotos=[
- {image:'film-camera',title:'필름카메라',href:'#photography'},
+ {image:'film-camera',title:'Photography',href:'#photography'},
  {image:'myvatn-shake',title:'Myvatn — 흔들기',href:'#works/composition/myvatn-shake'},
  {image:'john-cameron',title:'존 카메론 미첼 내한 공연',href:'#works/live/john-cameron-mitchell'},
- {image:'hedwig',title:'헤드윅',href:'#works/live/hedwig'},
- {image:'sound-artist-2',title:'사운드 아티스트 2',href:'#works/sound-art'},
+ {image:'hedwig',title:'Musical - Hedwig and Angry inch',href:'#works/live/hedwig'},
+ {image:'sound-artist-2',title:'Sound Art',href:'#works/sound-art'},
  {image:'hexnut',title:'전시 — 파편의 숨',href:'#works/sound-art/hexnut-fragments'},
  {image:'myvatn-like-you-lady-v2',title:'Myvatn — Like you lady',href:'#works/composition/myvatn-like-you-lady'},
- {image:'sound-artist',title:'사운드 아티스트',href:'#works/sound-art'}
+ {image:'sound-artist',title:'Sound Art',href:'#works/sound-art'}
 ];
 function shuffledScenes(){const result=[...scenePhotos];for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
 let sceneOrder=shuffledScenes();
