@@ -51,8 +51,8 @@ const originalEntries = [
     [
       "already-part-of-exhibition",
       "2025",
-      "이미 당신도 전시의 일부",
-      "기획전 · 정금형 작업실 겸 수장고, 부천 · 전시 및 사운드 디자인",
+      "Audible Body",
+      "《이미 당신도 전시의 일부》 참여 작품 · 정금형 작업실 겸 수장고 · 2025.07.04–07.06",
     ],
     [
       "lee-sujin-solo",

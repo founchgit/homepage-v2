@@ -82,3 +82,6 @@
 /* Preserve the full ceiling artwork photo in its original proportions. */
 .work-thumbnail-button[data-work-photo-set="hanwha-pompidou-ceiling"]{aspect-ratio:auto}
 .work-thumbnail-button[data-work-photo-set="hanwha-pompidou-ceiling"] .work-thumbnail{height:auto;object-fit:contain}
+
+.artwork-detail-image,.artwork-detail-poster{width:100%;height:auto;object-fit:contain;margin:28px 0 38px}.artwork-materials{padding-left:22px;font:13px/2.1 Arial,sans-serif;word-break:keep-all}.artwork-materials li{padding-left:4px;margin-bottom:12px}.exhibition-body a{text-decoration:underline;text-underline-offset:4px}
+.work-thumbnail-button[data-work-photo-set="already-part-of-exhibition"]{aspect-ratio:auto}.work-thumbnail-button[data-work-photo-set="already-part-of-exhibition"] .work-thumbnail{height:auto;object-fit:contain}
