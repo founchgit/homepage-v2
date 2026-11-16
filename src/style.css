@@ -87,3 +87,5 @@
 .work-thumbnail-button[data-work-photo-set="already-part-of-exhibition"]{aspect-ratio:auto}.work-thumbnail-button[data-work-photo-set="already-part-of-exhibition"] .work-thumbnail{height:auto;object-fit:contain}
 
 .performance-poster-thumbnail{aspect-ratio:auto}.performance-poster-thumbnail .work-thumbnail{height:auto;object-fit:contain}
+
+.work-poster-item{width:var(--preview-width);justify-self:end}.work-poster-year{display:block;font:10px/1.6 Georgia,serif;color:#65776b;margin-top:6px}.work-media.is-multiple{align-items:start}
