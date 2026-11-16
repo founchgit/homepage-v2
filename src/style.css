@@ -98,3 +98,5 @@
 .work-poster-item .work-thumbnail{width:100%;height:104px;object-fit:contain;object-position:right center}
 .work-poster-item .work-poster-year{text-align:right}
 @media(max-width:600px){.work-poster-item .work-thumbnail-button{width:60px}.work-poster-item .work-thumbnail{height:84px}}
+
+.lightbox[data-click-to-close="true"] .lightbox-image{cursor:zoom-out}

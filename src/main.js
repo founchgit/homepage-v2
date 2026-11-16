@@ -115,12 +115,14 @@ function renderBiography(){
 }
 function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
+ dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
  dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
  dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} — ${lightboxPhotos.length}`:''}`;
  dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.hidden=lightboxPhotos.length<2);
 }
 function closePhoto(){dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
 dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
+dialog.querySelector('.lightbox-image').addEventListener('click',()=>{if(dialog.dataset.clickToClose==='true')closePhoto();});
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
 dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
