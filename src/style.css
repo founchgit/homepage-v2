@@ -78,3 +78,7 @@
 .work-categories [aria-current=page]{color:#28382e;text-decoration:underline;text-underline-offset:5px}.work-group>h2{display:flex;justify-content:space-between;align-items:baseline;gap:20px}.work-sort-label{font:10px/1.6 Georgia,serif;color:#7c8c81;white-space:nowrap}.work-copy .work-field{font-size:10px;color:#8a978f;margin-top:8px}
 
 .work-poster-thumbnail{aspect-ratio:3/4}.work-poster-thumbnail .work-thumbnail{object-fit:contain}
+
+/* Preserve the full ceiling artwork photo in its original proportions. */
+.work-thumbnail-button[data-work-photo-set="hanwha-pompidou-ceiling"]{aspect-ratio:auto}
+.work-thumbnail-button[data-work-photo-set="hanwha-pompidou-ceiling"] .work-thumbnail{height:auto;object-fit:contain}
