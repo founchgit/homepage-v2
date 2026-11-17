@@ -26,6 +26,20 @@ exhibitionDialog.querySelector('.exhibition-close').addEventListener('click',clo
 exhibitionDialog.addEventListener('cancel',event=>{event.preventDefault();closeExhibition();});
 const main=document.querySelector('#main');
 const dialog=document.querySelector('.lightbox');
+dialog.insertAdjacentHTML('beforeend',`<div class="lightbox-sound" hidden><audio preload="metadata" src="./audio/hanwha-pompidou.m4a"></audio><div class="sound-player-row"><button class="sound-toggle" type="button" aria-label="사운드 재생" aria-pressed="false">Play</button><input class="sound-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="사운드 재생 위치"><span class="sound-time">00:00 / --:--</span></div><p class="sound-credit">Sound design · 정다운</p><p class="sound-error" role="status" hidden>음원을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p></div>`);
+const lightboxSound=dialog.querySelector('.lightbox-sound');
+const artworkAudio=lightboxSound.querySelector('audio');
+const audioToggle=lightboxSound.querySelector('.sound-toggle');
+const audioSeek=lightboxSound.querySelector('.sound-seek');
+const audioTime=value=>{if(!Number.isFinite(value))return '--:--';return `${String(Math.floor(value/60)).padStart(2,'0')}:${String(Math.floor(value%60)).padStart(2,'0')}`;};
+function updateArtworkAudio(){const playing=!artworkAudio.paused;audioToggle.textContent=playing?'Pause':'Play';audioToggle.setAttribute('aria-label',playing?'사운드 일시정지':'사운드 재생');audioToggle.setAttribute('aria-pressed',String(playing));audioSeek.value=artworkAudio.duration?artworkAudio.currentTime/artworkAudio.duration*100:0;audioSeek.disabled=!Number.isFinite(artworkAudio.duration);audioSeek.setAttribute('aria-valuetext',audioTime(artworkAudio.currentTime));lightboxSound.querySelector('.sound-time').textContent=`${audioTime(artworkAudio.currentTime)} / ${audioTime(artworkAudio.duration)}`;}
+function stopArtworkAudio(){artworkAudio.pause();artworkAudio.currentTime=0;updateArtworkAudio();}
+audioToggle.addEventListener('click',async()=>{if(artworkAudio.paused){try{await artworkAudio.play();lightboxSound.querySelector('.sound-error').hidden=true;}catch{lightboxSound.querySelector('.sound-error').hidden=false;}}else artworkAudio.pause();});
+audioSeek.addEventListener('input',()=>{if(Number.isFinite(artworkAudio.duration))artworkAudio.currentTime=Number(audioSeek.value)/100*artworkAudio.duration;});
+['loadedmetadata','timeupdate','play','pause','ended'].forEach(event=>artworkAudio.addEventListener(event,updateArtworkAudio));
+artworkAudio.addEventListener('error',()=>{lightboxSound.querySelector('.sound-error').hidden=false;});
+dialog.addEventListener('close',stopArtworkAudio);
+
 let photoIndex=0;
 let lightboxPhotos=photographs;
 let photoReturn;
@@ -114,17 +128,18 @@ function renderBiography(){
 }
 function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
+ const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
  dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
  dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} — ${lightboxPhotos.length}`:''}`;
  dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.hidden=lightboxPhotos.length<2);
 }
-function closePhoto(){dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
+function closePhoto(){stopArtworkAudio();dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
 dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
 dialog.querySelector('.lightbox-image').addEventListener('click',()=>{if(dialog.dataset.clickToClose==='true')closePhoto();});
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
-dialog.addEventListener('keydown',event=>{if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
+dialog.addEventListener('keydown',event=>{if(event.target.closest('.lightbox-sound'))return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
 function route(){
  const [requestedSection,category,workId]=location.hash.slice(1).split('/');
  const section=['music','selected'].includes(requestedSection)?'scenes':requestedSection;
