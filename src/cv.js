@@ -14,7 +14,7 @@ export const categories = [
   { id: "sound-art", label: "사운드 아트·전시" },
   { id: "performance", label: "연극·뮤지컬 음악감독" },
   { id: "screen", label: "영상·광고" },
-  { id: "composition", label: "프로듀싱·작곡·편곡" },
+  { id: "composition", label: "음반·음악 제작" },
   { id: "live", label: "연주" },
   { id: "engineering", label: "믹싱·마스터링" },
   { id: "post", label: "포스트 프로덕션" },
@@ -370,7 +370,7 @@ const originalEntries = [
 // 음반 작업과 기존 연주·편곡 작업의 크레딧을 기준으로 분류합니다.
 const roleCategories = {
   composition: new Set([
-    "taekyung-deung-2026",
+    "taekyung-deung-2026", "kangto-abject-2026",
     "my-satan-book-ost", "yunaone-tidal-mind", "yunaone-green-heart",
     "juha-wave", "enigmata-highway", "juha-seonju", "girlsonmood",
     "collor-butterfly", "chae-suhyun-great-night", "eungyo-understand",
@@ -380,7 +380,6 @@ const roleCategories = {
     "baek-space", "go-baek",
   ]),
   engineering: new Set([
-    "taekyung-deung-2026",
     "summer-night-lawn", "sogeumji-ep",
     "cho-sukyung-swim", "joy-avenue-hymns", "juha-got-ya", "juha-wave",
     "juha-avocado", "chae-suhyun-2020", "juha-seonju", "juha-fishbowl",
@@ -390,8 +389,6 @@ const roleCategories = {
     "joy-avenue-collaboration",
   ]),
   live: new Set([
-    "taekyung-deung-2026",
-    "kangto-abject-2026",
     "paik-not-a-stain",
     "just-j-min", "john-cameron-mitchell", "hedwig", "yoon-soho",
   ]),
