@@ -144,12 +144,6 @@ export const workVideos = {
     "url": "https://youtu.be/nr3JZLI_AuI?si=DLMa16kOWQTrJwxi",
     "videoId": "nr3JZLI_AuI"
   },
-  "baek-space": {
-    "url": "https://www.youtube.com/watch?v=GClo7OAj2Lo",
-    "videoId": "GClo7OAj2Lo",
-    "title": "2023 백지영 전국투어콘서트_baek space_Dash",
-    "channel": "Daisy"
-  },
   "twinkling-watermelon": {
     "url": "https://www.youtube.com/watch?v=6_1kzpPvaGg",
     "videoId": "6_1kzpPvaGg",
