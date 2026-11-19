@@ -135,7 +135,7 @@ export const recordDetails = {
   },
   "becovered": {
     "type": "Band Project",
-    "roles": "Vocals, Arrangement, Mixing",
+    "roles": "Vocals, Composition, Arrangement, Mixing",
     "date": "",
     "source": "",
     "note": "CCM 밴드 활동"
