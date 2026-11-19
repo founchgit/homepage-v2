@@ -380,6 +380,7 @@ const roleCategories = {
     "baek-space", "go-baek",
   ]),
   engineering: new Set([
+    "taekyung-deung-2026",
     "summer-night-lawn", "sogeumji-ep",
     "cho-sukyung-swim", "joy-avenue-hymns", "juha-got-ya", "juha-wave",
     "juha-avocado", "chae-suhyun-2020", "juha-seonju", "juha-fishbowl",

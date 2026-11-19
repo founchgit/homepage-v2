@@ -1,5 +1,6 @@
 // YouTube sources checked against work titles, seasons and original supplied links.
 export const workVideos = {
+  "taekyung-deung-2026": {"url":"https://youtu.be/YbrIIQ6uRXI?si=QcIbEgQ8_QTNnr48","videoId":"YbrIIQ6uRXI"},
   "humanoid-billy": {
     "url": "https://youtu.be/ZdZdz524-B0?si=cIMjzIEyhMuXUAdb",
     "videoId": "ZdZdz524-B0"
