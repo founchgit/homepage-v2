@@ -132,6 +132,7 @@ const originalEntries = [
     ["kafa-prologue", "2011", "한국영화아카데미 영화제 프롤로그", "음악 제작"],
   ]),
   ...group("records", [
+    ["taekyung-deung-2026", "2026", "태경 — 등", "디지털 싱글 · 편곡, Bass, Strings, Mix & Mastering · 2026.11.18 발매", "https://music.bugs.co.kr/album/20856088"],
     [
       "my-satan-book-ost",
       "2026",
@@ -369,6 +370,7 @@ const originalEntries = [
 // 음반 작업과 기존 연주·편곡 작업의 크레딧을 기준으로 분류합니다.
 const roleCategories = {
   composition: new Set([
+    "taekyung-deung-2026",
     "my-satan-book-ost", "yunaone-tidal-mind", "yunaone-green-heart",
     "juha-wave", "enigmata-highway", "juha-seonju", "girlsonmood",
     "collor-butterfly", "chae-suhyun-great-night", "eungyo-understand",
@@ -378,6 +380,7 @@ const roleCategories = {
     "baek-space", "go-baek",
   ]),
   engineering: new Set([
+    "taekyung-deung-2026",
     "summer-night-lawn", "sogeumji-ep",
     "cho-sukyung-swim", "joy-avenue-hymns", "juha-got-ya", "juha-wave",
     "juha-avocado", "chae-suhyun-2020", "juha-seonju", "juha-fishbowl",
@@ -387,6 +390,7 @@ const roleCategories = {
     "joy-avenue-collaboration",
   ]),
   live: new Set([
+    "taekyung-deung-2026",
     "kangto-abject-2026",
     "paik-not-a-stain",
     "just-j-min", "john-cameron-mitchell", "hedwig", "yoon-soho",

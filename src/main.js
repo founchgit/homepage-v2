@@ -102,6 +102,7 @@ function workMedia(entry){
  if(entry.id==='already-part-of-exhibition')return '<div class="work-media"><button class="work-thumbnail-button" data-work-photo-set="already-part-of-exhibition" data-work-photo-index="0" aria-label="Audible Body 사진 크게 보기"><img class="work-thumbnail" src="./works/audible-body.jpg" alt="Audible Body 전시 현장" loading="lazy"></button><button class="exhibition-open" data-exhibition="already-part-of-exhibition">작품·전시 소개 보기 ↗</button></div>';
  const video=workVideos[entry.id];
  const items=[];
+ if(entry.id==='taekyung-deung-2026')return '<div class="work-media"><a class="work-related-link" href="https://music.bugs.co.kr/album/20856088" target="_blank" rel="noopener noreferrer">Bugs ↗</a></div>';
  if(entry.id==='kangto-abject-2026')return '<div class="work-media"><a class="work-related-link" href="https://music.bugs.co.kr/album/20838717" target="_blank" rel="noopener noreferrer">Bugs ↗</a></div>';
  if(entry.id==='john-cameron-mitchell')items.push('<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="john-cameron-mitchell" data-work-photo-index="0" aria-label="존 카메론 미첼 공연 포스터 크게 보기"><img class="work-thumbnail" src="./works/john-cameron-mitchell-poster.png" width="300" height="400" alt="존 카메론 미첼 내한 공연 포스터" loading="lazy"></button>');
  if(entry.id==='jeongsuk')items.push('<a class="work-related-link" href="https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail1" target="_blank" rel="noopener noreferrer">KMDb 영화 이미지 ↗</a>');
