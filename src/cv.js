@@ -275,7 +275,7 @@ const originalEntries = [
     [
       "just-j-min",
       "2025",
-      "Just J-Min : 제이민 첫번째 콘서트 〈젤리들에게〉",
+      "Just J-Min : 제이민 첫번째 콘서트",
       "제이민 첫번째 콘서트 · 건반 연주",
       "https://www.ticketlink.co.kr/product/54001",
     ],
