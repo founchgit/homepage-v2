@@ -15,7 +15,7 @@ export const categories = [
   { id: "performance", label: "연극·뮤지컬 음악감독" },
   { id: "screen", label: "영상·광고" },
   { id: "composition", label: "음반·음악 제작" },
-  { id: "live", label: "연주" },
+  { id: "live", label: "공연·연주" },
   { id: "engineering", label: "믹싱·마스터링" },
   { id: "post", label: "포스트 프로덕션" },
   { id: "education", label: "강의·연구·수상" },
@@ -268,14 +268,14 @@ const originalEntries = [
     [
       "paik-not-a-stain",
       "2026",
-      "백승환 단독공연 — not a stain...",
+      "백승환 단독공연 〈not a stain...〉",
       "고라니 특공대 · 연주 참여",
       "https://search.naver.com/search.naver?where=nexearch&pkid=269&os=41592357&query=%EB%B0%B1%EC%8A%B9%ED%99%98%20%EB%8B%A8%EB%8F%85%EA%B3%B5%EC%97%B0%20not%20a%20stain",
     ],
     [
       "just-j-min",
       "2025",
-      "Just J-Min",
+      "Just J-Min : 제이민 첫번째 콘서트 〈젤리들에게〉",
       "제이민 첫번째 콘서트 · 건반 연주",
       "https://www.ticketlink.co.kr/product/54001",
     ],
@@ -289,8 +289,8 @@ const originalEntries = [
     [
       "hedwig",
       "2019–2024",
-      "헤드윅",
-      "뮤지컬 · 미르코 역(앵그리인치 밴드) · 2019 홍익대 대학로 아트센터, 2021 충무아트센터, 2024 샤롯데 씨어터",
+      "뮤지컬 〈헤드윅〉",
+      "뮤지컬 · 미르코 역(앵그리인치 밴드) · 2019 홍익대 대학로 아트센터, 2021 충무아트센터, 2024 샤롯데씨어터",
     ],
     [
       "baek-space",
@@ -299,7 +299,7 @@ const originalEntries = [
       "전국투어 콘서트 · 편곡 참여",
     ],
     ["go-baek", "2022", "백지영 — GO BAEK", "전국투어 콘서트 · 편곡 참여"],
-    ["yoon-soho", "2019", "윤소호 콘서트", "뮤지컬 배우 윤소호 · 건반 세션"],
+    ["yoon-soho", "2019", "윤소호 단독콘서트 〈SOHO〉", "뮤지컬 배우 윤소호 · 건반 세션"],
   ]),
   ...group("post", [
     [

@@ -79,7 +79,7 @@ function renderPhotography(){
  main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=photographs;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
 const workPhotoSets={
- 'yoon-soho':[{src:'https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg',place:'윤소호 첫 단독 콘서트 · 2019',alt:'윤소호 첫 단독 콘서트 Soho 포스터'}],
+ 'yoon-soho':[{src:'https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg',place:'윤소호 단독콘서트 〈SOHO〉 · 2019',alt:'윤소호 첫 단독 콘서트 Soho 포스터'}],
  'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'}],
  'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}-v2.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
  'hedwig':[2019,2021,2024].map(year=>({src:`./works/hedwig-${year}.jpg`,place:`헤드윅 · ${year}`,alt:`${year}년 헤드윅 공연 포스터`})),
@@ -94,7 +94,7 @@ const workPhotoSets={
  'tomorrows-apple':[1,2].map(n=>({src:`./works/tomorrows-apple-${n}.jpg`,place:'내일 건네줄, 사과',alt:n===1?'광주비엔날레 다성의 기록 상영 프로그램 포스터':'내일 건네줄 사과가 포함된 스크리닝 상영 일정'}))
 };
 function workMedia(entry){
- if(entry.id==='yoon-soho')return '<div class="work-media"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="yoon-soho" data-work-photo-index="0" aria-label="윤소호 콘서트 포스터 크게 보기"><img class="work-thumbnail" src="https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg" width="1440" height="2038" alt="윤소호 첫 단독 콘서트 Soho 포스터" loading="lazy"></button></div>';
+ if(entry.id==='yoon-soho')return '<div class="work-media"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="yoon-soho" data-work-photo-index="0" aria-label="윤소호 단독콘서트 SOHO 포스터 크게 보기"><img class="work-thumbnail" src="https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg" width="1440" height="2038" alt="윤소호 첫 단독 콘서트 Soho 포스터" loading="lazy"></button></div>';
  if(entry.id==='inner-communication-2025')return `<div class="work-media is-multiple">${workPhotoSets[entry.id].map((photo,index)=>`<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="${entry.id}" data-work-photo-index="${index}" aria-label="${escape(photo.alt)} ${index+1} 크게 보기"><img class="work-thumbnail" src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy"></button>`).join('')}</div>`;
  if(entry.id==='lee-sujin-solo')return `<div class="work-media is-multiple">${workPhotoSets[entry.id].map((photo,index)=>`<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="lee-sujin-solo" data-work-photo-index="${index}" aria-label="${escape(photo.alt)} 크게 보기"><img class="work-thumbnail" src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy"></button>`).join('')}<button class="exhibition-open" data-exhibition="lee-sujin-solo">전시 소개 보기 ↗</button></div>`;
  if(['burning-up','yeonjeok','fantastic-laundry'].includes(entry.id))return `<div class="work-media"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="${entry.id}" data-work-photo-index="0" aria-label="${escape(entry.title)} 포스터 크게 보기"><img class="work-thumbnail" src="${workPhotoSets[entry.id][0].src}" alt="${escape(entry.title)} 공연 포스터" loading="lazy"></button></div>`;
