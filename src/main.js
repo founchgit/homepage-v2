@@ -118,7 +118,7 @@ function workMedia(entry){
 }
 function workDescription(entry){
  const record=recordDetails[entry.id];
- if(!record)return `<p>${escape(entry.description)}</p>`;
+ if(!record)return `<p>${escape(entry.description).replaceAll("\n","<br>")}</p>`;
  const date=record.date?`<time datetime="${record.date}">${record.date.replaceAll('-','.')} 발매</time>`:escape(entry.year);
  return `<p>${escape(record.type)} · ${escape(record.roles)}</p><p class="record-release">${date}</p>`;
 }
