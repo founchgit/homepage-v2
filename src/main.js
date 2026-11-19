@@ -120,8 +120,7 @@ function workDescription(entry){
  const record=recordDetails[entry.id];
  if(!record)return `<p>${escape(entry.description)}</p>`;
  const date=record.date?`<time datetime="${record.date}">${record.date.replaceAll('-','.')} 발매</time>`:escape(entry.year);
- const credits=record.note||record.source?`<details class="record-credits"><summary>크레딧 보기</summary>${record.note?`<p>${escape(record.note)}</p>`:''}${record.source?`<p>${external(record.source,'벅스 발매 정보')}</p>`:''}</details>`:'';
- return `<p>${escape(record.type)} · ${escape(record.roles)}</p><p class="record-release">${date}</p>${credits}`;
+ return `<p>${escape(record.type)} · ${escape(record.roles)}</p><p class="record-release">${date}</p>`;
 }
 
 function renderWorks(selectedCategory){
