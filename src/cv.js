@@ -41,7 +41,7 @@ const musicalMix = (id, year, title, format) => ({
 const originalEntries = [
   ...group("sound-art", [
     ["inner-communication-2025", "2025", "김주환 — 내면소통 명상 콘서트", "명상 음악 사운드 디자인 · 인터랙티브 사운드 설치 · 2025.06.21–06.22 · 코엑스 오디토리움"],
-    ["hanwha-pompidou-ceiling", "2026", "오묘초 — 한화 퐁피두 센터 천장형 미디어아트", "로비 대형 미디어 천장 상영 작품 · 사운드 디자인 참여 · 2026.11–2027.03 상영"],
+    ["hanwha-pompidou-ceiling", "2026", "PRELUDE 01: Omyo Cho «Phasic»", "Single-channel video, 2′30″ · Sound — 정다운 (DAWN) · 2026.11.17–12.13 · 한화생명 본사 63빌딩 G층"],
     [
       "hexnut-fragments",
       "2025",
