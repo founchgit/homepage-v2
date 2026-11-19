@@ -263,6 +263,7 @@ const originalEntries = [
 
   ]),
   ...group("live", [
+    ["kangto-abject-2026", "2026", "강토(Kangto) — 비체", "디지털 싱글 · Piano · 2026.09.09 발매", "https://music.bugs.co.kr/album/20838717"],
     [
       "paik-not-a-stain",
       "2026",
@@ -386,6 +387,7 @@ const roleCategories = {
     "joy-avenue-collaboration",
   ]),
   live: new Set([
+    "kangto-abject-2026",
     "paik-not-a-stain",
     "just-j-min", "john-cameron-mitchell", "hedwig", "yoon-soho",
   ]),
