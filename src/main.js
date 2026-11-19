@@ -1,4 +1,5 @@
 import './style.css';
+import {recordDetails} from './record-details.js';
 import {profile,entries,categories} from './cv.js';
 import {photographs} from './photos.js';
 import {workVideos} from './work-media.js';
@@ -115,12 +116,20 @@ function workMedia(entry){
  if(entry.id==='hexnut-fragments')items.push('<button class="exhibition-open" data-exhibition="hexnut-fragments">전시 소개 보기 ↗</button>');
  return items.length?`<div class="work-media${items.length>1?' is-multiple':''}">${items.join('')}</div>`:'';
 }
+function workDescription(entry){
+ const record=recordDetails[entry.id];
+ if(!record)return `<p>${escape(entry.description)}</p>`;
+ const date=record.date?`<time datetime="${record.date}">${record.date.replaceAll('-','.')} 발매</time>`:escape(entry.year);
+ const credits=record.note||record.source?`<details class="record-credits"><summary>크레딧 보기</summary>${record.note?`<p>${escape(record.note)}</p>`:''}${record.source?`<p>${external(record.source,'벅스 발매 정보')}</p>`:''}</details>`:'';
+ return `<p>${escape(record.type)} · ${escape(record.roles)}</p><p class="record-release">${date}</p>${credits}`;
+}
+
 function renderWorks(selectedCategory){
  const category=categories.find(item=>item.id===selectedCategory);
  const group=category||{id:'all',label:'전체 작업'};
  const works=category?entries.filter(entry=>entry.categories.includes(category.id)):entries;
  const filters=[{id:'all',label:`전체 작업 (${entries.length})`},...categories];
- main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${filters.map(filter=>`<a href="#works/${filter.id}" ${filter.id===group.id?'aria-current="page"':''}>${escape(filter.label)}</a>`).join('')}</nav><section class="work-group" id="group-${group.id}"><h2>${escape(group.label)}<span class="work-sort-label">최신순 · ${works.length}개</span></h2><div>${works.map(entry=>{const media=workMedia(entry);return `<article id="work-${group.id}-${entry.id}" class="work-row${media?' has-thumbnail':''}${['hexnut-fragments','tomorrows-apple','lee-sujin-solo','omyung','hedwig','inner-communication-2025','john-cameron-mitchell'].includes(entry.id)?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${escape(entry.title)}</h3><p>${escape(entry.description)}</p>${!category?`<p class="work-field">${entry.categories.map(id=>escape(categories.find(item=>item.id===id).label)).join(' / ')}</p>`:''}</div>${media}</article>`;}).join('')}</div></section></section>`;
+ main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${filters.map(filter=>`<a href="#works/${filter.id}" ${filter.id===group.id?'aria-current="page"':''}>${escape(filter.label)}</a>`).join('')}</nav><section class="work-group" id="group-${group.id}"><h2>${escape(group.label)}<span class="work-sort-label">최신순 · ${works.length}개</span></h2><div>${works.map(entry=>{const media=workMedia(entry);return `<article id="work-${group.id}-${entry.id}" class="work-row${media?' has-thumbnail':''}${['hexnut-fragments','tomorrows-apple','lee-sujin-solo','omyung','hedwig','inner-communication-2025','john-cameron-mitchell'].includes(entry.id)?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${escape(entry.title)}</h3>${workDescription(entry)}${!category?`<p class="work-field">${entry.categories.map(id=>escape(categories.find(item=>item.id===id).label)).join(' / ')}</p>`:''}</div>${media}</article>`;}).join('')}</div></section></section>`;
  main.querySelectorAll('.exhibition-open').forEach(button=>button.addEventListener('click',event=>{exhibitionReturn=event.currentTarget;exhibitionDialog.querySelector('.exhibition-body').innerHTML=exhibitionIntroductions[button.dataset.exhibition];exhibitionDialog.querySelector('.exhibition-close').setAttribute('aria-label',button.dataset.exhibition==='yonsei-sound-art-research'?'행사 소개 닫기':button.dataset.exhibition==='hanwha-pompidou-ceiling'?'작업 소개 닫기':'전시 소개 닫기');exhibitionDialog.showModal();exhibitionDialog.scrollTop=0;}));
  main.querySelectorAll('[data-work-photo-set]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=workPhotoSets[button.dataset.workPhotoSet];photoIndex=Number(button.dataset.workPhotoIndex);renderLightbox();dialog.showModal();}));
  main.querySelectorAll('.work-video-thumbnail img').forEach(image=>image.addEventListener('error',()=>{image.hidden=true;image.closest('a').classList.add('image-unavailable');}));
