@@ -46,7 +46,7 @@ const originalEntries = [
       "hexnut-fragments",
       "2025",
       "HEXNUT — 파편의 숨",
-      "GMAP 광주미디어아트센터 · 전시 및 사운드 디자인",
+      "8-Channel Spatial Audio Installation · 사운드 총괄\n2025 · 광주미디어아트플랫폼 G.MAP",
       "https://youtu.be/NHQVm3LUUVc?si=hr-gxHZQdDrXJ3w2",
     ],
     [
