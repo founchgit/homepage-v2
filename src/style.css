@@ -106,3 +106,5 @@
 .work-copy .record-release{font-size:10px;color:#7c8c81;margin-top:3px}
 
 .artwork-video{display:block;width:100%;max-height:70dvh;background:#111;margin:18px 0 30px;object-fit:contain}
+
+.work-row h3 .work-title-link{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;text-align:left;text-decoration:underline;text-decoration-color:#a8b5ac;text-underline-offset:3px;cursor:pointer}.work-row h3 .work-title-link:hover{color:#28382e;text-decoration-color:currentColor}.work-row h3 .work-title-link:focus-visible{outline:1px solid currentColor;outline-offset:4px}
