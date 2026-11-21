@@ -24,6 +24,11 @@ const exhibitionIntroductions={
 let exhibitionReturn;
 function closeExhibition(){exhibitionDialog.close();if(exhibitionReturn?.isConnected)exhibitionReturn.focus({preventScroll:true});}
 exhibitionDialog.querySelector('.exhibition-close').addEventListener('click',closeExhibition);
+exhibitionDialog.addEventListener('click',event=>{
+ if(event.target.closest('a,button,video,audio,input,select,textarea,summary'))return;
+ if(window.getSelection()?.toString())return;
+ closeExhibition();
+});
 exhibitionDialog.addEventListener('close',()=>{exhibitionDialog.querySelectorAll('video').forEach(video=>video.pause());});
 exhibitionDialog.addEventListener('cancel',event=>{event.preventDefault();closeExhibition();});
 const main=document.querySelector('#main');
