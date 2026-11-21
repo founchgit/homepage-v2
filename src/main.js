@@ -126,12 +126,11 @@ function workDescription(entry){
 }
 
 function workTitle(entry,media){
+ if(exhibitionIntroductions[entry.id])return `<button class="work-title-link exhibition-open" data-exhibition="${escape(entry.id)}">${escape(entry.title)}</button>`;
  const preview=document.createElement('template');
  preview.innerHTML=media;
  const url=safeUrl(preview.content.querySelector('a[href]')?.getAttribute('href'))||safeUrl(entry.url)||safeUrl(recordDetails[entry.id]?.source);
  if(url)return `<a class="work-title-link" href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(entry.title)}</a>`;
- const introduction=preview.content.querySelector('[data-exhibition]');
- if(introduction)return `<button class="work-title-link exhibition-open" data-exhibition="${escape(introduction.dataset.exhibition)}">${escape(entry.title)}</button>`;
  const photo=preview.content.querySelector('[data-work-photo-set]');
  if(photo)return `<button class="work-title-link" data-work-photo-set="${escape(photo.dataset.workPhotoSet)}" data-work-photo-index="0">${escape(entry.title)}</button>`;
  return escape(entry.title);
