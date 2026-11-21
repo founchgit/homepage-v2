@@ -45,11 +45,11 @@
 .exhibition-dialog{width:min(680px,calc(100vw - 40px));max-height:calc(100dvh - 60px);border:1px solid #cbd4ce;padding:65px 45px 45px;background:#e9edeb;color:#252c2d}
 .exhibition-dialog::backdrop{background:#252c2d66;backdrop-filter:blur(3px)}
 .exhibition-close{position:absolute;top:18px;right:20px;border:0;background:none;font-size:12px}
-.exhibition-body h2{font-size:24px;font-weight:400;line-height:1.6;margin:0 0 22px}
-.exhibition-body p{font:13px/2.1 Arial,sans-serif;word-break:keep-all;margin:0 0 28px}
-.exhibition-body .exhibition-meta{font:12px/1.9 Georgia,serif;color:#65776b;margin-bottom:38px}
-.exhibition-body h3{font-size:13px;font-weight:400;margin:30px 0 10px}
-@media(max-width:600px){.exhibition-dialog{padding:55px 24px 25px}.exhibition-body h2{font-size:21px}.exhibition-body p{font-size:12px}}
+.exhibition-body{font-family:Arial,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;font-weight:400;line-height:1.95;letter-spacing:0;word-break:keep-all;overflow-wrap:anywhere}.exhibition-body h2{font:inherit;font-size:20px;line-height:1.6;margin:0 0 24px}
+.exhibition-body p{font:inherit;margin:0 0 24px}
+.exhibition-body .exhibition-meta{font:inherit;color:#65776b;margin-bottom:32px}
+.exhibition-body h3{font:inherit;color:#252c2d;margin:36px 0 12px}
+@media(max-width:600px){.exhibition-dialog{padding:55px 24px 25px}.exhibition-body h2{font-size:20px}}
 
 .event-posters{display:grid;gap:24px;margin-top:35px}.event-posters img{width:100%;height:auto}
 
@@ -83,7 +83,7 @@
 .work-thumbnail-button[data-work-photo-set="hanwha-pompidou-ceiling"]{aspect-ratio:auto}
 .work-thumbnail-button[data-work-photo-set="hanwha-pompidou-ceiling"] .work-thumbnail{height:auto;object-fit:contain}
 
-.artwork-detail-image,.artwork-detail-poster{width:100%;height:auto;object-fit:contain;margin:28px 0 38px}.artwork-materials{padding-left:22px;font:13px/2.1 Arial,sans-serif;word-break:keep-all}.artwork-materials li{padding-left:4px;margin-bottom:12px}.exhibition-body a{text-decoration:underline;text-underline-offset:4px}
+.artwork-detail-image,.artwork-detail-poster{width:100%;height:auto;object-fit:contain;margin:28px 0 38px}.artwork-materials{padding-left:22px;font:inherit;margin:0 0 24px}.artwork-materials li{padding-left:4px;margin-bottom:12px}.exhibition-body a{font:inherit;color:inherit;text-decoration:underline;text-underline-offset:4px}
 .work-thumbnail-button[data-work-photo-set="already-part-of-exhibition"]{aspect-ratio:auto}.work-thumbnail-button[data-work-photo-set="already-part-of-exhibition"] .work-thumbnail{height:auto;object-fit:contain}
 
 .performance-poster-thumbnail{aspect-ratio:auto}.performance-poster-thumbnail .work-thumbnail{height:auto;object-fit:contain}
