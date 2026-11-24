@@ -306,7 +306,7 @@ const originalEntries = [
       "tomorrows-apple",
       "2026",
       "내일 건네줄 사과",
-      "김윤서 · Sound Mixing\n2026 광주비엔날레 아카이브 프로그램 상영 · 광주독립영화관",
+      "김윤서 작가 · 영상 작품 · Sound Mixing\n2026 광주비엔날레 아카이브 프로그램 상영 · 광주독립영화관",
     ],
   ]),
   ...[
