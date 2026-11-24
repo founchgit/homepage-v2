@@ -99,7 +99,7 @@ const workPhotoSets={
 
  'already-part-of-exhibition':[{src:'./works/audible-body.jpg',place:'Audible Body · 2025',alt:'Audible Body 전시 현장'}],
  'hanwha-pompidou-ceiling':[1,2,3].map(n=>({src:`./works/phasic-${n}.jpg`,place:'PRELUDE 01: Omyo Cho «Phasic»',alt:`오묘초 Phasic 천장 상영 전경 ${n}`})),
- 'hexnut-fragments':[{src:'./works/hexnut-fragments-full.jpg',place:'HEXNUT — 파편의 숨',alt:'HEXNUT — 파편의 숨 전시 현장'},{src:'./works/gmap-orbit-of-light-poster.jpg',place:'G.MAP — 빛의 궤도 · 2025',alt:'2025 디지털아트 컬처랩 쇼케이스 빛의 궤도 포스터'}],
+ 'hexnut-fragments':[{src:'./works/hexnut-fragments-full.jpg',place:'HEXNUT — 파편의 숨',alt:'HEXNUT — 파편의 숨 전시 현장'},{src:'./works/hexnut-rehearsal.jpg',place:'HEXNUT — 파편의 숨 · 합주 기록',alt:'HEXNUT 합주 현장'},{src:'./works/hexnut-times-square.jpg',place:'HEXNUT — 파편의 숨 · 타임스퀘어 상영 기록',alt:'뉴욕 타임스퀘어 전광판 파편의 숨 상영 기록'}],
  'tomorrows-apple':[1,2].map(n=>({src:`./works/tomorrows-apple-${n}.jpg`,place:'내일 건네줄 사과',alt:n===1?'광주비엔날레 다성의 기록 상영 프로그램 포스터':'내일 건네줄 사과가 포함된 스크리닝 상영 일정'}))
 };
 function workMedia(entry){
