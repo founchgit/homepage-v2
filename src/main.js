@@ -34,6 +34,7 @@ exhibitionDialog.addEventListener('close',()=>{exhibitionDialog.querySelectorAll
 exhibitionDialog.addEventListener('cancel',event=>{event.preventDefault();closeExhibition();});
 const main=document.querySelector('#main');
 const dialog=document.querySelector('.lightbox');
+dialog.insertAdjacentHTML('beforeend','<nav class="lightbox-thumbnails" aria-label="작업 사진 선택" hidden></nav>');
 dialog.insertAdjacentHTML('beforeend',`<div class="lightbox-sound" hidden><audio preload="metadata" src="./audio/hanwha-pompidou.m4a"></audio><div class="sound-player-row"><button class="sound-toggle" type="button" aria-label="사운드 재생" aria-pressed="false">Play</button><input class="sound-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="사운드 재생 위치"><span class="sound-time">00:00 / --:--</span></div><p class="sound-credit">Sound design · 정다운</p><p class="sound-error" role="status" hidden>음원을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p></div>`);
 const lightboxSound=dialog.querySelector('.lightbox-sound');
 const artworkAudio=lightboxSound.querySelector('audio');
@@ -150,6 +151,7 @@ function renderWorks(selectedCategory){
  main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${filters.map(filter=>`<a href="#works/${filter.id}" ${filter.id===group.id?'aria-current="page"':''}>${escape(filter.label)}</a>`).join('')}</nav><section class="work-group" id="group-${group.id}"><h2>${escape(group.label)}<span class="work-sort-label">최신순 · ${works.length}개</span></h2><div>${works.map(entry=>{const media=workMedia(entry);return `<article id="work-${group.id}-${entry.id}" data-work-id="${escape(entry.id)}" class="work-row${media?' has-thumbnail':''}${['hexnut-fragments','tomorrows-apple','lee-sujin-solo','omyung','hedwig','inner-communication-2025','john-cameron-mitchell'].includes(entry.id)?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${workTitle(entry,media)}</h3>${workDescription(entry)}${!category?`<p class="work-field">${entry.categories.map(id=>escape(categories.find(item=>item.id===id).label)).join(' / ')}</p>`:''}</div>${media}</article>`;}).join('')}</div></section></section>`;
  main.querySelectorAll('.exhibition-open').forEach(button=>button.addEventListener('click',event=>{exhibitionReturn=event.currentTarget;exhibitionDialog.querySelector('.exhibition-body').innerHTML=exhibitionIntroductions[button.dataset.exhibition];exhibitionDialog.querySelector('.exhibition-close').setAttribute('aria-label',button.dataset.exhibition==='yonsei-sound-art-research'?'행사 소개 닫기':button.dataset.exhibition==='hanwha-pompidou-ceiling'?'작업 소개 닫기':'전시 소개 닫기');exhibitionDialog.showModal();exhibitionDialog.scrollTop=0;}));
  main.querySelectorAll('[data-work-photo-set]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=workPhotoSets[button.dataset.workPhotoSet];photoIndex=Number(button.dataset.workPhotoIndex);renderLightbox();dialog.showModal();}));
+ main.querySelectorAll('.work-thumbnail-button[data-work-photo-set]').forEach(button=>{const count=workPhotoSets[button.dataset.workPhotoSet]?.length||0;if(count>1){button.insertAdjacentHTML('beforeend',`<span class="work-photo-count">사진 ${count}장</span>`);button.setAttribute('aria-label',`${button.getAttribute('aria-label')} · 사진 ${count}장`);}});
  main.querySelectorAll('.work-video-thumbnail img').forEach(image=>image.addEventListener('error',()=>{image.hidden=true;image.closest('a').classList.add('image-unavailable');}));
 }
 function renderBiography(){
@@ -160,9 +162,17 @@ function renderLightbox(){
  const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
  dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
- dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} — ${lightboxPhotos.length}`:''}`;
+ dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} / ${lightboxPhotos.length}`:''}`;
  dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.hidden=lightboxPhotos.length<2);
+ const thumbnails=dialog.querySelector('.lightbox-thumbnails');
+ const showThumbnails=dialog.dataset.clickToClose==='true'&&lightboxPhotos.length>1;
+ dialog.classList.toggle('has-thumbnails',showThumbnails);
+ thumbnails.hidden=!showThumbnails;
+ thumbnails.innerHTML=showThumbnails?lightboxPhotos.map((item,index)=>`<button type="button" data-photo-index="${index}" aria-label="사진 ${index+1} / ${lightboxPhotos.length}" aria-current="${index===photoIndex?'true':'false'}"><img src="${escape(item.src)}" alt="${escape(item.alt||item.place)}"></button>`).join(''):'';
+ thumbnails.querySelector('[aria-current="true"]')?.scrollIntoView({block:'nearest',inline:'nearest'});
+
 }
+dialog.querySelector('.lightbox-thumbnails').addEventListener('click',event=>{const button=event.target.closest('[data-photo-index]');if(!button)return;photoIndex=Number(button.dataset.photoIndex);renderLightbox();dialog.querySelector(`[data-photo-index="${photoIndex}"]`)?.focus({preventScroll:true});});
 function closePhoto(){stopArtworkAudio();dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
 dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
 dialog.querySelector('.lightbox-image').addEventListener('click',()=>{if(dialog.dataset.clickToClose==='true')closePhoto();});
