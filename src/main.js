@@ -102,6 +102,20 @@ const workPhotoSets={
  'tomorrows-apple':[1,2].map(n=>({src:`./works/tomorrows-apple-${n}.jpg`,place:'내일 건네줄, 사과',alt:n===1?'광주비엔날레 다성의 기록 상영 프로그램 포스터':'내일 건네줄 사과가 포함된 스크리닝 상영 일정'}))
 };
 function workMedia(entry){
+ const template=document.createElement('template');
+ template.innerHTML=buildWorkMedia(entry);
+ const photos=[...template.content.querySelectorAll('.work-thumbnail-button[data-work-photo-set]')];
+ if(photos.length>1){
+  photos.slice(1).forEach(button=>{const item=button.closest('.work-poster-item');(item||button).remove();});
+  const representative=photos[0];
+  const item=representative.closest('.work-poster-item');
+  if(item)item.replaceWith(representative);
+  const media=template.content.querySelector('.work-media');
+  if(media)media.classList.toggle('is-multiple',media.querySelectorAll('.work-thumbnail-button,.work-video-thumbnail').length>1);
+ }
+ return template.innerHTML;
+}
+function buildWorkMedia(entry){
  if(entry.id==='yoon-soho')return '<div class="work-media"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="yoon-soho" data-work-photo-index="0" aria-label="윤소호 단독콘서트 SOHO 포스터 크게 보기"><img class="work-thumbnail" src="https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg" width="1440" height="2038" alt="윤소호 첫 단독 콘서트 Soho 포스터" loading="lazy"></button></div>';
  if(entry.id==='inner-communication-2025')return `<div class="work-media is-multiple">${workPhotoSets[entry.id].map((photo,index)=>`<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="${entry.id}" data-work-photo-index="${index}" aria-label="${escape(photo.alt)} ${index+1} 크게 보기"><img class="work-thumbnail" src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy"></button>`).join('')}</div>`;
  if(entry.id==='lee-sujin-solo')return `<div class="work-media is-multiple">${workPhotoSets[entry.id].map((photo,index)=>`<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="lee-sujin-solo" data-work-photo-index="${index}" aria-label="${escape(photo.alt)} 크게 보기"><img class="work-thumbnail" src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy"></button>`).join('')}<button class="exhibition-open" data-exhibition="lee-sujin-solo">전시 소개 보기 ↗</button></div>`;
@@ -148,7 +162,7 @@ function renderWorks(selectedCategory){
  const group=category||{id:'all',label:'전체 작업'};
  const works=category?entries.filter(entry=>entry.categories.includes(category.id)):entries;
  const filters=[{id:'all',label:`전체 작업 (${entries.length})`},...categories];
- main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${filters.map(filter=>`<a href="#works/${filter.id}" ${filter.id===group.id?'aria-current="page"':''}>${escape(filter.label)}</a>`).join('')}</nav><section class="work-group" id="group-${group.id}"><h2>${escape(group.label)}<span class="work-sort-label">최신순 · ${works.length}개</span></h2><div>${works.map(entry=>{const media=workMedia(entry);return `<article id="work-${group.id}-${entry.id}" data-work-id="${escape(entry.id)}" class="work-row${media?' has-thumbnail':''}${['hexnut-fragments','tomorrows-apple','lee-sujin-solo','omyung','hedwig','inner-communication-2025','john-cameron-mitchell'].includes(entry.id)?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${workTitle(entry,media)}</h3>${workDescription(entry)}${!category?`<p class="work-field">${entry.categories.map(id=>escape(categories.find(item=>item.id===id).label)).join(' / ')}</p>`:''}</div>${media}</article>`;}).join('')}</div></section></section>`;
+ main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${filters.map(filter=>`<a href="#works/${filter.id}" ${filter.id===group.id?'aria-current="page"':''}>${escape(filter.label)}</a>`).join('')}</nav><section class="work-group" id="group-${group.id}"><h2>${escape(group.label)}<span class="work-sort-label">최신순 · ${works.length}개</span></h2><div>${works.map(entry=>{const media=workMedia(entry);return `<article id="work-${group.id}-${entry.id}" data-work-id="${escape(entry.id)}" class="work-row${media?' has-thumbnail':''}${media.includes('is-multiple')?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${workTitle(entry,media)}</h3>${workDescription(entry)}${!category?`<p class="work-field">${entry.categories.map(id=>escape(categories.find(item=>item.id===id).label)).join(' / ')}</p>`:''}</div>${media}</article>`;}).join('')}</div></section></section>`;
  main.querySelectorAll('.exhibition-open').forEach(button=>button.addEventListener('click',event=>{exhibitionReturn=event.currentTarget;exhibitionDialog.querySelector('.exhibition-body').innerHTML=exhibitionIntroductions[button.dataset.exhibition];exhibitionDialog.querySelector('.exhibition-close').setAttribute('aria-label',button.dataset.exhibition==='yonsei-sound-art-research'?'행사 소개 닫기':button.dataset.exhibition==='hanwha-pompidou-ceiling'?'작업 소개 닫기':'전시 소개 닫기');exhibitionDialog.showModal();exhibitionDialog.scrollTop=0;}));
  main.querySelectorAll('[data-work-photo-set]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=workPhotoSets[button.dataset.workPhotoSet];photoIndex=Number(button.dataset.workPhotoIndex);renderLightbox();dialog.showModal();}));
  main.querySelectorAll('.work-thumbnail-button[data-work-photo-set]').forEach(button=>{const count=workPhotoSets[button.dataset.workPhotoSet]?.length||0;if(count>1){button.insertAdjacentHTML('beforeend',`<span class="work-photo-count">사진 ${count}장</span>`);button.setAttribute('aria-label',`${button.getAttribute('aria-label')} · 사진 ${count}장`);}});
