@@ -114,3 +114,5 @@
 @media(max-width:600px){.lightbox-thumbnails{height:72px;gap:7px;justify-content:flex-start;width:max-content}.lightbox-thumbnails button{flex-basis:70px;height:54px}.lightbox.has-thumbnails .lightbox-image{height:calc(100% - 122px)}.lightbox.has-audio.has-thumbnails .lightbox-image{height:calc(100% - 202px)}}
 
 .sidebar{font-family:Georgia,"Times New Roman","Noto Sans KR",serif}
+
+.content>h1,.scenes-header{font-family:Georgia,"Times New Roman","Noto Sans KR",serif}
