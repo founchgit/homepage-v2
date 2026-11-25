@@ -180,7 +180,7 @@ function renderLightbox(){
  dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} / ${lightboxPhotos.length}`:''}`;
  dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.hidden=lightboxPhotos.length<2);
  const thumbnails=dialog.querySelector('.lightbox-thumbnails');
- const showThumbnails=dialog.dataset.clickToClose==='true'&&lightboxPhotos.length>1;
+ const showThumbnails=lightboxPhotos.length>1;
  dialog.classList.toggle('has-thumbnails',showThumbnails);
  thumbnails.hidden=!showThumbnails;
  thumbnails.innerHTML=showThumbnails?lightboxPhotos.map((item,index)=>`<button type="button" data-photo-index="${index}" aria-label="사진 ${index+1} / ${lightboxPhotos.length}" aria-current="${index===photoIndex?'true':'false'}"><img src="${escape(item.src)}" alt="${escape(item.alt||item.place)}"></button>`).join(''):'';
