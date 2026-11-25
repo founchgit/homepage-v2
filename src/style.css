@@ -118,3 +118,5 @@
 .content>h1,.scenes-header{font-family:Georgia,"Times New Roman","Noto Sans KR",serif}
 
 .lightbox-thumbnails{justify-content:safe center}
+
+.lightbox-thumbnails{overflow-y:hidden}
