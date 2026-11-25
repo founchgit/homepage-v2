@@ -190,7 +190,7 @@ function renderLightbox(){
 dialog.querySelector('.lightbox-thumbnails').addEventListener('click',event=>{const button=event.target.closest('[data-photo-index]');if(!button)return;photoIndex=Number(button.dataset.photoIndex);renderLightbox();dialog.querySelector(`[data-photo-index="${photoIndex}"]`)?.focus({preventScroll:true});});
 function closePhoto(){stopArtworkAudio();dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
 dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
-dialog.querySelector('.lightbox-image').addEventListener('click',()=>{if(dialog.dataset.clickToClose==='true')closePhoto();});
+dialog.querySelector('.lightbox-image').addEventListener('click',closePhoto);
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
 dialog.addEventListener('keydown',event=>{if(event.target.closest('.lightbox-sound'))return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
