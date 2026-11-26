@@ -91,6 +91,7 @@ const workPhotoSets={
  'yoon-soho':[{src:'https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg',place:'윤소호 단독콘서트 〈SOHO〉 · 2019',alt:'윤소호 첫 단독 콘서트 Soho 포스터'}],
  'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'}],
  'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}-v2.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
+ 'paik-not-a-stain':[{src:'./works/paik-not-a-stain-live.jpg',place:'백승환 단독공연 〈not a stain...〉',alt:'백승환 단독공연 무대와 관객 전경'}],
  'hedwig':[2019,2021,2024].map(year=>({src:`./works/hedwig-${year}.jpg`,place:`헤드윅 · ${year}`,alt:`${year}년 헤드윅 공연 포스터`})),
  'lee-sujin-solo':[{src:'./works/telic-poster.jpg',place:'이수진 — 텔릭 Telic',alt:'텔릭 Telic 전시 포스터'},{src:'./works/telic-installation.jpg',place:'이수진 — 텔릭 Telic',alt:'텔릭 Telic 전시 현장'}],
  'burning-up':[{src:'./works/burning-up-poster.jpg',place:'버닝업',alt:'버닝업 공연 포스터'}],
@@ -127,6 +128,7 @@ function buildWorkMedia(entry){
  if(entry.id==='yonsei-sound-art-research')return '<div class="work-media"><button class="exhibition-open" data-exhibition="yonsei-sound-art-research">행사 소개 보기 ↗</button></div>';
  if(entry.id==='already-part-of-exhibition')return '<div class="work-media"><button class="work-thumbnail-button" data-work-photo-set="already-part-of-exhibition" data-work-photo-index="0" aria-label="Audible Body 사진 크게 보기"><img class="work-thumbnail" src="./works/audible-body.jpg" alt="Audible Body 전시 현장" loading="lazy"></button><button class="exhibition-open" data-exhibition="already-part-of-exhibition">작품·전시 소개 보기 ↗</button></div>';
  if(entry.id==='hexnut-fragments')return '<div class="work-media"><button class="work-thumbnail-button" data-work-photo-set="hexnut-fragments" data-work-photo-index="0" aria-label="파편의 숨 설치 전경 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" alt="파편의 숨 설치 전경" loading="lazy"></button><button class="exhibition-open" data-exhibition="hexnut-fragments">작업 소개 보기 ↗</button></div>';
+ if(entry.id==='paik-not-a-stain')return '<div class="work-media"><button class="work-thumbnail-button" data-work-photo-set="paik-not-a-stain" data-work-photo-index="0" aria-label="백승환 공연 사진 크게 보기"><img class="work-thumbnail" src="./works/paik-not-a-stain-live.jpg" alt="백승환 단독공연 무대와 관객 전경" loading="lazy"></button></div>';
  const video=workVideos[entry.id];
  const items=[];
  if(entry.id==='john-cameron-mitchell')items.push('<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="john-cameron-mitchell" data-work-photo-index="0" aria-label="존 카메론 미첼 공연 포스터 크게 보기"><img class="work-thumbnail" src="./works/john-cameron-mitchell-poster.png" width="300" height="400" alt="존 카메론 미첼 내한 공연 포스터" loading="lazy"></button>');
