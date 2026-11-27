@@ -144,3 +144,5 @@
 
 .exhibition-body h3{border-top:1px solid #c2cdc6;padding-top:22px;margin-top:28px}.exhibition-body h2+.exhibition-meta+h3{margin-top:24px}@media(max-width:760px){.exhibition-body h3{padding-top:18px;margin-top:24px}}
 .hex-media-stage{order:1}.hex-media-tabs{order:2;justify-content:center;padding-top:6px}
+
+.exhibition-body h3.artwork-part-heading{border-top:0;padding-top:0}
