@@ -119,6 +119,7 @@ const workPhotoSets={
 function workMedia(entry){
  const template=document.createElement('template');
  template.innerHTML=buildWorkMedia(entry);
+ if(workPhotoSets[entry.id]?.length)template.content.querySelectorAll('.exhibition-open').forEach(button=>button.remove());
  const photos=[...template.content.querySelectorAll('.work-thumbnail-button[data-work-photo-set]')];
  if(photos.length>1){
   photos.slice(1).forEach(button=>{const item=button.closest('.work-poster-item');(item||button).remove();});
@@ -211,7 +212,10 @@ function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
  const workId=photoReturn?.dataset.workPhotoSet;const combined=Boolean(workId);dialog.dataset.workId=workId||'';
  dialog.classList.toggle('has-description',combined);const description=dialog.querySelector('.lightbox-description');description.hidden=!combined;
- if(combined&&description.dataset.work!==workId){const entry=entries.find(item=>item.id===workId);description.querySelectorAll('video').forEach(video=>video.pause());description.innerHTML=exhibitionIntroductions[workId]||(entry?`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}`:'');description.dataset.work=workId;description.scrollTop=0;}
+ if(combined&&description.dataset.work!==workId){const entry=entries.find(item=>item.id===workId);description.querySelectorAll('video').forEach(video=>video.pause());description.innerHTML=exhibitionIntroductions[workId]||(entry?`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}`:'');const gallerySources=new Set(lightboxPhotos.map(photo=>new URL(photo.src,location.href).href));
+ description.querySelectorAll('img').forEach(image=>{if(gallerySources.has(new URL(image.getAttribute('src'),location.href).href)){const heading=image.previousElementSibling;if(heading?.tagName==='H3')heading.remove();image.remove();}});
+ description.querySelectorAll('.event-posters').forEach(group=>{if(!group.children.length)group.remove();});
+ description.dataset.work=workId;description.scrollTop=0;}
 
  const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
