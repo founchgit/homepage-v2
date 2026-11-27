@@ -66,29 +66,30 @@ function renderHome(){
  main.innerHTML=`<section class="home" aria-label="필름 사진"><div class="home-photo"><img src="./photographs/home-film.jpg" width="638" height="636" alt="DAWN의 필름 사진"></div></section>`;
 }
 const scenePhotos=[
- {image:'film-camera',title:'Photography',href:'#photography'},
- {image:'myvatn-shake',title:'Myvatn — 흔들기',href:'#works/composition/myvatn-shake'},
- {image:'john-cameron',title:'존 카메론 미첼 내한 공연',href:'#works/live/john-cameron-mitchell'},
- {image:'hedwig',title:'Musical - Hedwig and Angry inch',href:'#works/live/hedwig'},
- {image:'sound-artist-2',title:'Sound Art',href:'#works/sound-art'},
- {image:'hexnut',title:'전시 — 파편의 숨',href:'#works/sound-art/hexnut-fragments'},
- {image:'myvatn-like-you-lady-v2',title:'Myvatn — Like you lady',href:'#works/composition/myvatn-like-you-lady'},
- {image:'sound-artist',title:'Sound Art',href:'#works/sound-art'}
+ {image:'./works/phasic-1.jpg',title:'PRELUDE 01: Omyo Cho «Phasic»',part:'사운드 아트·전시',href:'#works/sound-art/hanwha-pompidou-ceiling'},
+ {image:'./works/hexnut-fragments-full.jpg',title:'HEXNUT — 파편의 숨',part:'사운드 아트·전시',href:'#works/sound-art/hexnut-fragments'},
+ {image:'./scenes/myvatn-shake.jpg',title:'Myvatn — 흔들기',part:'음반·음악 제작',href:'#works/composition/myvatn-shake'},
+ {image:'./scenes/myvatn-like-you-lady-v2.jpg',title:'Myvatn — Like you lady',part:'음반·음악 제작',href:'#works/composition/myvatn-like-you-lady'},
+ {image:'./scenes/john-cameron.jpg',title:'존 카메론 미첼 내한 공연',part:'공연·연주',href:'#works/live/john-cameron-mitchell'},
+ {image:'./scenes/hedwig.jpg',title:'Musical — Hedwig and the Angry Inch',part:'공연·연주',href:'#works/live/hedwig'},
+ {image:'./works/audible-body.jpg',title:'Audible Body',part:'사운드 아트·전시',href:'#works/sound-art/already-part-of-exhibition'},
+ {image:'./scenes/film-camera.jpg',title:'Photography',part:'사진',href:'#photography'}
 ];
-function shuffledScenes(){const result=[...scenePhotos];for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}return result;}
-let sceneOrder=shuffledScenes();
-let sceneActive=0;
+function openWorkIntroduction(id,trigger){
+ const content=exhibitionIntroductions[id];if(!content)return;
+ exhibitionReturn=trigger;exhibitionDialog.querySelector('.exhibition-body').innerHTML=content;
+ exhibitionDialog.querySelector('.exhibition-close').setAttribute('aria-label','작업 소개 닫기');
+ if(!exhibitionDialog.open)exhibitionDialog.showModal();exhibitionDialog.scrollTop=0;
+}
+const myvatnWorks=entries.filter(entry=>entry.id.startsWith('myvatn-'));
+for(const entry of entries.filter(entry=>entry.id.startsWith('myvatn-')||['john-cameron-mitchell','hedwig'].includes(entry.id))){
+ const clip=workVideos[entry.id];const url=clip?.url||safeUrl(entry.url);
+ const related=entry.id.startsWith('myvatn-')?`<h3>Myvatn 관련 작업</h3><div class="related-works">${myvatnWorks.filter(item=>item.id!==entry.id).map(item=>`<button type="button" data-related-work="${item.id}">${escape(item.title)} · ${escape(item.year)} ↗</button>`).join('')}</div>`:'';
+ exhibitionIntroductions[entry.id]=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}${url?`<p>${external(url,'영상·관련 자료 보기')}</p>`:''}${related}`;
+}
+exhibitionDialog.addEventListener('click',event=>{const button=event.target.closest('[data-related-work]');if(button)openWorkIntroduction(button.dataset.relatedWork,exhibitionReturn);});
 function renderScenes(){
- main.innerHTML=`<section class="scenes-page" aria-label="Scenes 사진 슬라이드"><header class="scenes-header"><h1>Scenes</h1><button class="scenes-shuffle" aria-label="사진 순서 무작위로 섞기">Shuffle ↗</button></header><div class="scenes-board" aria-label="전체 사진">${sceneOrder.map((photo,index)=>`<a class="scene-slide${index===sceneActive?' is-active':''}" href="${photo.href}" aria-label="${escape(photo.title)} 보기" style="--scene-angle:${(Math.random()*6-3).toFixed(2)}deg"><img src="./scenes/${photo.image}.jpg" alt="${escape(photo.title)}"><span>${escape(photo.title)} ↗</span></a>`).join('')}</div><footer class="scenes-controls"><button data-scene-step="-1" aria-label="이전 사진 강조">←</button><p class="scene-caption" aria-live="polite"></p><button data-scene-step="1" aria-label="다음 사진 강조">→</button></footer></section>`;
- const update=()=>{main.querySelectorAll('.scene-slide').forEach((tile,index)=>tile.classList.toggle('is-active',index===sceneActive));main.querySelector('.scene-caption').textContent=`${String(sceneActive+1).padStart(2,'0')} / ${String(sceneOrder.length).padStart(2,'0')} — ${sceneOrder[sceneActive].title}`;};
- const step=direction=>{sceneActive=(sceneActive+direction+sceneOrder.length)%sceneOrder.length;update();};
- main.querySelectorAll('[data-scene-step]').forEach(button=>button.addEventListener('click',()=>step(Number(button.dataset.sceneStep))));
- main.querySelector('.scenes-shuffle').addEventListener('click',()=>{sceneOrder=shuffledScenes();sceneActive=0;renderScenes();main.querySelector('.scenes-shuffle').focus({preventScroll:true});});
- main.querySelectorAll('.scene-slide').forEach((tile,index)=>tile.addEventListener('focus',()=>{sceneActive=index;update();}));
- const board=main.querySelector('.scenes-board');let touchStart;
- board.addEventListener('touchstart',event=>{touchStart=event.touches[0].clientX;},{passive:true});
- board.addEventListener('touchend',event=>{if(touchStart===undefined)return;const dx=event.changedTouches[0].clientX-touchStart;if(Math.abs(dx)>45)step(dx<0?1:-1);touchStart=undefined;},{passive:true});
- main.querySelector('.scenes-page').addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();step(event.key==='ArrowRight'?1:-1);}});update();
+ main.innerHTML=`<section class="scenes-page" aria-label="대표 작업"><header class="scenes-header"><h1>Scenes</h1><span class="scenes-intro">Selected works</span></header><div class="scenes-board">${scenePhotos.map(photo=>`<a class="scene-slide" href="${photo.href}" aria-label="${escape(photo.title)} 보기"><div class="scene-image"><img src="${photo.image}" alt="${escape(photo.title)}"></div><div class="scene-copy"><p>${escape(photo.part)}</p><h2>${escape(photo.title)}</h2></div></a>`).join('')}</div></section>`;
 }
 function renderPhotography(){
  const photos=currentPlace==='All'?photographs:photographs.filter(photo=>photo.place===currentPlace);
@@ -219,6 +220,7 @@ function route(){
  if(active==='works')renderWorks(category);
  if(active==='biography')renderBiography();
  window.scrollTo({top:0,behavior:'auto'});
+ if(active==='works'&&workId&&exhibitionIntroductions[workId])openWorkIntroduction(workId,main.querySelector(`[data-exhibition="${workId}"]`));
  if(active==='works'&&categories.some(item=>item.id===category)){const target=workId?document.getElementById(`work-${category}-${workId}`):null;(target||document.getElementById(`group-${category}`)).scrollIntoView({block:'start'});}
 }
 document.querySelector('.mobile-menu').addEventListener('click',()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('.mobile-menu').setAttribute('aria-expanded',String(open));});
