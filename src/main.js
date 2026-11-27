@@ -164,6 +164,7 @@ function workDescription(entry){
 }
 
 function workTitle(entry,media){
+ if(workPhotoSets[entry.id]?.length)return `<button class="work-title-link exhibition-open" data-exhibition="${escape(entry.id)}">${escape(entry.title)}</button>`;
  if(workVideos[entry.id])return `<button class="work-title-link" data-work-video="${escape(entry.id)}">${escape(entry.title)}</button>`;
  if(exhibitionIntroductions[entry.id])return `<button class="work-title-link exhibition-open" data-exhibition="${escape(entry.id)}">${escape(entry.title)}</button>`;
  const preview=document.createElement('template');
@@ -212,7 +213,8 @@ function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
  const workId=photoReturn?.dataset.workPhotoSet;const combined=Boolean(workId);dialog.dataset.workId=workId||'';
  dialog.classList.toggle('has-description',combined);const description=dialog.querySelector('.lightbox-description');description.hidden=!combined;
- if(combined&&description.dataset.work!==workId){const entry=entries.find(item=>item.id===workId);description.querySelectorAll('video').forEach(video=>video.pause());description.innerHTML=exhibitionIntroductions[workId]||(entry?`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}`:'');const gallerySources=new Set(lightboxPhotos.map(photo=>new URL(photo.src,location.href).href));
+ if(combined&&description.dataset.work!==workId){const entry=entries.find(item=>item.id===workId);description.querySelectorAll('video').forEach(video=>video.pause());description.innerHTML=exhibitionIntroductions[workId]||(entry?`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}${safeUrl(entry.url)?`<p>${external(entry.url,'관련 자료 보기')}</p>`:''}`:'');if(entry&&safeUrl(entry.url)&&exhibitionIntroductions[workId]&&!Array.from(description.querySelectorAll('a[href]')).some(link=>link.href===safeUrl(entry.url)))description.insertAdjacentHTML('beforeend',`<p>${external(entry.url,'관련 자료 보기')}</p>`);
+ const gallerySources=new Set(lightboxPhotos.map(photo=>new URL(photo.src,location.href).href));
  description.querySelectorAll('img').forEach(image=>{if(gallerySources.has(new URL(image.getAttribute('src'),location.href).href)){const heading=image.previousElementSibling;if(heading?.tagName==='H3')heading.remove();image.remove();}});
  description.querySelectorAll('.event-posters').forEach(group=>{if(!group.children.length)group.remove();});
  description.dataset.work=workId;description.scrollTop=0;}
