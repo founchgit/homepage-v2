@@ -1,5 +1,6 @@
 // Release dates checked against Bugs album and artist listings.
 export const recordDetails = {
+  "paik-experiment-no-1": {type:"EP",roles:"Unfollow — Piano, Organ, Synthesizer",date:"2021-03-03",source:"https://music.bugs.co.kr/album/20381935",note:"수록곡 1. Unfollow 참여"},
   "taekyung-deung-2026": {
     "type": "Single",
     "roles": "Arrangement, Bass, Strings, Mixing, Mastering",

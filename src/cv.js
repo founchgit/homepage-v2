@@ -132,6 +132,7 @@ const originalEntries = [
     ["kafa-prologue", "2011", "한국영화아카데미 영화제 프롤로그", "음악 제작"],
   ]),
   ...group("records", [
+    ["paik-experiment-no-1", "2021", "백승환 — experiment no.1", "EP · Unfollow — Piano, Organ, Synthesizer · 2021.03.03 발매", "https://music.bugs.co.kr/album/20381935"],
     ["taekyung-deung-2026", "2026", "태경 — 등", "디지털 싱글 · 편곡, Bass, Strings, Mix & Mastering · 2026.11.18 발매", "https://music.bugs.co.kr/album/20856088"],
     [
       "my-satan-book-ost",
@@ -370,6 +371,7 @@ const originalEntries = [
 // 음반 작업과 기존 연주·편곡 작업의 크레딧을 기준으로 분류합니다.
 const roleCategories = {
   composition: new Set([
+    "paik-experiment-no-1",
     "taekyung-deung-2026", "kangto-abject-2026",
     "my-satan-book-ost", "yunaone-tidal-mind", "yunaone-green-heart",
     "juha-wave", "enigmata-highway", "juha-seonju", "girlsonmood",
