@@ -44,10 +44,17 @@ const audioSeek=lightboxSound.querySelector('.sound-seek');
 const audioTime=value=>{if(!Number.isFinite(value))return '--:--';return `${String(Math.floor(value/60)).padStart(2,'0')}:${String(Math.floor(value%60)).padStart(2,'0')}`;};
 function updateArtworkAudio(){const playing=!artworkAudio.paused;audioToggle.textContent=playing?'Pause':'Play';audioToggle.setAttribute('aria-label',playing?'사운드 일시정지':'사운드 재생');audioToggle.setAttribute('aria-pressed',String(playing));audioSeek.value=artworkAudio.duration?artworkAudio.currentTime/artworkAudio.duration*100:0;audioSeek.disabled=!Number.isFinite(artworkAudio.duration);audioSeek.setAttribute('aria-valuetext',audioTime(artworkAudio.currentTime));lightboxSound.querySelector('.sound-time').textContent=`${audioTime(artworkAudio.currentTime)} / ${audioTime(artworkAudio.duration)}`;}
 function stopArtworkAudio(){artworkAudio.pause();artworkAudio.currentTime=0;updateArtworkAudio();}
-audioToggle.addEventListener('click',async()=>{if(artworkAudio.paused){try{await artworkAudio.play();lightboxSound.querySelector('.sound-error').hidden=true;}catch{lightboxSound.querySelector('.sound-error').hidden=false;}}else artworkAudio.pause();});
+audioToggle.addEventListener('click',async()=>{if(artworkAudio.paused){try{prepareArtworkVolume();const resume=artworkAudioContext?.resume();await Promise.all([artworkAudio.play(),resume]);lightboxSound.querySelector('.sound-error').hidden=true;}catch{lightboxSound.querySelector('.sound-error').hidden=false;}}else artworkAudio.pause();});
 audioSeek.addEventListener('input',()=>{if(Number.isFinite(artworkAudio.duration))artworkAudio.currentTime=Number(audioSeek.value)/100*artworkAudio.duration;});
 const audioVolume=lightboxSound.querySelector('.sound-volume');
-audioVolume.addEventListener('input',()=>{artworkAudio.volume=Number(audioVolume.value)/100;artworkAudio.muted=false;audioVolume.setAttribute('aria-valuetext',`${audioVolume.value}%`);});
+let artworkAudioContext,artworkGain;
+function prepareArtworkVolume(){
+ if(!artworkAudioContext){const Context=window.AudioContext||window.webkitAudioContext;if(Context){const context=new Context();const gain=context.createGain();const source=context.createMediaElementSource(artworkAudio);source.connect(gain);gain.connect(context.destination);artworkAudioContext=context;artworkGain=gain;}}
+ const volume=Number(audioVolume.value)/100;
+ if(artworkGain){artworkAudio.volume=1;artworkGain.gain.setTargetAtTime(volume,artworkAudioContext.currentTime,.015);}else artworkAudio.volume=volume;
+ artworkAudio.muted=false;audioVolume.setAttribute('aria-valuetext',`${audioVolume.value}%`);
+}
+audioVolume.addEventListener('input',prepareArtworkVolume);
 ['loadedmetadata','timeupdate','play','pause','ended'].forEach(event=>artworkAudio.addEventListener(event,updateArtworkAudio));
 artworkAudio.addEventListener('error',()=>{lightboxSound.querySelector('.sound-error').hidden=false;});
 dialog.addEventListener('close',stopArtworkAudio);
