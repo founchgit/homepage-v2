@@ -78,6 +78,7 @@ const scenePhotos=[
 ];
 function openWorkIntroduction(id,trigger){
  if(id==='hanwha-pompidou-ceiling'){photoReturn=main.querySelector('[data-work-photo-set="hanwha-pompidou-ceiling"]')||trigger;lightboxPhotos=workPhotoSets[id];photoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
+ if(workVideos[id]||youtubeClip(entries.find(entry=>entry.id===id)?.url)){openWorkVideo(id,undefined,trigger);return;}
  const content=exhibitionIntroductions[id];if(!content)return;
  exhibitionReturn=trigger;exhibitionDialog.querySelector('.exhibition-body').innerHTML=content;
  exhibitionDialog.querySelector('.exhibition-close').setAttribute('aria-label','작업 소개 닫기');
@@ -162,6 +163,7 @@ function workDescription(entry){
 }
 
 function workTitle(entry,media){
+ if(workVideos[entry.id])return `<button class="work-title-link" data-work-video="${escape(entry.id)}">${escape(entry.title)}</button>`;
  if(exhibitionIntroductions[entry.id])return `<button class="work-title-link exhibition-open" data-exhibition="${escape(entry.id)}">${escape(entry.title)}</button>`;
  const preview=document.createElement('template');
  preview.innerHTML=media;
@@ -178,11 +180,30 @@ function renderWorks(selectedCategory){
  const works=category?entries.filter(entry=>entry.categories.includes(category.id)):entries;
  const filters=[{id:'all',label:`전체 작업 (${entries.length})`},...categories];
  main.innerHTML=`<section class="content text-content"><h1>Works</h1><nav class="work-categories" aria-label="작업 분야">${filters.map(filter=>`<a href="#works/${filter.id}" ${filter.id===group.id?'aria-current="page"':''}>${escape(filter.label)}</a>`).join('')}</nav><section class="work-group" id="group-${group.id}"><h2>${escape(group.label)}<span class="work-sort-label">최신순 · ${works.length}개</span></h2><div>${works.map(entry=>{const media=workMedia(entry);return `<article id="work-${group.id}-${entry.id}" data-work-id="${escape(entry.id)}" class="work-row${media?' has-thumbnail':''}${media.includes('is-multiple')?' has-multiple-media':''}"><span>${escape(entry.year)}</span><div class="work-copy"><h3>${workTitle(entry,media)}</h3>${workDescription(entry)}${!category?`<p class="work-field">${entry.categories.map(id=>escape(categories.find(item=>item.id===id).label)).join(' / ')}</p>`:''}</div>${media}</article>`;}).join('')}</div></section></section>`;
+ main.querySelectorAll('[data-work-video]').forEach(button=>button.addEventListener('click',()=>openWorkVideo(button.dataset.workVideo,undefined,button)));
  main.querySelectorAll('.exhibition-open').forEach(button=>button.addEventListener('click',event=>openWorkIntroduction(button.dataset.exhibition,event.currentTarget)));
  main.querySelectorAll('[data-work-photo-set]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=workPhotoSets[button.dataset.workPhotoSet];photoIndex=Number(button.dataset.workPhotoIndex);renderLightbox();dialog.showModal();}));
  main.querySelectorAll('.work-thumbnail-button[data-work-photo-set]').forEach(button=>{const count=workPhotoSets[button.dataset.workPhotoSet]?.length||0;if(count>1){button.insertAdjacentHTML('beforeend',`<span class="work-photo-count">사진 ${count}장</span>`);button.setAttribute('aria-label',`${button.getAttribute('aria-label')} · 사진 ${count}장`);}});
  main.querySelectorAll('.work-video-thumbnail img').forEach(image=>image.addEventListener('error',()=>{image.hidden=true;image.closest('a').classList.add('image-unavailable');}));
 }
+function youtubeClip(url){try{const u=new URL(url);if(!/(^|\.)(youtube\.com|youtu\.be)$/.test(u.hostname))return null;const videoId=u.hostname==='youtu.be'?u.pathname.slice(1):u.searchParams.get('v');const playlist=u.searchParams.get('list');return /^[\w-]{11}$/.test(videoId||'')?{videoId,playlist}:playlist?{playlist}:null;}catch{return null;}}
+const videoDialog=document.createElement('dialog');videoDialog.className='work-video-dialog';videoDialog.innerHTML='<button class="work-video-close" type="button" aria-label="영상 작업 창 닫기">Close ×</button><div class="work-video-view"></div><article class="work-video-description exhibition-body"></article>';document.body.append(videoDialog);
+let videoReturn,videoWork;
+function closeWorkVideo(){videoDialog.close();}
+videoDialog.addEventListener('close',()=>{videoDialog.querySelector('.work-video-view').innerHTML='';videoReturn?.isConnected&&videoReturn.focus({preventScroll:true});});
+videoDialog.querySelector('.work-video-close').addEventListener('click',closeWorkVideo);
+videoDialog.addEventListener('click',event=>{if(event.target===videoDialog)closeWorkVideo();const related=event.target.closest('[data-related-work]');if(related)openWorkVideo(related.dataset.relatedWork,undefined,videoReturn);});
+function openWorkVideo(id,url,trigger){
+ const entry=entries.find(item=>item.id===id);if(!entry)return;const clip=youtubeClip(url||workVideos[id]?.url||entry.url)||workVideos[id];if(!clip)return;
+ videoReturn=trigger||videoReturn;videoWork=id;
+ if(exhibitionDialog.open)exhibitionDialog.close();
+ const source=clip.videoId?`https://www.youtube-nocookie.com/embed/${encodeURIComponent(clip.videoId)}?rel=0`:`https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(clip.playlist)}`;
+ videoDialog.querySelector('.work-video-view').innerHTML=`<iframe src="${source}" title="${escape(entry.title)} 영상" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+ const clips=workVideos[id]?[workVideos[id],...(workVideos[id].additionalVideos||[])]:[];
+ videoDialog.querySelector('.work-video-description').innerHTML=(exhibitionIntroductions[id]||`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)} · ${entry.categories.map(cid=>escape(categories.find(c=>c.id===cid)?.label||'')).join(' / ')}</p>${workDescription(entry)}${recordDetails[id]?.note?`<p>${escape(recordDetails[id].note)}</p>`:''}`)+(clips.length>1?`<h3>관련 영상</h3><p>${clips.map((item,i)=>external(item.url,`영상 ${i+1}`)).join('<br>')}</p>`:'');
+ if(!videoDialog.open)videoDialog.showModal();videoDialog.scrollTop=0;
+}
+document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link||!youtubeClip(link.href))return;const row=link.closest('[data-work-id]');const id=row?.dataset.workId||(videoDialog.contains(link)?videoWork:exhibitionReturn?.dataset.exhibition);if(!id)return;event.preventDefault();openWorkVideo(id,link.href,link);},true);
 function renderBiography(){
  main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어 겸 포토그래퍼</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
 }
