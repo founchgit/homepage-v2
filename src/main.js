@@ -117,7 +117,7 @@ const workPhotoSets={
  'hedwig':[2019,2021,2024].map(year=>({src:`./works/hedwig-${year}.jpg`,place:`헤드윅 · ${year}`,alt:`${year}년 헤드윅 공연 포스터`})),
  'lee-sujin-solo':[{src:'./works/telic-poster.jpg',place:'이수진 — 텔릭 Telic',alt:'텔릭 Telic 전시 포스터'},{src:'./works/telic-installation.jpg',place:'이수진 — 텔릭 Telic',alt:'텔릭 Telic 전시 현장'}],
  'burning-up':[{src:'./works/burning-up-poster.jpg',place:'버닝업',alt:'버닝업 공연 포스터'}],
- 'yeonjeok':[{src:'./works/yeonjeok-poster.jpg',place:'연적',alt:'연적 공연 포스터'}],
+ 'yeonjeok':[{src:'./works/yeonjeok-poster.jpg',place:'연적',alt:'연적 공연 포스터'},...[1,2,3].map(n=>({src:`./works/yeonjeok-live-${n}.jpg`,place:'연적',alt:`연적 공연 사진 ${n}`}))],
  'fantastic-laundry':[{src:'./works/fantastic-laundry-poster.jpg',place:'판타스틱 런드리',alt:'판타스틱 런드리 공연 포스터'}],
 
  'already-part-of-exhibition':[{src:'./works/audible-body.jpg',place:'Audible Body · 2025',alt:'Audible Body 전시 현장'}],
