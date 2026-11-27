@@ -35,6 +35,7 @@ for(const id of ['three-leaf-clover','burning-up','fantastic-laundry']){
 }
 {const entry=entries.find(item=>item.id==='jeongsuk');exhibitionIntroductions.jeongsuk=`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<p>${external('https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail2','영화 정보 보기 · KMDb')}</p>`;}
 {const entry=entries.find(item=>item.id==='omyung');exhibitionIntroductions.omyung=`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<p>${external('https://www.kmdb.or.kr/db/kor/detail/movie/K/15258','영화 정보 보기 · KMDb')}</p>`;}
+exhibitionIntroductions['inner-communication-2025']=`<h2>김주환 — 내면소통 명상 콘서트</h2><p class="exhibition-meta">2025.06.21–06.22<br>코엑스 컨벤션 3F 오디토리움</p><p>명상 음악 사운드 디자인과 인터랙티브 사운드 설치를 맡았다.</p><h3>공연 정보</h3><p>2025 김주환의 내면소통 명상 콘서트<br>일정 — 2025년 6월 21일(토)–22일(일)<br>장소 — 코엑스 컨벤션 3F 오디토리움</p><h3>주최·주관</h3><p>주최 — 내면소통연구소 (Joohan Kim Lab)<br>주관 — 주식회사 HeKe</p>`;
 let exhibitionReturn;
 function closeExhibition(){exhibitionDialog.close();if(exhibitionReturn?.isConnected)exhibitionReturn.focus({preventScroll:true});}
 exhibitionDialog.querySelector('.exhibition-close').addEventListener('click',closeExhibition);
