@@ -184,7 +184,7 @@ function renderWorks(selectedCategory){
  main.querySelectorAll('.work-video-thumbnail img').forEach(image=>image.addEventListener('error',()=>{image.hidden=true;image.closest('a').classList.add('image-unavailable');}));
 }
 function renderBiography(){
- main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
+ main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어 겸 포토그래퍼</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
 }
 function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
