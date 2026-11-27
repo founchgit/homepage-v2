@@ -33,7 +33,7 @@ for(const id of ['three-leaf-clover','burning-up','fantastic-laundry']){
  const entry=entries.find(item=>item.id===id);
  exhibitionIntroductions[id]=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<h3>크레딧</h3><p>연출 — 윤다흰<br>음악감독 — 정다운<br>안무감독 — 윤이나</p>${safeUrl(entry.url)?`<p>${external(entry.url,'관련 자료 보기')}</p>`:''}`;
 }
-{const entry=entries.find(item=>item.id==='jeongsuk');exhibitionIntroductions.jeongsuk=`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<p>${external('https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail2','스틸 사진 보기 · KMDb')}</p>`;}
+{const entry=entries.find(item=>item.id==='jeongsuk');exhibitionIntroductions.jeongsuk=`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<p>${external('https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail2','영화 정보 보기 · KMDb')}</p>`;}
 {const entry=entries.find(item=>item.id==='omyung');exhibitionIntroductions.omyung=`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<p>${external('https://www.kmdb.or.kr/db/kor/detail/movie/K/15258','영화 정보 보기 · KMDb')}</p>`;}
 let exhibitionReturn;
 function closeExhibition(){exhibitionDialog.close();if(exhibitionReturn?.isConnected)exhibitionReturn.focus({preventScroll:true});}
@@ -136,7 +136,7 @@ const workPhotoSets={
 function workMedia(entry){
  const template=document.createElement('template');
  template.innerHTML=buildWorkMedia(entry);
- if(['john-cameron-mitchell','hedwig'].includes(entry.id)){template.content.querySelectorAll('[data-work-photo-set]').forEach(button=>(button.closest('.work-poster-item')||button).remove());template.content.querySelector('.work-media')?.classList.remove('is-multiple');}
+ if(['john-cameron-mitchell','hedwig','omyung'].includes(entry.id)){template.content.querySelectorAll('[data-work-photo-set]').forEach(button=>(button.closest('.work-poster-item')||button).remove());template.content.querySelector('.work-media')?.classList.remove('is-multiple');}
  if(workPhotoSets[entry.id]?.length)template.content.querySelectorAll('.exhibition-open').forEach(button=>button.remove());
  const photos=[...template.content.querySelectorAll('.work-thumbnail-button[data-work-photo-set]')];
  if(photos.length>1){
