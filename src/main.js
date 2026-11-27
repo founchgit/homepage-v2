@@ -89,7 +89,7 @@ const scenePhotos=[
  {image:'./scenes/film-camera.jpg',title:'Photography',part:'사진',href:'#photography'}
 ];
 function openWorkIntroduction(id,trigger){
- if(workPhotoSets[id]){photoReturn=main.querySelector(`[data-work-photo-set="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab=["john-cameron-mitchell","hedwig"].includes(id)?"videos":"photos";renderLightbox();if(!dialog.open)dialog.showModal();return;}
+ if(workPhotoSets[id]){photoReturn=main.querySelector(`[data-work-photo-set="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab=id==="hedwig"?"videos":"photos";renderLightbox();if(!dialog.open)dialog.showModal();return;}
  if(workVideos[id]||youtubeClip(entries.find(entry=>entry.id===id)?.url)){openWorkVideo(id,undefined,trigger);return;}
  const content=exhibitionIntroductions[id];if(!content)return;
  exhibitionReturn=trigger;exhibitionDialog.querySelector('.exhibition-body').innerHTML=content;
@@ -114,7 +114,7 @@ function renderPhotography(){
 }
 const workPhotoSets={
  'yoon-soho':[{src:'https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg',place:'윤소호 단독콘서트 〈SOHO〉 · 2019',alt:'윤소호 첫 단독 콘서트 Soho 포스터'}],
- 'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'},{src:'./scenes/john-cameron.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 공연 출연진과 관객 단체 사진'},{src:'./works/john-cameron-instagram.jpg',place:'존 카메론 미첼 내한 공연 · 공연 기록',alt:'존 카메론 미첼 공연 Instagram 기록 사진'},{src:'./works/john-cameron-stage.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'푸른 조명 아래 존 카메론 미첼 공연 무대와 관객'},{src:'./works/john-cameron-curtain-call.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'관객을 향해 어깨동무한 출연진과 연주자들의 커튼콜'}],
+ 'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'},{src:'./scenes/john-cameron.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 공연 출연진과 관객 단체 사진'},{src:'./works/john-cameron-instagram-full.jpg',place:'존 카메론 미첼 내한 공연 · 공연 기록',alt:'존 카메론 미첼 공연 Instagram 기록 사진'},{src:'./works/john-cameron-stage.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'푸른 조명 아래 존 카메론 미첼 공연 무대와 관객'},{src:'./works/john-cameron-curtain-call.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'관객을 향해 어깨동무한 출연진과 연주자들의 커튼콜'}],
  'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}-v2.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
  'just-j-min':[{src:'./works/just-j-min-poster.jpg',place:'Just J-Min : 제이민 첫번째 콘서트',alt:'2025 Just J-Min 제이민 첫번째 콘서트 포스터'},{src:'./works/just-j-min-live.jpg',place:'Just J-Min : 제이민 첫번째 콘서트 · 공연 기록',alt:'제이민 공연 Instagram 게시물 대표 이미지'}],
  'omyung':[1,2].map(n=>({src:`./works/omyung-still-${n}.jpg`,place:'오명',alt:`영화 오명 스틸 사진 ${n}`})),
@@ -212,7 +212,7 @@ videoDialog.addEventListener('close',()=>{videoDialog.querySelector('.work-video
 videoDialog.querySelector('.work-video-close').addEventListener('click',closeWorkVideo);
 videoDialog.addEventListener('click',event=>{if(event.target===videoDialog)closeWorkVideo();const related=event.target.closest('[data-related-work]');if(related)openWorkVideo(related.dataset.relatedWork,undefined,videoReturn);});
 function openWorkVideo(id,url,trigger){
- if(['john-cameron-mitchell','hedwig'].includes(id)){photoReturn=main.querySelector(`[data-exhibition="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab='videos';hexVideoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
+ if(['john-cameron-mitchell','hedwig'].includes(id)){photoReturn=main.querySelector(`[data-exhibition="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab=id==='john-cameron-mitchell'?'photos':'videos';hexVideoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
  const entry=entries.find(item=>item.id===id);if(!entry)return;const clip=youtubeClip(url||workVideos[id]?.url||entry.url)||workVideos[id];if(!clip)return;
  videoReturn=trigger||videoReturn;videoWork=id;
  if(exhibitionDialog.open)exhibitionDialog.close();if(dialog.open)dialog.close();
