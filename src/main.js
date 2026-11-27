@@ -36,7 +36,7 @@ exhibitionDialog.addEventListener('cancel',event=>{event.preventDefault();closeE
 const main=document.querySelector('#main');
 const dialog=document.querySelector('.lightbox');
 dialog.insertAdjacentHTML('beforeend','<nav class="lightbox-thumbnails" aria-label="작업 사진 선택" hidden></nav>');
-dialog.insertAdjacentHTML('beforeend',`<div class="lightbox-sound" hidden><audio preload="metadata" src="./audio/hanwha-pompidou.m4a"></audio><div class="sound-player-row"><button class="sound-toggle" type="button" aria-label="사운드 재생" aria-pressed="false">Play</button><input class="sound-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="사운드 재생 위치"><span class="sound-time">00:00 / --:--</span></div><p class="sound-credit">Sound design · 정다운</p><p class="sound-error" role="status" hidden>음원을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p></div>`);
+dialog.insertAdjacentHTML('beforeend',`<div class="lightbox-sound" hidden><audio preload="metadata" src="./audio/hanwha-pompidou.m4a"></audio><div class="sound-player-row"><button class="sound-toggle" type="button" aria-label="사운드 재생" aria-pressed="false">Play</button><input class="sound-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="사운드 재생 위치"><span class="sound-time">00:00 / --:--</span><label class="sound-volume-control"><span>Vol.</span><input class="sound-volume" type="range" min="0" max="100" step="1" value="100" aria-label="사운드 볼륨" aria-valuetext="100%"></label></div><p class="sound-credit">Sound design · 정다운</p><p class="sound-error" role="status" hidden>음원을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</p></div>`);
 const lightboxSound=dialog.querySelector('.lightbox-sound');
 const artworkAudio=lightboxSound.querySelector('audio');
 const audioToggle=lightboxSound.querySelector('.sound-toggle');
@@ -46,6 +46,8 @@ function updateArtworkAudio(){const playing=!artworkAudio.paused;audioToggle.tex
 function stopArtworkAudio(){artworkAudio.pause();artworkAudio.currentTime=0;updateArtworkAudio();}
 audioToggle.addEventListener('click',async()=>{if(artworkAudio.paused){try{await artworkAudio.play();lightboxSound.querySelector('.sound-error').hidden=true;}catch{lightboxSound.querySelector('.sound-error').hidden=false;}}else artworkAudio.pause();});
 audioSeek.addEventListener('input',()=>{if(Number.isFinite(artworkAudio.duration))artworkAudio.currentTime=Number(audioSeek.value)/100*artworkAudio.duration;});
+const audioVolume=lightboxSound.querySelector('.sound-volume');
+audioVolume.addEventListener('input',()=>{artworkAudio.volume=Number(audioVolume.value)/100;artworkAudio.muted=false;audioVolume.setAttribute('aria-valuetext',`${audioVolume.value}%`);});
 ['loadedmetadata','timeupdate','play','pause','ended'].forEach(event=>artworkAudio.addEventListener(event,updateArtworkAudio));
 artworkAudio.addEventListener('error',()=>{lightboxSound.querySelector('.sound-error').hidden=false;});
 dialog.addEventListener('close',stopArtworkAudio);
