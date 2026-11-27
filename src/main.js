@@ -221,7 +221,7 @@ function openWorkVideo(id,url,trigger){
 }
 document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link||!youtubeClip(link.href))return;const row=link.closest('[data-work-id]');const id=row?.dataset.workId||(videoDialog.contains(link)?videoWork:dialog.contains(link)?dialog.dataset.workId:exhibitionReturn?.dataset.exhibition);if(!id)return;event.preventDefault();openWorkVideo(id,link.href,link);},true);
 function renderBiography(){
- main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어 겸 포토그래퍼</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
+ main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어 겸 포토그래퍼</p></section><figure class="biography-photo"><img src="./works/biography-studio.jpg" alt="햇빛이 들어오는 작업실의 신디사이저와 헤드폰" width="734" height="740" loading="lazy"></figure><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
 }
 function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
