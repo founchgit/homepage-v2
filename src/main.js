@@ -58,7 +58,7 @@ function prepareArtworkVolume(){
 audioVolume.addEventListener('input',prepareArtworkVolume);
 ['loadedmetadata','timeupdate','play','pause','ended'].forEach(event=>artworkAudio.addEventListener(event,updateArtworkAudio));
 artworkAudio.addEventListener('error',()=>{lightboxSound.querySelector('.sound-error').hidden=false;});
-dialog.addEventListener('close',stopArtworkAudio);
+dialog.addEventListener('close',()=>{stopArtworkAudio();dialog.querySelectorAll('video').forEach(video=>video.pause());});
 
 let photoIndex=0;
 let lightboxPhotos=photographs;
@@ -77,7 +77,7 @@ const scenePhotos=[
  {image:'./scenes/film-camera.jpg',title:'Photography',part:'사진',href:'#photography'}
 ];
 function openWorkIntroduction(id,trigger){
- if(id==='hanwha-pompidou-ceiling'){photoReturn=main.querySelector('[data-work-photo-set="hanwha-pompidou-ceiling"]')||trigger;lightboxPhotos=workPhotoSets[id];photoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
+ if(workPhotoSets[id]){photoReturn=main.querySelector(`[data-work-photo-set="${id}"]`)||trigger;lightboxPhotos=workPhotoSets[id];photoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
  if(workVideos[id]||youtubeClip(entries.find(entry=>entry.id===id)?.url)){openWorkVideo(id,undefined,trigger);return;}
  const content=exhibitionIntroductions[id];if(!content)return;
  exhibitionReturn=trigger;exhibitionDialog.querySelector('.exhibition-body').innerHTML=content;
@@ -196,22 +196,22 @@ videoDialog.addEventListener('click',event=>{if(event.target===videoDialog)close
 function openWorkVideo(id,url,trigger){
  const entry=entries.find(item=>item.id===id);if(!entry)return;const clip=youtubeClip(url||workVideos[id]?.url||entry.url)||workVideos[id];if(!clip)return;
  videoReturn=trigger||videoReturn;videoWork=id;
- if(exhibitionDialog.open)exhibitionDialog.close();
+ if(exhibitionDialog.open)exhibitionDialog.close();if(dialog.open)dialog.close();
  const source=clip.videoId?`https://www.youtube-nocookie.com/embed/${encodeURIComponent(clip.videoId)}?rel=0`:`https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(clip.playlist)}`;
  videoDialog.querySelector('.work-video-view').innerHTML=`<iframe src="${source}" title="${escape(entry.title)} 영상" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
  const clips=workVideos[id]?[workVideos[id],...(workVideos[id].additionalVideos||[])]:[];
  videoDialog.querySelector('.work-video-description').innerHTML=(exhibitionIntroductions[id]||`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)} · ${entry.categories.map(cid=>escape(categories.find(c=>c.id===cid)?.label||'')).join(' / ')}</p>${workDescription(entry)}${recordDetails[id]?.note?`<p>${escape(recordDetails[id].note)}</p>`:''}`)+(clips.length>1?`<h3>관련 영상</h3><p>${clips.map((item,i)=>external(item.url,`영상 ${i+1}`)).join('<br>')}</p>`:'');
  if(!videoDialog.open)videoDialog.showModal();videoDialog.scrollTop=0;
 }
-document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link||!youtubeClip(link.href))return;const row=link.closest('[data-work-id]');const id=row?.dataset.workId||(videoDialog.contains(link)?videoWork:exhibitionReturn?.dataset.exhibition);if(!id)return;event.preventDefault();openWorkVideo(id,link.href,link);},true);
+document.addEventListener('click',event=>{const link=event.target.closest('a[href]');if(!link||!youtubeClip(link.href))return;const row=link.closest('[data-work-id]');const id=row?.dataset.workId||(videoDialog.contains(link)?videoWork:dialog.contains(link)?dialog.dataset.workId:exhibitionReturn?.dataset.exhibition);if(!id)return;event.preventDefault();openWorkVideo(id,link.href,link);},true);
 function renderBiography(){
  main.innerHTML=`<section class="content text-content biography"><h1>Biography</h1><section><h2>정다운</h2><p>사운드 아티스트 · 작곡가 · 프로듀서 · 사운드 엔지니어 겸 포토그래퍼</p></section><section><h2>Education</h2>${profile.education.map(item=>`<p>${escape(item.school)}<br>${escape(item.detail)}</p>`).join('')}</section><section><h2>Links</h2>${external('https://www.instagram.com/jeongdawn/','Instagram @jeongdawn')}</section><footer>새벽소리 · 사업자등록번호 102-17-67120</footer></section>`;
 }
 function renderLightbox(){
  const photo=lightboxPhotos[photoIndex];
- const combined=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';
+ const workId=photoReturn?.dataset.workPhotoSet;const combined=Boolean(workId);dialog.dataset.workId=workId||'';
  dialog.classList.toggle('has-description',combined);const description=dialog.querySelector('.lightbox-description');description.hidden=!combined;
- if(combined&&description.dataset.work!=='hanwha-pompidou-ceiling'){description.innerHTML=exhibitionIntroductions['hanwha-pompidou-ceiling'];description.dataset.work='hanwha-pompidou-ceiling';}
+ if(combined&&description.dataset.work!==workId){const entry=entries.find(item=>item.id===workId);description.querySelectorAll('video').forEach(video=>video.pause());description.innerHTML=exhibitionIntroductions[workId]||(entry?`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}`:'');description.dataset.work=workId;description.scrollTop=0;}
 
  const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
