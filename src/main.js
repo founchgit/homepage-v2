@@ -222,7 +222,8 @@ function renderLightbox(){
  const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
  dialog.querySelector('.lightbox-image').innerHTML=`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
- dialog.querySelector('#photo-caption').textContent=`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} / ${lightboxPhotos.length}`:''}`;
+ dialog.querySelector('#photo-caption').textContent=combined?(lightboxPhotos.length>1?`${photoIndex+1} / ${lightboxPhotos.length}`:''):`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} / ${lightboxPhotos.length}`:''}`;
+ dialog.classList.toggle('has-photo-navigation',lightboxPhotos.length>1);
  dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.hidden=lightboxPhotos.length<2);
  const thumbnails=dialog.querySelector('.lightbox-thumbnails');
  const showThumbnails=lightboxPhotos.length>1;
