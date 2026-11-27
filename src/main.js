@@ -260,6 +260,7 @@ function renderLightbox(){
 dialog.querySelector('.lightbox-thumbnails').addEventListener('click',event=>{const button=event.target.closest('[data-photo-index]');if(!button)return;photoIndex=Number(button.dataset.photoIndex);renderLightbox();dialog.querySelector(`[data-photo-index="${photoIndex}"]`)?.focus({preventScroll:true});});
 function closePhoto(){stopArtworkAudio();dialog.close();if(photoReturn?.isConnected)photoReturn.focus({preventScroll:true});}
 dialog.querySelector('.lightbox-close').addEventListener('click',closePhoto);
+dialog.addEventListener('click',event=>{if(event.target===dialog)closePhoto();});
 dialog.querySelector('.lightbox-image').addEventListener('click',event=>{const tab=event.target.closest('[data-hex-tab]');if(tab){hexMediaTab=tab.dataset.hexTab;renderLightbox();return;}if(event.target.closest('video,iframe,.hex-media-tabs'))return;closePhoto();});
 dialog.querySelector('.lightbox-thumbnails').addEventListener('click',event=>{const button=event.target.closest('[data-hex-video]');if(button){hexVideoIndex=Number(button.dataset.hexVideo);renderLightbox();}});
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
