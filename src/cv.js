@@ -5,8 +5,8 @@ export const profile = {
   studio: "새벽소리",
   email: "",
   education: [
-    { school: "동아방송예술대학 영상음악계열", detail: "작곡 졸업" },
     { school: "연세대학교 커뮤니케이션대학원", detail: "미디어아트 (M.F.A.)" },
+    { school: "동아방송예술대학 영상음악계열", detail: "작곡 졸업" },
   ],
 };
 
