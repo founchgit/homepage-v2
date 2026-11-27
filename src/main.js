@@ -89,7 +89,7 @@ const scenePhotos=[
  {image:'./scenes/film-camera.jpg',title:'Photography',part:'사진',href:'#photography'}
 ];
 function openWorkIntroduction(id,trigger){
- if(workPhotoSets[id]){photoReturn=main.querySelector(`[data-work-photo-set="${id}"]`)||trigger;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab="photos";renderLightbox();if(!dialog.open)dialog.showModal();return;}
+ if(workPhotoSets[id]){photoReturn=main.querySelector(`[data-work-photo-set="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab=["john-cameron-mitchell","hedwig"].includes(id)?"videos":"photos";renderLightbox();if(!dialog.open)dialog.showModal();return;}
  if(workVideos[id]||youtubeClip(entries.find(entry=>entry.id===id)?.url)){openWorkVideo(id,undefined,trigger);return;}
  const content=exhibitionIntroductions[id];if(!content)return;
  exhibitionReturn=trigger;exhibitionDialog.querySelector('.exhibition-body').innerHTML=content;
@@ -131,6 +131,7 @@ const workPhotoSets={
 function workMedia(entry){
  const template=document.createElement('template');
  template.innerHTML=buildWorkMedia(entry);
+ if(['john-cameron-mitchell','hedwig'].includes(entry.id)){template.content.querySelectorAll('[data-work-photo-set]').forEach(button=>(button.closest('.work-poster-item')||button).remove());template.content.querySelector('.work-media')?.classList.remove('is-multiple');}
  if(workPhotoSets[entry.id]?.length)template.content.querySelectorAll('.exhibition-open').forEach(button=>button.remove());
  const photos=[...template.content.querySelectorAll('.work-thumbnail-button[data-work-photo-set]')];
  if(photos.length>1){
@@ -208,6 +209,7 @@ videoDialog.addEventListener('close',()=>{videoDialog.querySelector('.work-video
 videoDialog.querySelector('.work-video-close').addEventListener('click',closeWorkVideo);
 videoDialog.addEventListener('click',event=>{if(event.target===videoDialog)closeWorkVideo();const related=event.target.closest('[data-related-work]');if(related)openWorkVideo(related.dataset.relatedWork,undefined,videoReturn);});
 function openWorkVideo(id,url,trigger){
+ if(['john-cameron-mitchell','hedwig'].includes(id)){photoReturn=main.querySelector(`[data-exhibition="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab='videos';hexVideoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
  const entry=entries.find(item=>item.id===id);if(!entry)return;const clip=youtubeClip(url||workVideos[id]?.url||entry.url)||workVideos[id];if(!clip)return;
  videoReturn=trigger||videoReturn;videoWork=id;
  if(exhibitionDialog.open)exhibitionDialog.close();if(dialog.open)dialog.close();
@@ -237,10 +239,10 @@ function renderLightbox(){
 
  const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
- const hex=workId==='hexnut-fragments';const videoMode=hex&&hexMediaTab==='videos';const clip=hexVideos[hexVideoIndex];
+ const hex=['hexnut-fragments','john-cameron-mitchell','hedwig'].includes(workId);const mediaVideos=workId==='hexnut-fragments'?hexVideos:workVideos[workId]?[workVideos[workId],...(workVideos[workId].additionalVideos||[])].map((item,index)=>({id:item.videoId,title:`영상 ${index+1}`})):[];if(hexVideoIndex>=mediaVideos.length)hexVideoIndex=0;const videoMode=hex&&hexMediaTab==='videos';const clip=mediaVideos[hexVideoIndex];
  const media=videoMode?(clip.src?`<video controls playsinline preload="metadata" aria-label="${clip.title}"><source src="${clip.src}" type="video/mp4"></video>`:`<iframe src="https://www.youtube-nocookie.com/embed/${clip.id}?rel=0" title="${clip.title}" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`):`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
  dialog.querySelectorAll('.lightbox-image video').forEach(video=>video.pause());
- dialog.querySelector('.lightbox-image').innerHTML=hex?`<div class="hex-media-tabs" role="group" aria-label="미디어 종류"><button data-hex-tab="photos" aria-pressed="${!videoMode}">기록 사진 · ${lightboxPhotos.length}</button><button data-hex-tab="videos" aria-pressed="${videoMode}">영상 · ${hexVideos.length}</button></div><div class="hex-media-stage">${media}</div>`:media;
+ dialog.querySelector('.lightbox-image').innerHTML=hex?`<div class="hex-media-tabs" role="group" aria-label="미디어 종류"><button data-hex-tab="photos" aria-pressed="${!videoMode}">기록 사진 · ${lightboxPhotos.length}</button><button data-hex-tab="videos" aria-pressed="${videoMode}">영상 · ${mediaVideos.length}</button></div><div class="hex-media-stage">${media}</div>`:media;
  dialog.classList.toggle('has-hex-media',hex);
  dialog.querySelector('#photo-caption').textContent=videoMode?clip.title:combined?(lightboxPhotos.length>1?`${photoIndex+1} / ${lightboxPhotos.length}`:''):`${photo.place}${lightboxPhotos.length>1?` / ${photoIndex+1} / ${lightboxPhotos.length}`:''}`;
  dialog.classList.toggle('has-photo-navigation',videoMode||lightboxPhotos.length>1);
@@ -248,7 +250,7 @@ function renderLightbox(){
  const thumbnails=dialog.querySelector('.lightbox-thumbnails');
  const showThumbnails=videoMode||lightboxPhotos.length>1;
  dialog.classList.toggle('has-thumbnails',showThumbnails);thumbnails.hidden=!showThumbnails;thumbnails.classList.toggle('is-video-list',videoMode);
- thumbnails.innerHTML=videoMode?hexVideos.map((item,index)=>`<button type="button" data-hex-video="${index}" aria-current="${index===hexVideoIndex}" aria-label="${item.title}">${item.id?`<img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" alt="">`:'<span>▶</span>'}<span>${item.title}</span></button>`).join(''):showThumbnails?lightboxPhotos.map((item,index)=>`<button type="button" data-photo-index="${index}" aria-label="사진 ${index+1} / ${lightboxPhotos.length}" aria-current="${index===photoIndex?'true':'false'}"><img src="${escape(item.src)}" alt="${escape(item.alt||item.place)}"></button>`).join(''):'';
+ thumbnails.innerHTML=videoMode?mediaVideos.map((item,index)=>`<button type="button" data-hex-video="${index}" aria-current="${index===hexVideoIndex}" aria-label="${item.title}">${item.id?`<img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" alt="">`:'<span>▶</span>'}<span>${item.title}</span></button>`).join(''):showThumbnails?lightboxPhotos.map((item,index)=>`<button type="button" data-photo-index="${index}" aria-label="사진 ${index+1} / ${lightboxPhotos.length}" aria-current="${index===photoIndex?'true':'false'}"><img src="${escape(item.src)}" alt="${escape(item.alt||item.place)}"></button>`).join(''):'';
  thumbnails.querySelector('[aria-current="true"]')?.scrollIntoView({block:'nearest',inline:'nearest'});
 
 }
@@ -259,7 +261,7 @@ dialog.querySelector('.lightbox-image').addEventListener('click',event=>{const t
 dialog.querySelector('.lightbox-thumbnails').addEventListener('click',event=>{const button=event.target.closest('[data-hex-video]');if(button){hexVideoIndex=Number(button.dataset.hexVideo);renderLightbox();}});
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
-dialog.addEventListener('keydown',event=>{if(event.target.closest('.lightbox-sound')||(dialog.dataset.workId==='hexnut-fragments'&&hexMediaTab==='videos'))return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
+dialog.addEventListener('keydown',event=>{if(event.target.closest('.lightbox-sound')||(['hexnut-fragments','john-cameron-mitchell','hedwig'].includes(dialog.dataset.workId)&&hexMediaTab==='videos'))return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
 function route(){
  const [requestedSection,category,workId]=location.hash.slice(1).split('/');
  const section=['music','selected'].includes(requestedSection)?'scenes':requestedSection;
