@@ -1,5 +1,6 @@
 // YouTube sources checked against work titles, seasons and original supplied links.
 export const workVideos = {
+  "paik-experiment-no-1": {url:"https://www.youtube.com/watch?v=cS1hwldIqxA",videoId:"cS1hwldIqxA"},
   "kangto-abject-2026": {"url":"https://www.youtube.com/watch?v=c39S39YBfQ0","videoId":"c39S39YBfQ0"},
   "taekyung-deung-2026": {"url":"https://youtu.be/YbrIIQ6uRXI?si=QcIbEgQ8_QTNnr48","videoId":"YbrIIQ6uRXI"},
   "humanoid-billy": {
