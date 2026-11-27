@@ -100,7 +100,7 @@ const myvatnWorks=entries.filter(entry=>entry.id.startsWith('myvatn-'));
 for(const entry of entries.filter(entry=>entry.id.startsWith('myvatn-')||['john-cameron-mitchell','hedwig'].includes(entry.id))){
  const clip=workVideos[entry.id];const url=clip?.url||safeUrl(entry.url);
  const related=entry.id.startsWith('myvatn-')?`<h3>Myvatn 관련 작업</h3><div class="related-works">${myvatnWorks.filter(item=>item.id!==entry.id).map(item=>`<button type="button" data-related-work="${item.id}">${escape(item.title)} · ${escape(item.year)} ↗</button>`).join('')}</div>`:'';
- exhibitionIntroductions[entry.id]=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}${url?`<p>${external(url,'영상·관련 자료 보기')}</p>`:''}${related}`;
+ exhibitionIntroductions[entry.id]=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}${url&&entry.id!=='john-cameron-mitchell'?`<p>${external(url,'영상·관련 자료 보기')}</p>`:''}${related}`;
 }
 exhibitionDialog.addEventListener('click',event=>{const button=event.target.closest('[data-related-work]');if(button)openWorkIntroduction(button.dataset.relatedWork,exhibitionReturn);});
 function renderScenes(){
