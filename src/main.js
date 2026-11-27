@@ -26,7 +26,7 @@ const exhibitionIntroductions={
 };
 {
  const entry=entries.find(item=>item.id==='yeonjeok');
- exhibitionIntroductions['yeonjeok']=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<h3>크레딧</h3><p>원작 — 김호연 소설 『연적』<br>프로듀서 — 황기현<br>각색·연출 — 홍현우<br>음악감독 — 정다운</p>${safeUrl(entry.url)?`<p>${external(entry.url,'관련 자료 보기')}</p>`:''}`;
+ exhibitionIntroductions['yeonjeok']=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<h3>크레딧</h3><p>원작 — 김호연 소설 『연적』<br>프로듀서 — 황기현<br>각색·연출 — 홍현우<br>음악감독 — 정다운</p>${safeUrl(entry.url)?`<p>${external(entry.url,'관련 자료 보기')}</p>`:''}<h3>관련 기사</h3><p>${external('https://www.artsnculture.com/news/articleView.html?idxno=5113','아츠앤컬쳐 — 연적 관련 기사')}</p>`;
 }
 for(const id of ['three-leaf-clover','burning-up','fantastic-laundry']){
  const entry=entries.find(item=>item.id===id);
