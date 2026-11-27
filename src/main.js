@@ -33,6 +33,7 @@ for(const id of ['three-leaf-clover','burning-up','fantastic-laundry']){
  const entry=entries.find(item=>item.id===id);
  exhibitionIntroductions[id]=`<h2 id="exhibition-title">${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<h3>크레딧</h3><p>연출 — 윤다흰<br>음악감독 — 정다운<br>안무감독 — 윤이나</p>${safeUrl(entry.url)?`<p>${external(entry.url,'관련 자료 보기')}</p>`:''}`;
 }
+{const entry=entries.find(item=>item.id==='jeongsuk');exhibitionIntroductions.jeongsuk=`<h2>${escape(entry.title)}</h2><p class="exhibition-meta">${escape(entry.year)}</p>${workDescription(entry)}<p>${external('https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail2','KMDb 영화 이미지')}</p>`;}
 let exhibitionReturn;
 function closeExhibition(){exhibitionDialog.close();if(exhibitionReturn?.isConnected)exhibitionReturn.focus({preventScroll:true});}
 exhibitionDialog.querySelector('.exhibition-close').addEventListener('click',closeExhibition);
@@ -163,7 +164,7 @@ function buildWorkMedia(entry){
  const video=workVideos[entry.id];
  const items=[];
  if(entry.id==='john-cameron-mitchell')items.push('<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="john-cameron-mitchell" data-work-photo-index="0" aria-label="존 카메론 미첼 공연 포스터 크게 보기"><img class="work-thumbnail" src="./works/john-cameron-mitchell-poster.png" width="300" height="400" alt="존 카메론 미첼 내한 공연 포스터" loading="lazy"></button>');
- if(entry.id==='jeongsuk')items.push('<a class="work-related-link" href="https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail1" target="_blank" rel="noopener noreferrer">KMDb 영화 이미지 ↗</a>');
+
  if(entry.id==='hedwig')items.push(...workPhotoSets.hedwig.map((photo,index)=>`<div class="work-poster-item"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="hedwig" data-work-photo-index="${index}" aria-label="${escape(photo.alt)} 크게 보기"><img class="work-thumbnail" src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy"></button><span class="work-poster-year">${[2019,2021,2024][index]}</span></div>`));
  if(entry.id==='jeongsuk')items.push('<button class="work-thumbnail-button" data-work-photo-set="jeongsuk" data-work-photo-index="0" aria-label="정숙씨, 가슴을 사진 크게 보기"><img class="work-thumbnail" src="./works/jeongsuk-still.jpg" alt="정숙씨, 가슴을 스틸 사진" loading="lazy"></button>');
  if(entry.id==='omyung')items.push('<button class="work-thumbnail-button" data-work-photo-set="omyung" data-work-photo-index="0" aria-label="영화 오명 사진 크게 보기"><img class="work-thumbnail" src="./works/omyung-still-1.jpg" alt="영화 오명 스틸 사진" loading="lazy"></button>');
