@@ -108,7 +108,7 @@ function renderScenes(){
 }
 function renderPhotography(){
  const photos=currentPlace==='All'?photographs:photographs.filter(photo=>photo.place===currentPlace);
- main.innerHTML=`<section class="content"><h1>Photography</h1><p class="page-intro">여행에서 만난 장면들.<span>Film photographs</span></p><div class="place-filters" role="group" aria-label="촬영 지역">${places.map(place=>`<button data-place="${place}" aria-pressed="${place===currentPlace}">${place}</button>`).join('')}</div><div class="photographs">${photos.map(photo=>`<figure><button class="photo-button" data-photo="${photo.id}" aria-label="${photo.place} 필름 사진 크게 보기"><img src="${photo.src}" alt="${photo.place}에서 촬영한 필름 사진" width="${photo.width}" height="${photo.height}" loading="lazy"></button><figcaption>${photo.place}</figcaption></figure>`).join('')}</div></section>`;
+ main.innerHTML=`<section class="content"><h1>Photography</h1><p class="page-intro"><span>Film photographs</span></p><div class="place-filters" role="group" aria-label="촬영 지역">${places.map(place=>`<button data-place="${place}" aria-pressed="${place===currentPlace}">${place}</button>`).join('')}</div><div class="photographs">${photos.map(photo=>`<figure><button class="photo-button" data-photo="${photo.id}" aria-label="${photo.place} 필름 사진 크게 보기"><img src="${photo.src}" alt="${photo.place}에서 촬영한 필름 사진" width="${photo.width}" height="${photo.height}" loading="lazy"></button><figcaption>${photo.place}</figcaption></figure>`).join('')}</div></section>`;
  main.querySelectorAll('[data-place]').forEach(button=>button.addEventListener('click',()=>{currentPlace=button.dataset.place;renderPhotography();main.querySelector(`[data-place="${currentPlace}"]`).focus({preventScroll:true});}));
  main.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{photoReturn=button;lightboxPhotos=photographs;photoIndex=photographs.findIndex(photo=>photo.id===button.dataset.photo);renderLightbox();dialog.showModal();}));
 }
@@ -117,6 +117,7 @@ const workPhotoSets={
  'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'},{src:'./scenes/john-cameron.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 공연 출연진과 관객 단체 사진'},{src:'./works/john-cameron-instagram-full.jpg',place:'존 카메론 미첼 내한 공연 · 공연 기록',alt:'존 카메론 미첼 공연 Instagram 기록 사진'},{src:'./works/john-cameron-stage.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'푸른 조명 아래 존 카메론 미첼 공연 무대와 관객'},{src:'./works/john-cameron-curtain-call.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'관객을 향해 어깨동무한 출연진과 연주자들의 커튼콜'}],
  'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}-v2.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
  'just-j-min':[{src:'./works/just-j-min-poster.jpg',place:'Just J-Min : 제이민 첫번째 콘서트',alt:'2025 Just J-Min 제이민 첫번째 콘서트 포스터'},{src:'./works/just-j-min-live.jpg',place:'Just J-Min : 제이민 첫번째 콘서트 · 공연 기록',alt:'제이민 공연 Instagram 게시물 대표 이미지'}],
+ 'jeongsuk':[{src:'./works/jeongsuk-still.jpg',place:'정숙씨, 가슴을',alt:'영화 정숙씨, 가슴을 스틸 사진'}],
  'omyung':[1,2].map(n=>({src:`./works/omyung-still-${n}.jpg`,place:'오명',alt:`영화 오명 스틸 사진 ${n}`})),
  'paik-not-a-stain':[{src:'./works/paik-not-a-stain-live.jpg',place:'백승환 단독공연 〈not a stain...〉',alt:'백승환 단독공연 무대와 관객 전경'},{src:'./works/paik-not-a-stain-poster.jpg',place:'백승환 단독공연 〈not a stain...〉 · 공연 포스터',alt:'2026년 7월 31일 백승환 단독공연 not a stain 포스터'}],
  'hedwig':[2019,2021,2024].map(year=>({src:`./works/hedwig-${year}.jpg`,place:`헤드윅 · ${year}`,alt:`${year}년 헤드윅 공연 포스터`})),
@@ -164,6 +165,7 @@ function buildWorkMedia(entry){
  if(entry.id==='john-cameron-mitchell')items.push('<button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="john-cameron-mitchell" data-work-photo-index="0" aria-label="존 카메론 미첼 공연 포스터 크게 보기"><img class="work-thumbnail" src="./works/john-cameron-mitchell-poster.png" width="300" height="400" alt="존 카메론 미첼 내한 공연 포스터" loading="lazy"></button>');
  if(entry.id==='jeongsuk')items.push('<a class="work-related-link" href="https://www.kmdb.or.kr/db/kor/detail/movie/K/25460/own/image#dataHashStillDetail1" target="_blank" rel="noopener noreferrer">KMDb 영화 이미지 ↗</a>');
  if(entry.id==='hedwig')items.push(...workPhotoSets.hedwig.map((photo,index)=>`<div class="work-poster-item"><button class="work-thumbnail-button performance-poster-thumbnail" data-work-photo-set="hedwig" data-work-photo-index="${index}" aria-label="${escape(photo.alt)} 크게 보기"><img class="work-thumbnail" src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy"></button><span class="work-poster-year">${[2019,2021,2024][index]}</span></div>`));
+ if(entry.id==='jeongsuk')items.push('<button class="work-thumbnail-button" data-work-photo-set="jeongsuk" data-work-photo-index="0" aria-label="정숙씨, 가슴을 사진 크게 보기"><img class="work-thumbnail" src="./works/jeongsuk-still.jpg" alt="정숙씨, 가슴을 스틸 사진" loading="lazy"></button>');
  if(entry.id==='omyung')items.push('<button class="work-thumbnail-button" data-work-photo-set="omyung" data-work-photo-index="0" aria-label="영화 오명 사진 크게 보기"><img class="work-thumbnail" src="./works/omyung-still-1.jpg" alt="영화 오명 스틸 사진" loading="lazy"></button>');
  if(entry.id==='hexnut-fragments')items.push(`<button class="work-thumbnail-button" data-work-photo-set="hexnut-fragments" data-work-photo-index="0" aria-label="HEXNUT — 파편의 숨 사진 크게 보기"><img class="work-thumbnail" src="./works/hexnut-fragments.jpg" width="720" height="480" alt="HEXNUT — 파편의 숨 전시 현장" loading="lazy"></button>`);
  if(video)for(const [index,clip] of [video,...(video.additionalVideos||[])].entries())items.push(`<a class="work-video-thumbnail" href="${escape(clip.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escape(entry.title)} YouTube 영상 ${index+1} 보기"><img class="work-thumbnail" style="transform:scale(${Number(clip.thumbnailZoom)||1})" src="https://i.ytimg.com/vi/${clip.videoId}/hqdefault.jpg" width="480" height="360" alt="${escape(entry.title)} 영상 썸네일" loading="lazy"><span>▶ YouTube ↗</span></a>`);
@@ -212,7 +214,7 @@ videoDialog.addEventListener('close',()=>{videoDialog.querySelector('.work-video
 videoDialog.querySelector('.work-video-close').addEventListener('click',closeWorkVideo);
 videoDialog.addEventListener('click',event=>{if(event.target===videoDialog)closeWorkVideo();const related=event.target.closest('[data-related-work]');if(related)openWorkVideo(related.dataset.relatedWork,undefined,videoReturn);});
 function openWorkVideo(id,url,trigger){
- if(['john-cameron-mitchell','hedwig'].includes(id)){photoReturn=main.querySelector(`[data-exhibition="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab=id==='john-cameron-mitchell'?'photos':'videos';hexVideoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
+ if(['john-cameron-mitchell','hedwig','omyung'].includes(id)){photoReturn=main.querySelector(`[data-exhibition="${id}"]`)||trigger;photoReturn.dataset.workPhotoSet=id;lightboxPhotos=workPhotoSets[id];photoIndex=0;hexMediaTab=id==='john-cameron-mitchell'?'photos':'videos';hexVideoIndex=0;renderLightbox();if(!dialog.open)dialog.showModal();return;}
  const entry=entries.find(item=>item.id===id);if(!entry)return;const clip=youtubeClip(url||workVideos[id]?.url||entry.url)||workVideos[id];if(!clip)return;
  videoReturn=trigger||videoReturn;videoWork=id;
  if(exhibitionDialog.open)exhibitionDialog.close();if(dialog.open)dialog.close();
@@ -242,7 +244,7 @@ function renderLightbox(){
 
  const hasAudio=photoReturn?.dataset.workPhotoSet==='hanwha-pompidou-ceiling';lightboxSound.hidden=!hasAudio;dialog.classList.toggle('has-audio',hasAudio);if(!hasAudio)stopArtworkAudio();updateArtworkAudio();
  dialog.dataset.clickToClose=String(Boolean(photoReturn?.hasAttribute('data-work-photo-set')));
- const hex=['hexnut-fragments','john-cameron-mitchell','hedwig'].includes(workId);const mediaVideos=workId==='hexnut-fragments'?hexVideos:workVideos[workId]?[workVideos[workId],...(workVideos[workId].additionalVideos||[])].map((item,index)=>({id:item.videoId,title:`영상 ${index+1}`})):[];if(hexVideoIndex>=mediaVideos.length)hexVideoIndex=0;const videoMode=hex&&hexMediaTab==='videos';const clip=mediaVideos[hexVideoIndex];
+ const hex=['hexnut-fragments','john-cameron-mitchell','hedwig','omyung'].includes(workId);const mediaVideos=workId==='hexnut-fragments'?hexVideos:workVideos[workId]?[workVideos[workId],...(workVideos[workId].additionalVideos||[])].map((item,index)=>({id:item.videoId,title:`영상 ${index+1}`})):[];if(hexVideoIndex>=mediaVideos.length)hexVideoIndex=0;const videoMode=hex&&hexMediaTab==='videos';const clip=mediaVideos[hexVideoIndex];
  const media=videoMode?(clip.src?`<video controls playsinline preload="metadata" aria-label="${clip.title}"><source src="${clip.src}" type="video/mp4"></video>`:`<iframe src="https://www.youtube-nocookie.com/embed/${clip.id}?rel=0" title="${clip.title}" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`):`<img src="${photo.src}" alt="${escape(photo.alt||photo.place+'에서 촬영한 필름 사진')}">`;
  dialog.querySelectorAll('.lightbox-image video').forEach(video=>video.pause());
  dialog.querySelector('.lightbox-image').innerHTML=hex?`<div class="hex-media-tabs" role="group" aria-label="미디어 종류"><button data-hex-tab="photos" aria-pressed="${!videoMode}">기록 사진 · ${lightboxPhotos.length}</button><button data-hex-tab="videos" aria-pressed="${videoMode}">영상 · ${mediaVideos.length}</button></div><div class="hex-media-stage">${media}</div>`:media;
@@ -265,7 +267,7 @@ dialog.querySelector('.lightbox-image').addEventListener('click',event=>{const t
 dialog.querySelector('.lightbox-thumbnails').addEventListener('click',event=>{const button=event.target.closest('[data-hex-video]');if(button){hexVideoIndex=Number(button.dataset.hexVideo);renderLightbox();}});
 dialog.addEventListener('cancel',event=>{event.preventDefault();closePhoto();});
 dialog.querySelectorAll('[data-photo-step]').forEach(button=>button.addEventListener('click',()=>{photoIndex=(photoIndex+Number(button.dataset.photoStep)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}));
-dialog.addEventListener('keydown',event=>{if(event.target.closest('.lightbox-sound')||(['hexnut-fragments','john-cameron-mitchell','hedwig'].includes(dialog.dataset.workId)&&hexMediaTab==='videos'))return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
+dialog.addEventListener('keydown',event=>{if(event.target.closest('.lightbox-sound')||(['hexnut-fragments','john-cameron-mitchell','hedwig','omyung'].includes(dialog.dataset.workId)&&hexMediaTab==='videos'))return;if(['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();photoIndex=(photoIndex+(event.key==='ArrowRight'?1:-1)+lightboxPhotos.length)%lightboxPhotos.length;renderLightbox();}});
 function route(){
  const [requestedSection,category,workId]=location.hash.slice(1).split('/');
  const section=['music','selected'].includes(requestedSection)?'scenes':requestedSection;
@@ -281,7 +283,7 @@ function route(){
  if(active==='biography')renderBiography();
  window.scrollTo({top:0,behavior:'auto'});
  if(active==='works'&&workId&&exhibitionIntroductions[workId])openWorkIntroduction(workId,main.querySelector(`[data-exhibition="${workId}"]`));
- if(active==='works'&&categories.some(item=>item.id===category)){const target=workId?document.getElementById(`work-${category}-${workId}`):null;(target||document.getElementById(`group-${category}`)).scrollIntoView({block:'start'});}
+ if(active==='works'&&workId){document.getElementById(`work-${category}-${workId}`)?.scrollIntoView({block:'start'});}
 }
 document.querySelector('.mobile-menu').addEventListener('click',()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('.mobile-menu').setAttribute('aria-expanded',String(open));});
 initializeAnalytics();
