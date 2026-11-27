@@ -114,7 +114,7 @@ function renderPhotography(){
 }
 const workPhotoSets={
  'yoon-soho':[{src:'https://doublekent.co.kr/wp-content/uploads/2021/09/soho-poster-001.jpg',place:'윤소호 단독콘서트 〈SOHO〉 · 2019',alt:'윤소호 첫 단독 콘서트 Soho 포스터'}],
- 'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'}],
+ 'john-cameron-mitchell':[{src:'./works/john-cameron-mitchell-poster.png',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 내한 공연 포스터'},{src:'./scenes/john-cameron.jpg',place:'존 카메론 미첼 내한 공연 · 2024',alt:'존 카메론 미첼 공연 출연진과 관객 단체 사진'}],
  'inner-communication-2025':['setup','stage','detail','poster'].map((name,index)=>({src:`./works/inner-communication-${name}-v2.jpg`,place:'김주환 — 내면소통 명상 콘서트 · 2025',alt:index===3?'내면소통 명상 콘서트 포스터':'내면소통 명상 콘서트 현장 사진'})),
  'just-j-min':[{src:'./works/just-j-min-poster.jpg',place:'Just J-Min : 제이민 첫번째 콘서트',alt:'2025 Just J-Min 제이민 첫번째 콘서트 포스터'}],
  'omyung':[1,2].map(n=>({src:`./works/omyung-still-${n}.jpg`,place:'오명',alt:`영화 오명 스틸 사진 ${n}`})),
